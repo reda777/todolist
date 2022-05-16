@@ -2,6 +2,8 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = {
     mode: 'development',
     entry: {
@@ -15,11 +17,14 @@ module.exports = {
             title: 'Todo List',
 
         }),
-
+        new MiniCssExtractPlugin({
+            filename: 'style.css',
+        }),
     ],
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: 'icons/[hash][ext][query]',
         clean: true,
     },
     module: {
@@ -30,9 +35,13 @@ module.exports = {
 
                 test: /\.css$/i,
 
-                use: ['style-loader', 'css-loader'],
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
 
             },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                type: 'asset/resource'
+              },
 
         ],
 
