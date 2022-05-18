@@ -1,14 +1,16 @@
-html{
+html {
     height: 100%;
     width: 100%;
 }
-body{
+
+body {
     margin: 0;
     padding: 0;
     height: inherit;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-#content{
+
+#content {
     display: grid;
     grid-template-columns: 400px 1fr;
     grid-template-rows: 70px 1fr 50px;
@@ -16,7 +18,8 @@ body{
     height: inherit;
     position: relative;
 }
-#header{
+
+#header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,8 +32,9 @@ body{
     color: black;
     border-radius: 0 0 5px 5px;
 }
+
 /*sidebar ============================================*/
-#sidebar{
+#sidebar {
     grid-row: 2/3;
     grid-column: 1/2;
     background-color: #c2e6fe;
@@ -39,99 +43,123 @@ body{
     gap: 5px;
     padding: 5px;
 }
-#sidebar--group{
+
+#sidebar--group {
     box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
     border-radius: 12px;
     background-color: white;
 }
-.sidebar--header{
+
+.sidebar--header {
     display: flex;
     align-items: stretch;
     height: 40px;
 }
-.sidebar--header_title{
+
+.sidebar--header_title {
     font-size: 14px;
     font-weight: 300;
-    padding-left:10px;
+    padding-left: 10px;
     display: flex;
     justify-content: start;
     align-items: center;
     flex-basis: 100%;
 }
-.sidebar--header:first-child{
-    border-bottom: 1px solid rgba(150,150,150,0.3);
+
+.sidebar--header:first-child {
+    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
 }
-.sidebar--header:first-child .sidebar--header_title{
+
+.sidebar--header:first-child .sidebar--header_title {
     font-weight: 500;
 }
-.sidebar--header_btn{
+
+.sidebar--header_btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
 }
-.sidebar--header_btn_icon_up{
+
+.sidebar--header_btn_icon_up {
     width: 14px;
     height: 14px;
     mask: url(icons/angle-up.svg);
     mask-size: cover;
     background: black;
 }
-.sidebar--header_btn_icon_down{
+
+.sidebar--header_btn_icon_down {
     width: 14px;
     height: 14px;
     mask: url(icons/angle-down.svg);
     mask-size: cover;
     background: black;
 }
-.project{
+
+#sidebar--list {
+    display: block;
+}
+
+#sidebar--list_hidden {
+    display: none;
+}
+
+.project {
     display: flex;
     align-items: stretch;
     height: 50px;
 }
-.project--name{
+
+.project--name {
     display: flex;
     justify-content: start;
     align-items: center;
     flex-basis: 100%;
-    padding-left:10px;
-    color:rgb(119, 118, 118) ;
+    padding-left: 10px;
+    color: rgb(119, 118, 118);
 }
-.project--count{
+
+.project--count {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
 }
-.project--add{
+
+.project--add {
     display: flex;
     align-items: stretch;
     height: 40px;
 }
-.project--add_name{
+
+.project--add_name {
     display: flex;
     justify-content: start;
     align-items: center;
-    color:rgb(33, 70, 124) ;
+    color: rgb(33, 70, 124);
     font-weight: 300;
 }
-.project--add_btn{
+
+.project--add_btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
 }
-.project--add_btn_icon{
+
+.project--add_btn_icon {
     width: 15px;
     height: 15px;
     mask: url(icons/plusthinround.svg);
     mask-size: cover;
     background: rgb(33, 70, 124);
 }
+
 /*main ============================================*/
-#main{
+#main {
     grid-row: 2/3;
     grid-column: 2/3;
     background-color: #c2e6fe;
@@ -140,95 +168,109 @@ body{
     gap: 5px;
     padding: 5px;
 }
-#main--group{
+
+#main--group {
     box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
     border-radius: 12px;
     background-color: white;
 }
-.main--header{
-    border-bottom: 1px solid rgba(150,150,150,0.3);
+
+.main--header {
+    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
     display: flex;
     align-items: stretch;
     height: 40px;
 }
-.main--header_title{
+
+.main--header_title {
     font-size: 14px;
     font-weight: 300;
-    padding-left:10px;
-    
+    padding-left: 10px;
+
     display: flex;
     justify-content: start;
     align-items: center;
     flex-basis: 100%;
 }
-.main--header_btn{
+
+.main--header_btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
 }
-.main--header_btn_icon{
+
+.main--header_btn_icon {
     width: 14px;
     height: 14px;
     mask: url(icons/plusboldstraight.svg);
     mask-size: cover;
     background: black;
 }
-.task{
+
+.task {
     display: flex;
     align-items: stretch;
     height: 50px;
 }
-.task--name{
+
+.task--name {
     display: flex;
     justify-content: start;
     align-items: center;
     flex-basis: 100%;
-    padding-left:10px;
-    color:rgb(119, 118, 118) ;
+    padding-left: 10px;
+    color: rgb(119, 118, 118);
 }
-.task--btn{
+
+.task--btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
 }
-.task--btn_icon{
+
+.task--btn_icon {
     width: 16px;
     height: 16px;
     mask: url(icons/angle-right.svg);
     mask-size: cover;
     background: black;
 }
-.task--add{
+
+.task--add {
     display: flex;
     align-items: stretch;
     height: 40px;
 }
-.task--add_name{
+
+.task--add_name {
     display: flex;
     justify-content: start;
     align-items: center;
-    color:rgb(33, 70, 124) ;
+    color: rgb(33, 70, 124);
     font-weight: 300;
 }
-.task--add_btn{
+
+.task--add_btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50px;
 }
-.task--add_btn_icon{
+
+.task--add_btn_icon {
     width: 15px;
     height: 15px;
     mask: url(icons/plusthinround.svg);
     mask-size: cover;
     background: rgb(33, 70, 124);
 }
+
 /*footer ============================================*/
-#footer{
+#footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -238,8 +280,9 @@ body{
     color: rgb(170, 170, 170);
     font-weight: 300;
 }
+
 /*add project interface===============================*/
-#newproject{
+#newproject {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -249,21 +292,25 @@ body{
     justify-content: center;
     flex-direction: column;
 }
-#newproject_hidden{
+
+#newproject_hidden {
     display: none;
 }
-#newproject--title{
+
+#newproject--title {
     background-color: white;
     width: 400px;
-    height: 70px;
+    height: 50px;
     border-radius: 10px 10px 0 0;
     display: flex;
     align-items: center;
     padding-left: 25px;
     box-sizing: border-box;
     font-weight: 500;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
 }
-#newproject--form{
+
+#newproject--form {
     background-color: white;
     width: 400px;
     height: 300px;
@@ -273,25 +320,30 @@ body{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-top: 10px;
 }
-#newproject--form_name{
+
+#newproject--form_name {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-#newproject--form_color{
+
+#newproject--form_color {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-#newproject--form_submit{
+
+#newproject--form_submit {
     display: flex;
     justify-content: end;
     align-items: flex-end;
     gap: 15px;
     flex-basis: 100%;
 }
-#newproject--form_submit div{
+
+#newproject--form_submit div {
     background-color: rgb(25, 33, 80);
     padding: 10px;
     border-radius: 6px;
