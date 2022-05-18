@@ -137,7 +137,70 @@ function footer(){
 function buildDOM(){
     const content=document.createElement("div");
     content.id="content";
-    content.append(header(),sidebar(),main(),footer());
+    content.append(header(),sidebar(),main(),footer(),addProject());
     document.body.appendChild(content);
+}
+function addProject(){
+    const newProject=document.createElement("div");
+    newProject.id="newproject_hidden";
+    const newProjectTitle=document.createElement("div");
+    newProjectTitle.id="newproject--title";
+    newProjectTitle.textContent="Add Project";
+    newProject.appendChild(newProjectTitle);
+    
+    const newProjectForm=document.createElement("div");
+    newProjectForm.id="newproject--form";
+    newProject.appendChild(newProjectForm);
+
+    const newProjectFormName=document.createElement("div");
+    newProjectFormName.id="newproject--form_name";
+    newProjectForm.appendChild(newProjectFormName);
+    const newProjectFormColor=document.createElement("div");
+    newProjectFormColor.id="newproject--form_color";
+    newProjectForm.appendChild(newProjectFormColor);
+    
+    const projectNameLabel=document.createElement("label");
+    Object.assign(projectNameLabel,{
+        for: "project_name",
+        textContent: "Name"
+    });
+    newProjectFormName.appendChild(projectNameLabel);
+
+    const projectNameInput=document.createElement("input");
+    Object.assign(projectNameInput,{
+        type: "text",
+        name: "project_name",
+        id: "project_name"
+    });
+    newProjectFormName.appendChild(projectNameInput);
+
+    const projectColorLabel=document.createElement("label");
+    Object.assign(projectColorLabel,{
+        for: "project_color",
+        textContent: "Color"
+    });
+    newProjectFormColor.appendChild(projectColorLabel);
+
+    const projectColorInput=document.createElement("input");
+    Object.assign(projectColorInput,{
+        type: "color",
+        name: "project_color",
+        id: "project_color"
+    });
+    newProjectFormColor.appendChild(projectColorInput);
+
+    const newProjectFormSubmit=document.createElement("div");
+    newProjectFormSubmit.id="newproject--form_submit";
+    newProjectForm.appendChild(newProjectFormSubmit);
+
+    const newProjectFormSubmitAdd=document.createElement("div");
+    newProjectFormSubmitAdd.id="newproject--form_submit_add";
+    newProjectFormSubmitAdd.textContent="Add";
+    newProjectFormSubmit.appendChild(newProjectFormSubmitAdd);
+    const newProjectFormSubmitCancel=document.createElement("div");
+    newProjectFormSubmitCancel.id="newproject--form_submit_cancel";
+    newProjectFormSubmitCancel.textContent="Cancel";
+    newProjectFormSubmit.appendChild(newProjectFormSubmitCancel);
+    return newProject;
 }
 export default buildDOM;
