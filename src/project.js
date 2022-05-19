@@ -2,9 +2,22 @@ import { mainListTask, sidebarProject } from "./DOMscripts.js";
 function showAddProject() {
     document.querySelector("#newproject_hidden").id = "newproject";
 }
-function addProject(nameValue) {
-    document.querySelector("#sidebar--list").prepend(sidebarProject(nameValue));
+function addProject(nameValue,colorValue) {
+    
+    let obj=JSON.parse(localStorage.getItem("todoList"));
+    obj.project.push({name:nameValue,color:colorValue});
+    localStorage.setItem("todoList",JSON.stringify(obj));
+    document.querySelector("#sidebar--list").prepend(sidebarProject(nameValue,colorValue));
     document.querySelector("#newproject").id = "newproject_hidden";
+
+}
+function populateProjectList(){
+    let obj=JSON.parse(localStorage.getItem("todoList"));
+    for(let i=0;i<obj.project.length;i++){
+        let nameValue=obj.project[i].name;
+        let colorValue=obj.project[i].color;
+        document.querySelector("#sidebar--list").prepend(sidebarProject(nameValue,colorValue));
+    }
 }
 function cancelAddProject() {
     document.querySelector("#newproject").id = "newproject_hidden";
@@ -20,4 +33,4 @@ function toggleProjectList() {
         document.querySelector(".sidebar--header_btn_icon_up").classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
     }
 }
-export { showAddProject, addProject, cancelAddProject, toggleProjectList };
+export { showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

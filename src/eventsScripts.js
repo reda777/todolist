@@ -4,7 +4,8 @@ function createEvents() {
         project.showAddProject();
     });
     document.querySelector("#newproject--form_submit_add").addEventListener("click", () => {
-        project.addProject(document.querySelector("#newproject--form_name input").value);
+        project.addProject(document.querySelector("#newproject--form_name input").value,
+                            document.querySelector("#newproject--form_color input").value);
     });
     document.querySelector("#newproject--form_submit_cancel").addEventListener("click", () => {
         project.cancelAddProject();

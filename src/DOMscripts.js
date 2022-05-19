@@ -1,3 +1,4 @@
+import * as p from "./project";
 function header() {
     const div = document.createElement("div");
     div.id = "header";
@@ -45,7 +46,6 @@ function sidebar() {
     projectAddName.className = "project--add_name";
     projectAddName.textContent = "Add Project";
     projectAdd.appendChild(projectAddName);
-    sidebarList.prepend(sidebarProject("Name1"));
     return sidebar;
 }
 function sidebarHeader(tContent) {
@@ -57,16 +57,17 @@ function sidebarHeader(tContent) {
     div.appendChild(divChild);
     return div;
 }
-function sidebarProject(tContent) {
+function sidebarProject(tContent,tColor) {
     const project = document.createElement("div");
     project.className = "project";
     const projectName = document.createElement("div");
     projectName.className = "project--name";
     projectName.textContent = tContent;
+    projectName.style.color= tColor;
     project.appendChild(projectName);
     const projectCount = document.createElement("div");
     projectCount.className = "project--count";
-    projectCount.textContent = "2";
+    projectCount.textContent = "0";
     project.appendChild(projectCount);
     return project;
 }
@@ -134,12 +135,6 @@ function footer() {
     div.textContent = "Copyright © 2022 Reda";
     return div;
 }
-function buildDOM() {
-    const content = document.createElement("div");
-    content.id = "content";
-    content.append(header(), sidebar(), main(), footer(), addProject());
-    document.body.appendChild(content);
-}
 function addProject() {
     const newProject = document.createElement("div");
     newProject.id = "newproject_hidden";
@@ -203,4 +198,20 @@ function addProject() {
     newProjectFormSubmit.appendChild(newProjectFormSubmitCancel);
     return newProject;
 }
-export { buildDOM, mainListTask, sidebarProject };
+function createStorage(){
+    if(localStorage.getItem("todoList")===null){
+        let todoList={};
+        todoList.project=[];
+        localStorage.setItem("todoList",JSON.stringify(todoList));
+    }
+}
+function buildSite() {
+    const content = document.createElement("div");
+    content.id = "content";
+    content.append(header(), sidebar(), main(), footer(), addProject());
+    document.body.appendChild(content);
+    createStorage();
+    p.populateProjectList();
+}
+
+export { buildSite, mainListTask, sidebarProject };
