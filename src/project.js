@@ -1,4 +1,4 @@
-import { mainListTask, sidebarProject } from "./DOMscripts.js";
+import { sidebarProject } from "./DOMscripts.js";
 function showAddProject() {
     document.querySelector("#newproject_hidden").id = "newproject";
 }

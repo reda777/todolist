@@ -349,3 +349,32 @@ body {
     border-radius: 6px;
     color: white;
 }
+
+/*add task interface===============================*/
+#task--new{
+    display:flex;
+    flex-direction: column;
+    border: 1px solid rgba(150, 150, 150, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+#task--new_hidden{
+    display: none;
+}
+#task--new_submit{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0 0 0;
+    gap:15px;
+}
+#task--new_submit div{
+    background-color: rgb(25, 33, 80);
+    padding: 10px;
+    border-radius: 6px;
+    color: white;
+}
+.task--add_hidden{
+    display: none;
+}

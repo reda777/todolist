@@ -1,4 +1,5 @@
 import * as p from "./project";
+import * as t from "./task";
 function header() {
     const div = document.createElement("div");
     div.id = "header";
@@ -108,7 +109,7 @@ function main() {
     taskAddName.textContent = "Add Task";
     taskAdd.appendChild(taskAddName);
 
-    mainList.prepend(mainListTask("Name1"));
+    mainList.append(addTask());
     return main;
 }
 function mainListTask(tContent) {
@@ -198,11 +199,42 @@ function addProject() {
     newProjectFormSubmit.appendChild(newProjectFormSubmitCancel);
     return newProject;
 }
+function addTask(){
+    const taskNew=document.createElement("div");
+    taskNew.id="task--new_hidden";
+    
+    const taskNameInput = document.createElement("input");
+    Object.assign(taskNameInput, {
+        type: "text",
+        name: "task_name",
+        id: "task_name"
+    });
+    taskNew.appendChild(taskNameInput);
+
+    const taskNewSubmit=document.createElement("div");
+    taskNewSubmit.id="task--new_submit";
+    taskNew.appendChild(taskNewSubmit);
+
+    const taskNewSubmitAdd=document.createElement("div");
+    taskNewSubmitAdd.id="task--new_submit_add";
+    taskNewSubmitAdd.textContent="Add Task";
+    taskNewSubmit.appendChild(taskNewSubmitAdd);
+
+    const taskNewSubmitCancel=document.createElement("div");
+    taskNewSubmitCancel.id="task--new_submit_cancel";
+    taskNewSubmitCancel.textContent="Cancel";
+    taskNewSubmit.appendChild(taskNewSubmitCancel);
+
+    return taskNew;
+}
 function createStorage(){
-    if(localStorage.getItem("todoList")===null){
-        let todoList={};
-        todoList.project=[];
+    let check=localStorage.getItem("todoList");
+    if(check===null){
+        let todoList={project:[],
+                        task:[]};
+                        console.log(todoList);
         localStorage.setItem("todoList",JSON.stringify(todoList));
+        console.log(localStorage);
     }
 }
 function buildSite() {
@@ -212,6 +244,7 @@ function buildSite() {
     document.body.appendChild(content);
     createStorage();
     p.populateProjectList();
+    t.populateTaskList();
 }
 
 export { buildSite, mainListTask, sidebarProject };
