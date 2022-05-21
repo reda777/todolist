@@ -1,4 +1,13 @@
 import { sidebarProject } from "./DOMscripts.js";
+const project=(name,color)=>{
+    return {
+        name: name,
+        color: color,
+        taskCount: function () {
+            console.log("taskCount");
+        }
+    };
+}
 function showAddProject() {
     document.querySelector("#newproject_hidden").id = "newproject";
 }
@@ -33,4 +42,4 @@ function toggleProjectList() {
         document.querySelector(".sidebar--header_btn_icon_up").classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
     }
 }
-export { showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };
+export { project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

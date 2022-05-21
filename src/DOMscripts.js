@@ -116,13 +116,17 @@ function mainListTask(tContent) {
     const task = document.createElement("div");
     task.className = "task";
 
-    const taskBtn = document.createElement("div");
-    taskBtn.className = "task--btn";
-    task.appendChild(taskBtn);
+    const taskInputOuter = document.createElement("div");
+    taskInputOuter.className = "task--inputouter";
+    task.appendChild(taskInputOuter);
 
-    const taskBtnIcon = document.createElement("span");
-    taskBtnIcon.className = "task--btn_icon";
-    taskBtn.appendChild(taskBtnIcon);
+    const taskCheckboxInput = document.createElement("input");
+    Object.assign(taskCheckboxInput, {
+        type: "checkbox",
+        name: "task_state",
+        id: "task_state"
+    });
+    taskInputOuter.appendChild(taskCheckboxInput);
 
     const taskName = document.createElement("div");
     taskName.className = "task--name";
@@ -211,6 +215,13 @@ function addTask(){
     });
     taskNew.appendChild(taskNameInput);
 
+    const taskSelectInput = document.createElement("select");
+    Object.assign(taskSelectInput, {
+        id: "task_project"
+    });
+    taskNew.appendChild(taskSelectInput);
+    addTask_fillSelect(taskSelectInput);
+    
     const taskNewSubmit=document.createElement("div");
     taskNewSubmit.id="task--new_submit";
     taskNew.appendChild(taskNewSubmit);
@@ -227,6 +238,17 @@ function addTask(){
 
     return taskNew;
 }
+function addTask_fillSelect(selectElement){
+    let todoList_projects=JSON.parse(localStorage.getItem("todoList")).project;
+    for(let i=0;i<todoList_projects.length;i++){
+        if(todoList_projects[i]!==undefined){
+            const pOption=document.createElement("option");
+            pOption.value=i;
+            pOption.textContent=todoList_projects[i].name;
+            selectElement.appendChild(pOption);
+        }
+    }
+}
 function createStorage(){
     let check=localStorage.getItem("todoList");
     if(check===null){
@@ -234,7 +256,6 @@ function createStorage(){
                         task:[]};
                         console.log(todoList);
         localStorage.setItem("todoList",JSON.stringify(todoList));
-        console.log(localStorage);
     }
 }
 function buildSite() {

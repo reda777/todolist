@@ -1,4 +1,11 @@
 import { mainListTask } from "./DOMscripts.js";
+import { project } from "./project.js";
+const task=(name,project)=>{
+    return {
+        name: name,
+        project: project,
+    };
+}
 function showAddTask() {
     document.querySelector("#task--new_hidden").id = "task--new";
     document.querySelector(".task--add").classList.replace("task--add","task--add_hidden");
