@@ -207,20 +207,23 @@ function addTask(){
     const taskNew=document.createElement("div");
     taskNew.id="task--new_hidden";
     
+    const taskNewInputs=document.createElement("div");
+    taskNewInputs.id="task--new_inputs";
+    taskNew.appendChild(taskNewInputs);
+
     const taskNameInput = document.createElement("input");
     Object.assign(taskNameInput, {
         type: "text",
         name: "task_name",
         id: "task_name"
     });
-    taskNew.appendChild(taskNameInput);
+    taskNewInputs.appendChild(taskNameInput);
 
     const taskSelectInput = document.createElement("select");
     Object.assign(taskSelectInput, {
         id: "task_project"
     });
-    taskNew.appendChild(taskSelectInput);
-    addTask_fillSelect(taskSelectInput);
+    taskNewInputs.appendChild(taskSelectInput);
     
     const taskNewSubmit=document.createElement("div");
     taskNewSubmit.id="task--new_submit";
@@ -237,17 +240,6 @@ function addTask(){
     taskNewSubmit.appendChild(taskNewSubmitCancel);
 
     return taskNew;
-}
-function addTask_fillSelect(selectElement){
-    let todoList_projects=JSON.parse(localStorage.getItem("todoList")).project;
-    for(let i=0;i<todoList_projects.length;i++){
-        if(todoList_projects[i]!==undefined){
-            const pOption=document.createElement("option");
-            pOption.value=i;
-            pOption.textContent=todoList_projects[i].name;
-            selectElement.appendChild(pOption);
-        }
-    }
 }
 function createStorage(){
     let check=localStorage.getItem("todoList");
@@ -266,6 +258,7 @@ function buildSite() {
     createStorage();
     p.populateProjectList();
     t.populateTaskList();
+    t.populateProjectSelect();
 }
 
 export { buildSite, mainListTask, sidebarProject };

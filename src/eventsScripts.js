@@ -18,7 +18,7 @@ function createEvents() {
         task.showAddTask();
     });
     document.querySelector("#task--new_submit_add").addEventListener("click", () => {
-        task.addTask(document.querySelector("#task--new input").value);
+        task.addTask(document.querySelector("#task_name").value,document.querySelector("#task_project").value);
     });
     document.querySelector("#task--new_submit_cancel").addEventListener("click", () => {
         task.cancelAddTask();

@@ -1,4 +1,5 @@
 import { sidebarProject } from "./DOMscripts.js";
+import * as t from "./task";
 const project=(name,color)=>{
     return {
         name: name,
@@ -12,13 +13,12 @@ function showAddProject() {
     document.querySelector("#newproject_hidden").id = "newproject";
 }
 function addProject(nameValue,colorValue) {
-    
     let obj=JSON.parse(localStorage.getItem("todoList"));
     obj.project.push({name:nameValue,color:colorValue});
     localStorage.setItem("todoList",JSON.stringify(obj));
     document.querySelector("#sidebar--list").prepend(sidebarProject(nameValue,colorValue));
     document.querySelector("#newproject").id = "newproject_hidden";
-
+    t.populateProjectSelect();
 }
 function populateProjectList(){
     let obj=JSON.parse(localStorage.getItem("todoList"));
