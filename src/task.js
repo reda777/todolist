@@ -16,7 +16,7 @@ function addTask(nameValue,projectValue) {
     obj.project[projectValue].count++;
     document.querySelector("#"+obj.project[projectValue].id+" .project--count").textContent=obj.project[projectValue].count;
     localStorage.setItem("todoList",JSON.stringify(obj));
-    document.querySelector("#main--list").prepend(mainListTask(nameValue));
+    document.querySelector(".task--add_hidden").before(mainListTask(nameValue));
     document.querySelector("#task--new").id = "task--new_hidden";
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden","task--add");
 }
@@ -24,7 +24,7 @@ function populateTaskList(){
     let obj=JSON.parse(localStorage.getItem("todoList"));
     for(let i=0;i<obj.task.length;i++){
         let nameValue=obj.task[i].name;
-        document.querySelector("#main--list").prepend(mainListTask(nameValue));
+        document.querySelector(".task--add").before(mainListTask(nameValue));
     }
 }
 function populateProjectSelect(){

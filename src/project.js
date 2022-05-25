@@ -18,7 +18,7 @@ function addProject(nameValue,colorValue) {
     let obj=JSON.parse(localStorage.getItem("todoList"));
     obj.project.push(project(nameValue,colorValue));
     localStorage.setItem("todoList",JSON.stringify(obj));
-    document.querySelector("#sidebar--list").prepend(sidebarProject(currentProject.id,nameValue,colorValue,currentProject.count));
+    document.querySelector(".project--add").before(sidebarProject(currentProject.id,nameValue,colorValue,currentProject.count));
     document.querySelector("#newproject").id = "newproject_hidden";
     t.populateProjectSelect();
 }
@@ -29,7 +29,7 @@ function populateProjectList(){
         let nameValue=obj.project[i].name;
         let colorValue=obj.project[i].color;
         let countValue=obj.project[i].count;
-        document.querySelector("#sidebar--list").prepend(sidebarProject(idValue,nameValue,colorValue,countValue));
+        document.querySelector(".project--add").before(sidebarProject(idValue,nameValue,colorValue,countValue));
     }
 }
 function cancelAddProject() {

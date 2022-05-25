@@ -364,6 +364,9 @@ body {
 #task_project{
     width: 100px;
 }
+#task_project option:checked { 
+    background-color: #FFF; 
+}
 #task--new_hidden{
     display: none;
 }
