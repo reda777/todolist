@@ -58,8 +58,9 @@ function sidebarHeader(tContent) {
     div.appendChild(divChild);
     return div;
 }
-function sidebarProject(tContent,tColor) {
+function sidebarProject(tId,tContent,tColor,tCount) {
     const project = document.createElement("div");
+    project.id = tId;
     project.className = "project";
     const projectName = document.createElement("div");
     projectName.className = "project--name";
@@ -68,7 +69,7 @@ function sidebarProject(tContent,tColor) {
     project.appendChild(projectName);
     const projectCount = document.createElement("div");
     projectCount.className = "project--count";
-    projectCount.textContent = "0";
+    projectCount.textContent = tCount;
     project.appendChild(projectCount);
     return project;
 }
@@ -241,13 +242,11 @@ function addTask(){
 
     return taskNew;
 }
-function createStorage(){
-    let check=localStorage.getItem("todoList");
-    if(check===null){
-        let todoList={project:[],
-                        task:[]};
-                        console.log(todoList);
-        localStorage.setItem("todoList",JSON.stringify(todoList));
+function createStorage() {
+    let check = localStorage.getItem("todoList");
+    if (check === null) {
+        let todoList = { project: [], task: [] };
+        localStorage.setItem("todoList", JSON.stringify(todoList));
     }
 }
 function buildSite() {

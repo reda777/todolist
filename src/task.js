@@ -1,9 +1,9 @@
 import { mainListTask } from "./DOMscripts.js";
-import { project } from "./project.js";
-const task=(name,project)=>{
+import * as p from "./project";
+const task=(name,projectId)=>{
     return {
-        name: name,
-        project: project,
+        name,
+        projectId,
     };
 }
 function showAddTask() {
@@ -12,7 +12,9 @@ function showAddTask() {
 }
 function addTask(nameValue,projectValue) {
     let obj=JSON.parse(localStorage.getItem("todoList"));
-    obj.task.push(task(nameValue,obj.project[projectValue]));
+    obj.task.push(task(nameValue,obj.project[projectValue].id));
+    obj.project[projectValue].count++;
+    document.querySelector("#"+obj.project[projectValue].id+" .project--count").textContent=obj.project[projectValue].count;
     localStorage.setItem("todoList",JSON.stringify(obj));
     document.querySelector("#main--list").prepend(mainListTask(nameValue));
     document.querySelector("#task--new").id = "task--new_hidden";
