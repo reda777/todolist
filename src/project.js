@@ -18,11 +18,17 @@ function addProject(nameValue,colorValue) {
     let obj=JSON.parse(localStorage.getItem("todoList"));
     obj.project.push(currentProject);
     localStorage.setItem("todoList",JSON.stringify(obj));
-    document.querySelector(".project--add").before(sidebarProject(currentProject.id,nameValue,colorValue,currentProject.count));
+    populateProjectList();
     document.querySelector("#newproject").id = "newproject_hidden";
     t.populateProjectSelect();
 }
 function populateProjectList(){
+    let projectList=document.querySelectorAll("#sidebar--list .project");
+    //delete old list
+    projectList.forEach(element => {
+        element.parentNode.removeChild(element);
+    });
+    //add new list
     let obj=JSON.parse(localStorage.getItem("todoList"));
     for(let i=0;i<obj.project.length;i++){
         let idValue=obj.project[i].id;
