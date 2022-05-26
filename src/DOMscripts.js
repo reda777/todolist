@@ -113,7 +113,7 @@ function main() {
     mainList.append(addTask());
     return main;
 }
-function mainListTask(tContent) {
+function mainListTask(tContent,tProject,tColor) {
     const task = document.createElement("div");
     task.className = "task";
 
@@ -133,6 +133,12 @@ function mainListTask(tContent) {
     taskName.className = "task--name";
     taskName.textContent = tContent;
     task.appendChild(taskName);
+
+    const taskName_project = document.createElement("div");
+    taskName_project.className = "task--name_project";
+    taskName_project.textContent = tProject;
+    taskName_project.style.color= tColor;
+    task.appendChild(taskName_project);
     return task;
 }
 function footer() {

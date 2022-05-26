@@ -220,9 +220,18 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
-    flex-basis: 100%;
+    flex-basis: 50%;
     padding-left: 10px;
     color: rgb(119, 118, 118);
+}
+
+.task--name_project {
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+    flex-basis: 50%;
+    padding-right: 10px;
+    font-size: small;
 }
 
 .task--inputouter {

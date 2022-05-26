@@ -16,7 +16,7 @@ function showAddProject() {
 function addProject(nameValue,colorValue) {
     let currentProject=project(nameValue,colorValue);
     let obj=JSON.parse(localStorage.getItem("todoList"));
-    obj.project.push(project(nameValue,colorValue));
+    obj.project.push(currentProject);
     localStorage.setItem("todoList",JSON.stringify(obj));
     document.querySelector(".project--add").before(sidebarProject(currentProject.id,nameValue,colorValue,currentProject.count));
     document.querySelector("#newproject").id = "newproject_hidden";
