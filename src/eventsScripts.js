@@ -1,6 +1,8 @@
 import * as project from "./project";
 import * as task from "./task";
+import * as dom from "./DOMscripts";
 function createEvents() {
+    //add project events
     document.querySelector(".project--add").addEventListener("click", () => {
         project.showAddProject();
     });
@@ -11,9 +13,21 @@ function createEvents() {
     document.querySelector("#newproject--form_submit_cancel").addEventListener("click", () => {
         project.cancelAddProject();
     });
+
+    //project ui
     document.querySelector(".sidebar--header_btn").addEventListener("click", () => {
         project.toggleProjectList();
     });
+    document.querySelectorAll(".project").forEach(element => {
+        element.addEventListener("mouseenter",()=>{
+            element.querySelector(".project--edit_hidden").classList.replace("project--edit_hidden","project--edit");
+        });
+        element.addEventListener("mouseleave",()=>{
+            element.querySelector(".project--edit").classList.replace("project--edit","project--edit_hidden");
+        });
+    });
+
+    //add task events
     document.querySelector(".task--add").addEventListener("click", () => {
         task.showAddTask();
     });

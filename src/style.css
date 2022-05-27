@@ -113,6 +113,11 @@ body {
     height: 50px;
 }
 
+.project:hover{
+    background-color: rgb(207, 207, 207);
+    border-radius: 5px;
+    cursor: pointer;
+}
 .project--name {
     display: flex;
     justify-content: start;
@@ -129,6 +134,22 @@ body {
     width: 50px;
 }
 
+.project--edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+}
+.project--edit_hidden{
+    display: none;
+}
+.project--edit_icon{
+    width: 15px;
+    height: 15px;
+    mask: url(icons/plusthinround.svg);
+    mask-size: cover;
+    background: rgb(33, 70, 124);
+}
 .project--add {
     display: flex;
     align-items: stretch;

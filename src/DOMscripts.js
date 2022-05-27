@@ -71,6 +71,7 @@ function sidebarProject(tId,tContent,tColor,tCount) {
     projectCount.className = "project--count";
     projectCount.textContent = tCount;
     project.appendChild(projectCount);
+    project.appendChild(projectEditBtn());
     return project;
 }
 function main() {
@@ -210,6 +211,15 @@ function addProject() {
     newProjectFormSubmit.appendChild(newProjectFormSubmitCancel);
     return newProject;
 }
+function projectEditBtn(){
+    const projectEdit=document.createElement("div");
+    projectEdit.className="project--edit_hidden";
+    
+    const projectEditIcon=document.createElement("span");
+    projectEditIcon.className="project--edit_icon";
+    projectEdit.appendChild(projectEditIcon);
+    return projectEdit;
+}
 function addTask(){
     const taskNew=document.createElement("div");
     taskNew.id="task--new_hidden";
@@ -266,4 +276,4 @@ function buildSite() {
     t.populateProjectSelect();
 }
 
-export { buildSite, mainListTask, sidebarProject };
+export { buildSite, mainListTask, sidebarProject, projectEditBtn };
