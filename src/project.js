@@ -41,6 +41,35 @@ function populateProjectList(){
 function cancelAddProject() {
     document.querySelector("#newproject").id = "newproject_hidden";
 }
+function showProjectEditMenu(element){
+    let elementPos=element.getBoundingClientRect();
+    let bodyPos=document.body.getBoundingClientRect();
+    document.querySelector(".project--menuouter_hidden").classList.add("project--menuouter");
+    document.querySelector(".project--menu").style.left=`${elementPos.left+2-bodyPos.left}px`;
+    document.querySelector(".project--menu").style.top=`${elementPos.bottom+2-bodyPos.top}px`;
+}
+function hideProjectEditMenu(){
+    document.querySelector(".project--menuouter_hidden").classList.remove("project--menuouter");
+}
+
+function showProjectEditIcon(element){
+    element.querySelector(".project--edit_hidden").classList.add("project--edit");
+}
+function hideProjectEditIcon(element){
+    element.querySelector(".project--edit_hidden").classList.remove("project--edit");
+}
+
+function deleteProject(element){
+    let id=element.parentNode.parentNode.id;
+    let obj=JSON.parse(localStorage.getItem("todoList"));
+    console.log(obj.project);
+    let newProject=obj.project.filter((element, index)=>{
+        return element.id!=id;
+    });
+    console.log(newProject);
+    obj.project=newProject;
+    localStorage.setItem("todoList",JSON.stringify(obj));
+}
 function toggleProjectList() {
     const selectOne = document.querySelector("#sidebar--list");
     const selectTwo = document.querySelector("#sidebar--list_hidden");
@@ -52,4 +81,4 @@ function toggleProjectList() {
         document.querySelector(".sidebar--header_btn_icon_up").classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
     }
 }
-export { project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };
+export {deleteProject,hideProjectEditIcon,showProjectEditIcon,hideProjectEditMenu,showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

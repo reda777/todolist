@@ -220,6 +220,20 @@ function projectEditBtn(){
     projectEdit.appendChild(projectEditIcon);
     return projectEdit;
 }
+function projectEditMenu(){
+    const editMenuOuter=document.createElement("div");
+    editMenuOuter.className="project--menuouter_hidden";
+    
+    const editMenu=document.createElement("div");
+    editMenu.className="project--menu";
+    editMenuOuter.appendChild(editMenu);
+    const editMenuDelete=document.createElement("div");
+    editMenuDelete.className="project--menu_delete";
+    editMenuDelete.textContent="Delete project";
+    editMenu.appendChild(editMenuDelete);
+
+    return editMenuOuter;
+}
 function addTask(){
     const taskNew=document.createElement("div");
     taskNew.id="task--new_hidden";
@@ -268,7 +282,7 @@ function createStorage() {
 function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
-    content.append(header(), sidebar(), main(), footer(), addProject());
+    content.append(header(), sidebar(), main(), footer(), addProject(),projectEditMenu());
     document.body.appendChild(content);
     createStorage();
     p.populateProjectList();

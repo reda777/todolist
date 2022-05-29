@@ -111,13 +111,15 @@ body {
     display: flex;
     align-items: stretch;
     height: 50px;
+    padding-right: 5px;
 }
 
-.project:hover{
+.project:hover {
     background-color: rgb(207, 207, 207);
     border-radius: 5px;
     cursor: pointer;
 }
+
 .project--name {
     display: flex;
     justify-content: start;
@@ -131,24 +133,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
+    width: 30px;
 }
-
-.project--edit{
+.project--edit_hidden {
+    display: none;
+}
+.project--edit {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
+    width: 30px;
 }
-.project--edit_hidden{
-    display: none;
-}
-.project--edit_icon{
+
+
+.project--edit_icon {
     width: 15px;
     height: 15px;
-    mask: url(icons/plusthinround.svg);
+    mask: url(icons/menu-dots-vertical.svg);
     mask-size: cover;
-    background: rgb(33, 70, 124);
+    background: black;
+}
+.project--edit_icon:hover {
+    background: rgb(66, 66, 66);
 }
 .project--add {
     display: flex;
@@ -376,43 +382,76 @@ body {
     border-radius: 6px;
     color: white;
 }
-
+.project--menuouter_hidden{
+    display: none;
+}
+.project--menuouter{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.project--menu{
+    position: absolute;
+    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background-color: white;
+}
+.project--menu_delete{
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 25px;
+    font-size: 14px;
+}
 /*add task interface===============================*/
-#task--new{
-    display:flex;
+#task--new {
+    display: flex;
     flex-direction: column;
     border: 1px solid rgba(150, 150, 150, 0.3);
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
 }
-#task--new_inputs{
-    display:flex;
+
+#task--new_inputs {
+    display: flex;
     flex-direction: column;
     gap: 5px;
 }
-#task_project{
+
+#task_project {
     width: 100px;
 }
-#task_project option:checked { 
-    background-color: #FFF; 
+
+#task_project option:checked {
+    background-color: #FFF;
 }
-#task--new_hidden{
+
+#task--new_hidden {
     display: none;
 }
-#task--new_submit{
+
+#task--new_submit {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 10px 0 0 0;
-    gap:15px;
+    gap: 15px;
 }
-#task--new_submit div{
+
+#task--new_submit div {
     background-color: rgb(25, 33, 80);
     padding: 10px;
     border-radius: 6px;
     color: white;
 }
-.task--add_hidden{
+
+.task--add_hidden {
     display: none;
 }
