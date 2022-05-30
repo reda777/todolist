@@ -43,13 +43,13 @@ function createEvents() {
     });
     //add task events
     document.querySelector(".task--add").addEventListener("click", () => {
-        task.showAddTask();
+        t.showAddTask();
     });
     document.querySelector("#task--new_submit_add").addEventListener("click", () => {
-        task.addTask(document.querySelector("#task_name").value,document.querySelector("#task_project").value);
+        t.addTask(document.querySelector("#task_name").value,document.querySelector("#task_project").value);
     });
     document.querySelector("#task--new_submit_cancel").addEventListener("click", () => {
-        task.cancelAddTask();
+        t.cancelAddTask();
     });
 }
 export {createEvents,createdProjectEvents};

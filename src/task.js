@@ -59,9 +59,19 @@ function populateProjectSelect() {
         }
     }
 }
+function deleteTasks(taskId){
+    let obj=JSON.parse(localStorage.getItem("todoList"));
+    let newTask=obj.task.filter((element, index)=>{
+        return element.projectId!=taskId;
+    });
+    obj.task=newTask;
+    console.log(obj.task);
+    localStorage.setItem("todoList",JSON.stringify(obj));
+    populateTaskList();
+}
 function cancelAddTask() {
     document.querySelector("#task--new").id = "task--new_hidden";
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden", "task--add");
 }
-export { showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
+export { deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
 

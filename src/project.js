@@ -71,6 +71,7 @@ function deleteProject(){
     });
     obj.project=newProject;
     localStorage.setItem("todoList",JSON.stringify(obj));
+    t.deleteTasks(id);
     populateProjectList();
 }
 function toggleProjectList() {
