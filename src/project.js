@@ -1,5 +1,6 @@
 import { sidebarProject } from "./DOMscripts.js";
 import * as t from "./task";
+import { createdProjectEvents } from "./eventsScripts.js";
 const project=(name,color)=>{
     let id=Date.now().toString(36) + Math.random().toString(36).slice(2);
     let count=0;
@@ -35,7 +36,9 @@ function populateProjectList(){
         let nameValue=obj.project[i].name;
         let colorValue=obj.project[i].color;
         let countValue=obj.project[i].count;
-        document.querySelector(".project--add").before(sidebarProject(idValue,nameValue,colorValue,countValue));
+        const project=sidebarProject(idValue,nameValue,colorValue,countValue);
+        document.querySelector(".project--add").before(project);
+        createdProjectEvents(project);
     }
 }
 function cancelAddProject() {
@@ -45,11 +48,13 @@ function showProjectEditMenu(element){
     let elementPos=element.getBoundingClientRect();
     let bodyPos=document.body.getBoundingClientRect();
     document.querySelector(".project--menuouter_hidden").classList.add("project--menuouter");
+    document.querySelector(".project--menu_delete").dataset.id=`${element.parentNode.parentNode.id}`;
     document.querySelector(".project--menu").style.left=`${elementPos.left+2-bodyPos.left}px`;
     document.querySelector(".project--menu").style.top=`${elementPos.bottom+2-bodyPos.top}px`;
 }
 function hideProjectEditMenu(){
     document.querySelector(".project--menuouter_hidden").classList.remove("project--menuouter");
+    document.querySelector(".project--menu_delete").removeAttribute("data-id");
 }
 
 function showProjectEditIcon(element){
@@ -58,17 +63,15 @@ function showProjectEditIcon(element){
 function hideProjectEditIcon(element){
     element.querySelector(".project--edit_hidden").classList.remove("project--edit");
 }
-
-function deleteProject(element){
-    let id=element.parentNode.parentNode.id;
+function deleteProject(){
+    let id=document.querySelector(".project--menu_delete").dataset.id;
     let obj=JSON.parse(localStorage.getItem("todoList"));
-    console.log(obj.project);
     let newProject=obj.project.filter((element, index)=>{
         return element.id!=id;
     });
-    console.log(newProject);
     obj.project=newProject;
     localStorage.setItem("todoList",JSON.stringify(obj));
+    populateProjectList();
 }
 function toggleProjectList() {
     const selectOne = document.querySelector("#sidebar--list");
