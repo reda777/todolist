@@ -7,6 +7,7 @@ function header() {
     return div;
 }
 function sidebar() {
+    let preferences=Object.values(JSON.parse(localStorage.getItem("preferences"))["sidebar"]);
     const sidebar = document.createElement("div");
     sidebar.id = "sidebar";
 
@@ -22,13 +23,23 @@ function sidebar() {
     sidebarHeadBtn.className = "sidebar--header_btn";
 
     const sidebarHeadBtnIcon = document.createElement("span");
-    sidebarHeadBtnIcon.className = "sidebar--header_btn_icon_down";
+    if(preferences[0]){
+        sidebarHeadBtnIcon.className = "sidebar--header_btn_icon_down";
+    }
+    else{
+        sidebarHeadBtnIcon.className = "sidebar--header_btn_icon_up";
+    }
     sidebarHeadBtn.appendChild(sidebarHeadBtnIcon);
     sidebarHeadProject.appendChild(sidebarHeadBtn);
     sidebarGroup.appendChild(sidebarHeadProject);
 
     const sidebarList = document.createElement("div");
-    sidebarList.id = "sidebar--list";
+    if(preferences[0]){
+        sidebarList.id = "sidebar--list";
+    }
+    else{
+        sidebarList.id = "sidebar--list_hidden";
+    }
     sidebarGroup.appendChild(sidebarList);
 
     const projectAdd = document.createElement("div");
@@ -276,15 +287,17 @@ function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
         let todoList = { project: [], task: [] };
+        let preferences = {sidebar: {listStat:true}};
         localStorage.setItem("todoList", JSON.stringify(todoList));
+        localStorage.setItem("preferences", JSON.stringify(preferences));
     }
 }
 function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
+    createStorage();
     content.append(header(), sidebar(), main(), footer(), addProject(),projectEditMenu());
     document.body.appendChild(content);
-    createStorage();
     p.populateProjectList();
     t.populateTaskList();
     t.populateProjectSelect();

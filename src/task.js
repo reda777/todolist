@@ -65,7 +65,6 @@ function deleteTasks(taskId){
         return element.projectId!=taskId;
     });
     obj.task=newTask;
-    console.log(obj.task);
     localStorage.setItem("todoList",JSON.stringify(obj));
     populateTaskList();
 }
