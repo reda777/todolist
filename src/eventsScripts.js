@@ -13,6 +13,18 @@ function createdProjectEvents(project){
         p.showProjectEditMenu(icon);
     });
 }
+function createdTaskListEvents(project){
+    project.addEventListener("click",()=>{
+        const taskProject=document.querySelector("#task_project");
+        if(taskProject.firstChild){
+            taskProject.removeChild(taskProject.firstChild);
+        }
+        const child=document.createElement("div");
+        child.className=project.className;
+        taskProject.appendChild(child);
+        child.textContent=`${project.textContent}`;
+    });
+}
 function createEvents() {
     //add a project events
     document.querySelector(".project--add").addEventListener("click", () => {
@@ -42,14 +54,14 @@ function createEvents() {
         p.hideProjectEditMenu();
     });
     //add task events
-    document.querySelector(".task--add").addEventListener("click", () => {
-        t.showAddTask();
-    });
+    document.querySelector(".task--add").addEventListener("click", t.showAddTask );
+    document.querySelector("#task--new_submit_cancel").addEventListener("click", t.cancelAddTask);
     document.querySelector("#task--new_submit_add").addEventListener("click", () => {
-        t.addTask(document.querySelector("#task_name").value,document.querySelector("#task_project").value);
+        t.addTask(document.querySelector("#task_name").value,document.querySelector("#task_project div").className);
     });
-    document.querySelector("#task--new_submit_cancel").addEventListener("click", () => {
-        t.cancelAddTask();
+    document.querySelector("#task_project").addEventListener("click",t.showTaskProjectSelect);
+    document.querySelector(".task--menuouter_hidden").addEventListener("click",()=>{
+        document.querySelector(".task--menuouter_hidden").classList.remove("task--menuouter");
     });
 }
-export {createEvents,createdProjectEvents};
+export {createdTaskListEvents,createEvents,createdProjectEvents};

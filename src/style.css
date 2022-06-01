@@ -427,12 +427,34 @@ body {
 
 #task_project {
     width: 100px;
+    height: 20px;
+    border: 1px solid black;
 }
-
-#task_project option:checked {
-    background-color: #FFF;
+.task--menuouter_hidden{
+    display: none;
 }
-
+.task--menuouter{
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.task--menu{
+    position: absolute;
+    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background-color: white;
+    width: 150px;
+    height: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 #task--new_hidden {
     display: none;
 }

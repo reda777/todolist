@@ -1,5 +1,6 @@
 import { mainListTask } from "./DOMscripts.js";
 import * as p from "./project";
+import { createdTaskListEvents } from "./eventsScripts.js";
 const task = (name, projectId) => {
     return {
         name,
@@ -43,21 +44,26 @@ function populateTaskList() {
 }
 function populateProjectSelect() {
     let projectsArray = JSON.parse(localStorage.getItem("todoList")).project;
-    let selectElement = document.querySelector("#task_project");
-    //if project array is not empty repopulate select element
-    if (Array.isArray(projectsArray) && projectsArray.length > 0) {
-        //remove old options
-        while (selectElement.firstChild) {
-            selectElement.removeChild(selectElement.firstChild);
-        }
-        //add new options
-        for (let i = 0; i < projectsArray.length; i++) {
-            const pOption = document.createElement("option");
-            pOption.value = i;
-            pOption.textContent = projectsArray[i].name;
-            selectElement.appendChild(pOption);
-        }
+    let selectElement = document.querySelector(".task--menu");
+    //remove old options
+    while (selectElement.firstChild) {
+        selectElement.removeChild(selectElement.firstChild);
     }
+    //if project array is not empty repopulate select element
+    for (let i = 0; i < projectsArray.length; i++) {
+        const pOption = document.createElement("div");
+        pOption.className = i;
+        pOption.textContent = projectsArray[i].name;
+        selectElement.appendChild(pOption);
+        createdTaskListEvents(pOption);
+    }
+}
+function showTaskProjectSelect(){
+    let elementPos=this.getBoundingClientRect();
+    let bodyPos=document.body.getBoundingClientRect();
+    document.querySelector(".task--menuouter_hidden").classList.add("task--menuouter");
+    document.querySelector(".task--menu").style.left=`${elementPos.left+2-bodyPos.left}px`;
+    document.querySelector(".task--menu").style.top=`${elementPos.bottom+2-bodyPos.top}px`;
 }
 function deleteTasks(taskId){
     let obj=JSON.parse(localStorage.getItem("todoList"));
@@ -72,5 +78,5 @@ function cancelAddTask() {
     document.querySelector("#task--new").id = "task--new_hidden";
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden", "task--add");
 }
-export { deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
+export { showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
 

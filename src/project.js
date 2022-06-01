@@ -73,6 +73,7 @@ function deleteProject(){
     localStorage.setItem("todoList",JSON.stringify(obj));
     t.deleteTasks(id);
     populateProjectList();
+    t.populateProjectSelect();
 }
 function toggleProjectList() {
     const selectOne = document.querySelector("#sidebar--list");

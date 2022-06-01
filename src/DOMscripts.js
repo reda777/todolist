@@ -261,10 +261,8 @@ function addTask(){
     });
     taskNewInputs.appendChild(taskNameInput);
 
-    const taskSelectInput = document.createElement("select");
-    Object.assign(taskSelectInput, {
-        id: "task_project"
-    });
+    const taskSelectInput = document.createElement("div");
+    taskSelectInput.id="task_project";
     taskNewInputs.appendChild(taskSelectInput);
     
     const taskNewSubmit=document.createElement("div");
@@ -283,6 +281,16 @@ function addTask(){
 
     return taskNew;
 }
+function taskProjectSelect(){
+    const editMenuOuter=document.createElement("div");
+    editMenuOuter.className="task--menuouter_hidden";
+    
+    const editMenu=document.createElement("div");
+    editMenu.className="task--menu";
+    editMenuOuter.appendChild(editMenu);
+
+    return editMenuOuter;
+}
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
@@ -296,7 +304,7 @@ function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
     createStorage();
-    content.append(header(), sidebar(), main(), footer(), addProject(),projectEditMenu());
+    content.append(header(), sidebar(), main(), footer(), addProject(),projectEditMenu(),taskProjectSelect());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateTaskList();
