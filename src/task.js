@@ -55,6 +55,11 @@ function populateProjectSelect() {
         pOption.className = i;
         pOption.textContent = projectsArray[i].name;
         selectElement.appendChild(pOption);
+
+        const optionColor=document.createElement("span");
+        optionColor.className = "optionColor";
+        optionColor.style.backgroundColor = projectsArray[i].color;
+        pOption.appendChild(optionColor);
         createdTaskListEvents(pOption);
     }
 }
