@@ -1,67 +1,67 @@
 import * as p from "./project";
 import * as t from "./task";
 import * as dom from "./DOMscripts";
-function createdProjectEvents(project){
-    project.addEventListener("mouseenter",() => {
-        p.showProjectEditIcon(project);
-    });
-    project.addEventListener("mouseleave",() => {
-        p.hideProjectEditIcon(project);
-    });
-    const icon=project.querySelector(".project--edit_icon");
-    icon.addEventListener("click",() => {
-        p.showProjectEditMenu(icon);
-    });
-}
-function createdTaskListEvents(project){
-    project.addEventListener("click",()=>{
-        const taskProject=document.querySelector("#task_project");
-        if(taskProject.firstChild){
-            taskProject.removeChild(taskProject.firstChild);
-        }
-        const child=document.createElement("div");
-        child.className=project.className;
-        taskProject.appendChild(child);
-        child.textContent=`${project.textContent}`;
-    });
-}
-function createEvents() {
-    //add a project events
-    document.querySelector(".project--add").addEventListener("click", () => {
-        p.showAddProject();
-    });
-    document.querySelector("#newproject--form_submit_add").addEventListener("click", () => {
-        p.addProject(document.querySelector("#newproject--form_name input").value,
-                            document.querySelector("#newproject--form_color input").value);
-    });
-    document.querySelector("#newproject--form_submit_cancel").addEventListener("click", () => {
-        p.cancelAddProject();
-    });
 
-    //project ui
-    document.querySelector(".sidebar--header_btn").addEventListener("click", () => {
+function createEvents() {
+    let showAddPevent = function () {
+        p.showAddProject();
+    }
+    let addPevent = function () {
+        p.addProject(document.querySelector("#newproject--form_name input").value,
+            document.querySelector("#newproject--form_color input").value);
+    }
+    let cancelAddPevent = function () {
+        p.cancelAddProject();
+    }
+    let toggleShowPList = function () {
         p.toggleProjectList();
-    });
-    //delete project 
-    document.querySelector(".project--menu_delete").addEventListener("click",()=>{
+    }
+    let deletePevent = function () {
         p.deleteProject();
-    });
-    //project menu
-    document.querySelector(".project--menuouter_hidden").addEventListener("click",()=>{
+    }
+    let hideMenuEvent = function () {
         document.querySelectorAll(".project").forEach(element => {
-             p.hideProjectEditIcon(element);
+            p.hideProjectEditIcon(element);
         });
         p.hideProjectEditMenu();
-    });
+    }
+    let showAddTevent = function () {
+        t.showAddTask();
+    }
+    let cancelAddTevent = function () {
+        t.cancelAddTask();
+    }
+    let addTevent = function () {
+        t.addTask(document.querySelector("#task_name").value, document.querySelector("#task_project div").className);
+    }
+    let showTPSelectEvent = function () {
+        t.showTaskProjectSelect();
+    }
+    let hideTPSelectEvent = function () {
+        t.hideTaskProjectSelect();
+    }
+    //add a project events
+    document.querySelector(".project--add").addEventListener("click", showAddPevent);
+
+    document.querySelector("#newproject--form_submit_add").addEventListener("click", addPevent);
+
+    document.querySelector("#newproject--form_submit_cancel").addEventListener("click", cancelAddPevent);
+
+    //project ui
+    document.querySelector(".sidebar--header_btn").addEventListener("click", toggleShowPList);
+    //delete project 
+    document.querySelector(".project--menu_delete").addEventListener("click", deletePevent);
+    //project menu
+    document.querySelector(".project--menuouter_hidden").addEventListener("click", hideMenuEvent);
     //add task events
-    document.querySelector(".task--add").addEventListener("click", t.showAddTask );
-    document.querySelector("#task--new_submit_cancel").addEventListener("click", t.cancelAddTask);
-    document.querySelector("#task--new_submit_add").addEventListener("click", () => {
-        t.addTask(document.querySelector("#task_name").value,document.querySelector("#task_project div").className);
-    });
-    document.querySelector("#task_project").addEventListener("click",t.showTaskProjectSelect);
-    document.querySelector(".task--menuouter_hidden").addEventListener("click",()=>{
-        document.querySelector(".task--menuouter_hidden").classList.remove("task--menuouter");
-    });
+    document.querySelector(".task--add").addEventListener("click", showAddTevent);
+
+    document.querySelector("#task--new_submit_cancel").addEventListener("click", cancelAddTevent);
+
+    document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
+
+    document.querySelector("#task_project").addEventListener("click", showTPSelectEvent);
+
+    document.querySelector(".task--menuouter_hidden").addEventListener("click", hideTPSelectEvent);
 }
-export {createdTaskListEvents,createEvents,createdProjectEvents};
+export { createEvents };

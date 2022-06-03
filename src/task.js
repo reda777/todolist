@@ -1,6 +1,5 @@
 import { mainListTask } from "./DOMscripts.js";
 import * as p from "./project";
-import { createdTaskListEvents } from "./eventsScripts.js";
 const task = (name, projectId) => {
     return {
         name,
@@ -20,7 +19,7 @@ function addTask(nameValue, projectValue) {
     populateTaskList();
 }
 function populateTaskList() {
-    let taskList=document.querySelectorAll("#main--list .task");
+    let taskList = document.querySelectorAll("#main--list .task");
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let projectNameValue, projectColorValue, nameValue;
     //delete old list
@@ -35,9 +34,9 @@ function populateTaskList() {
                 projectNameValue = obj.project[k].name;
                 projectColorValue = obj.project[k].color;
                 (document.querySelector(".task--add")
-                ?.before(mainListTask(nameValue, projectNameValue, projectColorValue))) || 
-                (document.querySelector(".task--add_hidden")
-                ?.before(mainListTask(nameValue, projectNameValue, projectColorValue)));
+                    ?.before(mainListTask(nameValue, projectNameValue, projectColorValue))) ||
+                    (document.querySelector(".task--add_hidden")
+                        ?.before(mainListTask(nameValue, projectNameValue, projectColorValue)));
             }
         }
     }
@@ -56,32 +55,51 @@ function populateProjectSelect() {
         pOption.textContent = projectsArray[i].name;
         selectElement.appendChild(pOption);
 
-        const optionColor=document.createElement("span");
+        const optionColor = document.createElement("span");
         optionColor.className = "optionColor";
         optionColor.style.backgroundColor = projectsArray[i].color;
         pOption.appendChild(optionColor);
         createdTaskListEvents(pOption);
     }
 }
-function showTaskProjectSelect(){
-    let elementPos=this.getBoundingClientRect();
-    let bodyPos=document.body.getBoundingClientRect();
+function showTaskProjectSelect() {
+    let elementPos = document.querySelector("#task_project").getBoundingClientRect();
+    let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".task--menuouter_hidden").classList.add("task--menuouter");
-    document.querySelector(".task--menu").style.left=`${elementPos.left+2-bodyPos.left}px`;
-    document.querySelector(".task--menu").style.top=`${elementPos.bottom+2-bodyPos.top}px`;
+    document.querySelector(".task--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
+    document.querySelector(".task--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
-function deleteTasks(taskId){
-    let obj=JSON.parse(localStorage.getItem("todoList"));
-    let newTask=obj.task.filter((element, index)=>{
-        return element.projectId!=taskId;
+function hideTaskProjectSelect() {
+    document.querySelector(".task--menuouter_hidden").classList.remove("task--menuouter");
+}
+function deleteTasks(taskId) {
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    let newTask = obj.task.filter((element, index) => {
+        return element.projectId != taskId;
     });
-    obj.task=newTask;
-    localStorage.setItem("todoList",JSON.stringify(obj));
+    obj.task = newTask;
+    localStorage.setItem("todoList", JSON.stringify(obj));
     populateTaskList();
 }
 function cancelAddTask() {
     document.querySelector("#task--new").id = "task--new_hidden";
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden", "task--add");
 }
-export { showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
+function taskProjectSelectedOption(p) {
+    const taskProject = document.querySelector("#task_project");
+    if (taskProject.firstChild) {
+        taskProject.removeChild(taskProject.firstChild);
+    }
+    const child = document.createElement("div");
+    child.className = p.className;
+    taskProject.appendChild(child);
+    child.textContent = `${p.textContent}`;
+}
+function createdTaskListEvents(project) {
+    let optionEvent = function () {
+        taskProjectSelectedOption(project);
+    }
+    project.addEventListener("click", optionEvent);
+}
+export { hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
 

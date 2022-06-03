@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    overflow:hidden;
+    overflow: hidden;
     margin: 0;
     padding: 0;
     height: inherit;
@@ -136,9 +136,11 @@ body {
     align-items: center;
     width: 30px;
 }
+
 .project--edit_hidden {
     display: none;
 }
+
 .project--edit {
     display: flex;
     justify-content: center;
@@ -154,9 +156,11 @@ body {
     mask-size: cover;
     background: black;
 }
+
 .project--edit_icon:hover {
     background: rgb(66, 66, 66);
 }
+
 .project--add {
     display: flex;
     align-items: stretch;
@@ -318,8 +322,8 @@ body {
 /*add project interface===============================*/
 #newproject {
     position: absolute;
-    width:100vw; 
-    height: 100vh; 
+    width: 100%;
+    height: 100%;
     background-color: rgba(128, 128, 128, 0.336);
     display: flex;
     align-items: center;
@@ -383,19 +387,22 @@ body {
     border-radius: 6px;
     color: white;
 }
-.project--menuouter_hidden{
+
+.project--menuouter_hidden {
     display: none;
 }
-.project--menuouter{
-    position: fixed; 
-    width:100vw; 
-    height: 100vh; 
+
+.project--menuouter {
+    position: fixed;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
-.project--menu{
+
+.project--menu {
     position: absolute;
     box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
@@ -403,13 +410,15 @@ body {
     border-radius: 12px;
     background-color: white;
 }
-.project--menu_delete{
+
+.project--menu_delete {
     display: flex;
     align-items: center;
     width: 150px;
     height: 25px;
     font-size: 14px;
 }
+
 /*add task interface===============================*/
 #task--new {
     display: flex;
@@ -431,20 +440,22 @@ body {
     height: 20px;
     border: 1px solid black;
 }
-.task--menuouter_hidden{
+
+.task--menuouter_hidden {
     display: none;
 }
-.task--menuouter{
+
+.task--menuouter {
     position: absolute;
-    min-width: 100%;
-    min-height: 100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
-.task--menu{
+
+.task--menu {
     position: absolute;
     box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
@@ -456,15 +467,18 @@ body {
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.task--menu div{
+
+.task--menu div {
     display: flex;
     align-items: center;
 }
-.optionColor{
+
+.optionColor {
     width: 10px;
     height: 10px;
     display: block;
 }
+
 #task--new_hidden {
     display: none;
 }
