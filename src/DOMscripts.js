@@ -1,5 +1,6 @@
 import * as p from "./project";
 import * as t from "./task";
+import {format, addDays} from 'date-fns';
 function header() {
     const div = document.createElement("div");
     div.id = "header";
@@ -265,6 +266,10 @@ function addTask() {
     taskSelectInput.id = "task_project";
     taskNewInputs.appendChild(taskSelectInput);
 
+    const taskDateInput = document.createElement("div");
+    taskDateInput.id = "task--date";
+    taskNewInputs.appendChild(taskDateInput);
+
     const taskNewSubmit = document.createElement("div");
     taskNewSubmit.id = "task--new_submit";
     taskNew.appendChild(taskNewSubmit);
@@ -291,6 +296,33 @@ function taskProjectSelect() {
 
     return editMenuOuter;
 }
+function taskDateSelect() {
+    let todayDate=getTodayDate();
+    const editDateMenu = document.createElement("div");
+    editDateMenu.className = "task--datemenuouter_hidden";
+
+    const editMenu = document.createElement("div");
+    editMenu.className = "task--datemenu";
+    editDateMenu.appendChild(editMenu);
+
+    const today = document.createElement("div");
+    today.className = "datemenu--today";
+    today.textContent = "Today";
+    today.dataset.date= format(todayDate, 'yyyy-MM-dd');
+    editMenu.appendChild(today);
+
+    const tomorrow = document.createElement("div");
+    tomorrow.className = "datemenu--tomorrow";
+    tomorrow.textContent = "Tomorrow";
+    let tomDate=addDays(todayDate,1);
+    tomorrow.dataset.date= format(tomDate, 'yyyy-MM-dd');
+    editMenu.appendChild(tomorrow);
+
+    return editDateMenu;
+}
+function getTodayDate(){
+    return new Date();
+}
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
@@ -304,7 +336,7 @@ function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
     createStorage();
-    content.append(header(), sidebar(), main(), footer(), addProject(), projectEditMenu(), taskProjectSelect());
+    content.append(header(), sidebar(), main(), footer(), addProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateTaskList();

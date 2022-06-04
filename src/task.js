@@ -1,18 +1,19 @@
 import { mainListTask } from "./DOMscripts.js";
 import * as p from "./project";
-const task = (name, projectId) => {
+const task = (name, projectId, date) => {
     return {
         name,
         projectId,
-    };
+        date,
+    }
 }
 function showAddTask() {
     document.querySelector("#task--new_hidden").id = "task--new";
     document.querySelector(".task--add").classList.replace("task--add", "task--add_hidden");
 }
-function addTask(nameValue, projectValue) {
+function addTask(nameValue, projectValue, dateValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    obj.task.push(task(nameValue, obj.project[projectValue].id));
+    obj.task.push(task(nameValue, obj.project[projectValue].id, dateValue));
     obj.project[projectValue].count++;
     document.querySelector("#" + obj.project[projectValue].id + " .project--count").textContent = obj.project[projectValue].count;
     localStorage.setItem("todoList", JSON.stringify(obj));
@@ -69,8 +70,18 @@ function showTaskProjectSelect() {
     document.querySelector(".task--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".task--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
+function showTaskDateSelect() {
+    let elementPos = document.querySelector("#task--date").getBoundingClientRect();
+    let bodyPos = document.body.getBoundingClientRect();
+    document.querySelector(".task--datemenuouter_hidden").classList.add("task--datemenuouter");
+    document.querySelector(".task--datemenu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
+    document.querySelector(".task--datemenu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
+}
 function hideTaskProjectSelect() {
     document.querySelector(".task--menuouter_hidden").classList.remove("task--menuouter");
+}
+function hideTaskDateSelect() {
+    document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
 function deleteTasks(taskId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
@@ -85,21 +96,32 @@ function cancelAddTask() {
     document.querySelector("#task--new").id = "task--new_hidden";
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden", "task--add");
 }
-function taskProjectSelectedOption(p) {
+function taskProjectSelectedOption(selectedProject) {
     const taskProject = document.querySelector("#task_project");
     if (taskProject.firstChild) {
         taskProject.removeChild(taskProject.firstChild);
     }
     const child = document.createElement("div");
-    child.className = p.className;
+    child.className = selectedProject.className;
     taskProject.appendChild(child);
-    child.textContent = `${p.textContent}`;
+    child.textContent = `${selectedProject.textContent}`;
 }
-function createdTaskListEvents(project) {
-    let optionEvent = function () {
-        taskProjectSelectedOption(project);
+function taskDateSelectedOption(selectedDate) {
+    const taskDate = document.querySelector("#task--date");
+    if (taskDate.firstChild) {
+        taskDate.removeChild(taskDate.firstChild);
     }
-    project.addEventListener("click", optionEvent);
+    const child = document.createElement("div");
+    child.className = selectedDate.className;
+    child.dataset.date = selectedDate.dataset.date;
+    taskDate.appendChild(child);
+    child.textContent = `${selectedDate.textContent}`;
 }
-export { hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
+function createdTaskListEvents(pOption) {
+    let optionEvent = function () {
+        taskProjectSelectedOption(pOption);
+    }
+    pOption.addEventListener("click", optionEvent);
+}
+export { taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskList, populateProjectSelect };
 

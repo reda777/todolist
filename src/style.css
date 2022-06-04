@@ -441,6 +441,12 @@ body {
     border: 1px solid black;
 }
 
+#task--date {
+    width: 100px;
+    height: 20px;
+    border: 1px solid black;
+}
+
 .task--menuouter_hidden {
     display: none;
 }
@@ -454,7 +460,31 @@ body {
     justify-content: center;
     flex-direction: column;
 }
+.task--datemenuouter_hidden {
+    display: none;
+}
 
+.task--datemenuouter {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.task--datemenu{
+    position: absolute;
+    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background-color: white;
+    width: 150px;
+    height: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 .task--menu {
     position: absolute;
     box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
