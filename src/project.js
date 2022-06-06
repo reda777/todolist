@@ -44,23 +44,30 @@ function cancelAddProject() {
     document.querySelector("#newproject").id = "newproject_hidden";
 }
 function showProjectEditMenu(element) {
-    let elementPos = element.getBoundingClientRect();
+    const iconClicked = element.querySelector(".project--edit_hidden");
+    let elementPos = iconClicked.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".project--menuouter_hidden").classList.add("project--menuouter");
-    document.querySelector(".project--menu_delete").dataset.id = `${element.parentNode.parentNode.id}`;
+    document.querySelector(".project--menu_delete").dataset.id = `${element.id}`;
     document.querySelector(".project--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".project--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
 function hideProjectEditMenu() {
+    const deleteElement=document.querySelector(".project--menu_delete");
+    const projectElement=document.getElementById(`${deleteElement.dataset.id}`);
     document.querySelector(".project--menuouter_hidden").classList.remove("project--menuouter");
-    document.querySelector(".project--menu_delete").removeAttribute("data-id");
+    deleteElement.removeAttribute("data-id");
+    hideProjectEditIcon(projectElement);
 }
 
 function showProjectEditIcon(element) {
     element.querySelector(".project--edit_hidden").classList.add("project--edit");
 }
 function hideProjectEditIcon(element) {
-    element.querySelector(".project--edit_hidden").classList.remove("project--edit");
+    //see if menu is open if its not hide icon
+    if(document.querySelector(".project--menuouter") === null && element !== null){
+        element.querySelector(".project--edit_hidden").classList.remove("project--edit");
+    }
 }
 function deleteProject() {
     let id = document.querySelector(".project--menu_delete").dataset.id;
@@ -93,9 +100,8 @@ function createdProjectEvents(p) {
     let showIconEvent = function () {
         showProjectEditIcon(p);
     }
-    const iconClicked = p.querySelector(".project--edit_icon");
     let showMenuEvent = function () {
-        showProjectEditMenu(iconClicked);
+        showProjectEditMenu(p);
     }
     let hideIconEvent = function () {
         hideProjectEditIcon(p);
@@ -104,6 +110,6 @@ function createdProjectEvents(p) {
 
     p.addEventListener("mouseleave", hideIconEvent);
 
-    iconClicked.addEventListener("click", showMenuEvent);
+    p.querySelector(".project--edit_hidden").addEventListener("click", showMenuEvent);
 }
 export { deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

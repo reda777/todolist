@@ -20,9 +20,6 @@ function createEvents() {
         p.deleteProject();
     }
     let hideMenuEvent = function () {
-        document.querySelectorAll(".project").forEach(element => {
-            p.hideProjectEditIcon(element);
-        });
         p.hideProjectEditMenu();
     }
     let showAddTevent = function () {

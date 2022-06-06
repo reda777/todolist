@@ -4,18 +4,25 @@ html {
 }
 
 body {
+    --main-bg-color: #353535;
+    --main-f-color: #eeeafd;
+    --icon-hover-color:#b8b7be;
+    --add-color:#b8b7be; 
+    --main-hover-color: #464646;
+    --secondary-hover-color: #565656;
+    --main-box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     overflow: hidden;
     margin: 0;
     padding: 0;
     height: inherit;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 #content {
     display: grid;
-    grid-template-columns: 400px 1fr;
-    grid-template-rows: 70px 1fr 50px;
-    background-color: #c2e6fe;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 30px 1fr 50px;
+    background-color: var(--main-bg-color);
     height: inherit;
     position: relative;
 }
@@ -26,19 +33,15 @@ body {
     justify-content: center;
     grid-row: 1/2;
     grid-column: 1/3;
-    background-color: white;
-    font-size: 36px;
+    font-size: 21px;
     font-weight: 300;
-    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
-    color: black;
-    border-radius: 0 0 5px 5px;
+    color: var(--main-f-color);
 }
 
 /*sidebar ============================================*/
 #sidebar {
     grid-row: 2/3;
     grid-column: 1/2;
-    background-color: #c2e6fe;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -46,11 +49,9 @@ body {
 }
 
 #sidebar--group {
-    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
-    border-radius: 12px;
-    background-color: white;
+    color: var(--main-f-color);
 }
 
 .sidebar--header {
@@ -89,7 +90,7 @@ body {
     height: 14px;
     mask: url(icons/angle-up.svg);
     mask-size: cover;
-    background: black;
+    background: var(--main-f-color);
 }
 
 .sidebar--header_btn_icon_down {
@@ -97,7 +98,7 @@ body {
     height: 14px;
     mask: url(icons/angle-down.svg);
     mask-size: cover;
-    background: black;
+    background: var(--main-f-color);
 }
 
 #sidebar--list {
@@ -110,13 +111,13 @@ body {
 
 .project {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     height: 50px;
     padding-right: 5px;
 }
 
 .project:hover {
-    background-color: rgb(207, 207, 207);
+    background-color: var(--main-hover-color);
     border-radius: 5px;
     cursor: pointer;
 }
@@ -127,7 +128,6 @@ body {
     align-items: center;
     flex-basis: 100%;
     padding-left: 10px;
-    color: rgb(119, 118, 118);
 }
 
 .project--count {
@@ -135,6 +135,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 30px;
+    font-size: 14px;
 }
 
 .project--edit_hidden {
@@ -146,6 +147,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 30px;
+    height: 30px;
+    border-radius: 5px;
 }
 
 
@@ -154,24 +157,25 @@ body {
     height: 15px;
     mask: url(icons/menu-dots-vertical.svg);
     mask-size: cover;
-    background: black;
+    background: var(--main-f-color);
 }
 
-.project--edit_icon:hover {
-    background: rgb(66, 66, 66);
+.project--edit:hover {
+    background: var(--secondary-hover-color);
 }
 
 .project--add {
     display: flex;
     align-items: stretch;
     height: 40px;
+    font-size: 14px;
+    color: var(--add-color);
 }
 
 .project--add_name {
     display: flex;
     justify-content: start;
     align-items: center;
-    color: rgb(33, 70, 124);
     font-weight: 300;
 }
 
@@ -187,14 +191,13 @@ body {
     height: 15px;
     mask: url(icons/plusthinround.svg);
     mask-size: cover;
-    background: rgb(33, 70, 124);
+    background:var(--add-color);
 }
 
 /*main ============================================*/
 #main {
     grid-row: 2/3;
     grid-column: 2/3;
-    background-color: #c2e6fe;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -202,11 +205,9 @@ body {
 }
 
 #main--group {
-    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    background-color: white;
 }
 
 .main--header {
@@ -220,7 +221,7 @@ body {
     font-size: 14px;
     font-weight: 300;
     padding-left: 10px;
-
+    color: var(--main-f-color);
     display: flex;
     justify-content: start;
     align-items: center;
@@ -232,14 +233,6 @@ body {
     justify-content: center;
     align-items: center;
     width: 50px;
-}
-
-.main--header_btn_icon {
-    width: 14px;
-    height: 14px;
-    mask: url(icons/plusboldstraight.svg);
-    mask-size: cover;
-    background: black;
 }
 
 .task {
@@ -254,7 +247,7 @@ body {
     align-items: center;
     flex-basis: 50%;
     padding-left: 10px;
-    color: rgb(119, 118, 118);
+    color: var(--main-f-color);
 }
 
 .task--name_project {
@@ -282,13 +275,14 @@ body {
     display: flex;
     align-items: stretch;
     height: 40px;
+    font-size: 14px;
 }
 
 .task--add_name {
     display: flex;
     justify-content: start;
     align-items: center;
-    color: rgb(33, 70, 124);
+    color: var(--add-color);
     font-weight: 300;
 }
 
@@ -304,7 +298,7 @@ body {
     height: 15px;
     mask: url(icons/plusthinround.svg);
     mask-size: cover;
-    background: rgb(33, 70, 124);
+    background: var(--add-color);
 }
 
 /*footer ============================================*/
@@ -314,8 +308,8 @@ body {
     align-items: center;
     grid-row: 3/4;
     grid-column: 1/3;
-    background-color: rgb(25, 33, 80);
-    color: rgb(170, 170, 170);
+    background-color: var(--main-hover-color);
+    color: var(--add-color);
     font-weight: 300;
 }
 
@@ -324,7 +318,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(128, 128, 128, 0.336);
+    background-color: rgba(128, 128, 128, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -336,7 +330,8 @@ body {
 }
 
 #newproject--title {
-    background-color: white;
+    background-color: var(--main-bg-color);
+    color: var(--main-f-color);
     width: 400px;
     height: 50px;
     border-radius: 10px 10px 0 0;
@@ -349,7 +344,8 @@ body {
 }
 
 #newproject--form {
-    background-color: white;
+    background-color: var(--main-bg-color);
+    color: var(--main-f-color);
     width: 400px;
     height: 300px;
     border-radius: 0 0 10px 10px;
@@ -382,10 +378,10 @@ body {
 }
 
 #newproject--form_submit div {
-    background-color: rgb(25, 33, 80);
+    background-color: var(--main-hover-color);
     padding: 10px;
     border-radius: 6px;
-    color: white;
+    color: var(--main-f-color);
 }
 
 .project--menuouter_hidden {
@@ -404,11 +400,10 @@ body {
 
 .project--menu {
     position: absolute;
-    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    background-color: white;
+    background-color: var(--main-hover-color);
 }
 
 .project--menu_delete {
@@ -475,11 +470,10 @@ body {
 }
 .task--datemenu{
     position: absolute;
-    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    background-color: white;
+    background-color: var(--main-hover-color);
     width: 150px;
     height: 100px;
     overflow-y: scroll;
@@ -487,11 +481,10 @@ body {
 }
 .task--menu {
     position: absolute;
-    box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    background-color: white;
+    background-color: var(--main-hover-color);
     width: 150px;
     height: 100px;
     overflow-y: scroll;
@@ -522,10 +515,10 @@ body {
 }
 
 #task--new_submit div {
-    background-color: rgb(25, 33, 80);
+    background-color: var(--main-hover-color);
     padding: 10px;
     border-radius: 6px;
-    color: white;
+    color: var(--main-f-color);
 }
 
 .task--add_hidden {
