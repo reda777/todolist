@@ -86,11 +86,11 @@ function toggleProjectList() {
     const selectTwo = document.querySelector("#sidebar--list_hidden");
     let obj = JSON.parse(localStorage.getItem("preferences"));
     if (selectOne) {
-        obj.sidebar = { listState: false };
+        obj["sidebar"]["listState"]=false;
         selectOne.id = "sidebar--list_hidden";
         document.querySelector(".sidebar--header_btn_icon_down").classList.replace("sidebar--header_btn_icon_down", "sidebar--header_btn_icon_up");
     } else if (selectTwo) {
-        obj.sidebar = { listState: true };
+        obj["sidebar"]["listState"]=true;
         selectTwo.id = "sidebar--list";
         document.querySelector(".sidebar--header_btn_icon_up").classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
     }

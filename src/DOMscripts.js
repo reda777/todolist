@@ -17,7 +17,8 @@ function sidebar() {
     sidebar.appendChild(sidebarGroup);
     sidebarGroup.appendChild(sidebarHeader("My List"));
     sidebarGroup.appendChild(sidebarHeader("Today"));
-    sidebarGroup.appendChild(sidebarHeader("Next 7 Days"));
+    sidebarGroup.appendChild(sidebarHeader("Tomorrow"));
+    sidebarGroup.appendChild(sidebarHeader("Upcoming"));
 
     const sidebarHeadProject = sidebarHeader("Projects");
     const sidebarHeadBtn = document.createElement("div");
@@ -65,7 +66,7 @@ function sidebarHeader(tContent) {
     const div = document.createElement("div");
     div.className = "sidebar--header";
     const divChild = document.createElement("div");
-    divChild.className = "sidebar--header_title";
+    divChild.className = `sidebar--header_${tContent.toLowerCase()}`;
     divChild.textContent = tContent;
     div.appendChild(divChild);
     return div;
@@ -87,18 +88,23 @@ function sidebarProject(tId, tContent, tColor, tCount) {
     return project;
 }
 function main() {
+    let obj = JSON.parse(localStorage.getItem("preferences"));
     const main = document.createElement("div");
     main.id = "main";
 
+    main.appendChild(mainGroup(obj["sidebar"]["day"]));
+
+    return main;
+}
+function mainGroup(option){
     const mainGroup = document.createElement("div");
     mainGroup.id = "main--group";
-    main.appendChild(mainGroup);
-
+    
     const mainHeader = document.createElement("div");
     mainHeader.className = "main--header";
     const mainHeaderTitle = document.createElement("div");
     mainHeaderTitle.className = "main--header_title";
-    mainHeaderTitle.textContent = "Today";
+    mainHeaderTitle.textContent = option;
     mainHeader.appendChild(mainHeaderTitle);
     mainGroup.appendChild(mainHeader);
 
@@ -124,7 +130,7 @@ function main() {
     taskAdd.appendChild(taskAddName);
 
     mainList.append(addTask());
-    return main;
+    return mainGroup;
 }
 function mainListTask(tContent, tProject, tColor) {
     const task = document.createElement("div");
@@ -327,7 +333,7 @@ function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
         let todoList = { project: [], task: [] };
-        let preferences = { sidebar: { listStat: true } };
+        let preferences = { sidebar: { listState: true, day: "Today" } };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));
     }
@@ -336,11 +342,12 @@ function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
     createStorage();
+    let objP = JSON.parse(localStorage.getItem("preferences"));
     content.append(header(), sidebar(), main(), footer(), addProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect());
     document.body.appendChild(content);
     p.populateProjectList();
-    t.populateTaskList();
+    t.populateTaskListOfDate(objP["sidebar"]["day"]);
     t.populateProjectSelect();
 }
 
-export { buildSite, mainListTask, sidebarProject, projectEditBtn };
+export { mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };

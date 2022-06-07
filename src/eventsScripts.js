@@ -1,8 +1,35 @@
 import * as p from "./project";
 import * as t from "./task";
-import * as dom from "./DOMscripts";
+function createMainEvents(){
+    let showAddTevent = function () {
+        //+ add task
+        t.showAddTask();
+    }
+    let showTPSelectEvent = function () {
+        t.showTaskProjectSelect();
+    }
+    let showTDateSelectEvent = function () {
+        t.showTaskDateSelect();
+    }
+    let cancelAddTevent = function () {
+        t.cancelAddTask();
+    }
+    let addTevent = function () {
+        t.addTask(document.querySelector("#task_name").value, document.querySelector("#task_project div").className,
+        document.querySelector("#task--date div").dataset.date);
+    }
+    document.querySelector(".task--add").addEventListener("click", showAddTevent);
 
+    document.querySelector("#task_project").addEventListener("click", showTPSelectEvent);
+
+    document.querySelector("#task--date").addEventListener("click", showTDateSelectEvent);
+
+    document.querySelector("#task--new_submit_cancel").addEventListener("click", cancelAddTevent);
+
+    document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
+}
 function createEvents() {
+    createMainEvents();
     let showAddPevent = function () {
         p.showAddProject();
     }
@@ -22,30 +49,18 @@ function createEvents() {
     let hideMenuEvent = function () {
         p.hideProjectEditMenu();
     }
-    let showAddTevent = function () {
-        t.showAddTask();
-    }
-    let cancelAddTevent = function () {
-        t.cancelAddTask();
-    }
-    let addTevent = function () {
-        t.addTask(document.querySelector("#task_name").value, document.querySelector("#task_project div").className,
-        document.querySelector("#task--date div").dataset.date);
-    }
-    let showTPSelectEvent = function () {
-        t.showTaskProjectSelect();
-    }
     let hideTPSelectEvent = function () {
         t.hideTaskProjectSelect();
     }
-    let showTDateSelectEvent = function () {
-        t.showTaskDateSelect();
-    }
+    
     let hideTDateSelectEvent = function(){
         t.hideTaskDateSelect();
     }
     let selectedDateEvent= function(){
         t.taskDateSelectedOption(this);
+    }
+    let showTInDate= function(){
+        t.showTasksInDate(this);
     }
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
@@ -61,16 +76,6 @@ function createEvents() {
     //project menu
     document.querySelector(".project--menuouter_hidden").addEventListener("click", hideMenuEvent);
     //add task events
-    document.querySelector(".task--add").addEventListener("click", showAddTevent);
-
-    document.querySelector("#task--new_submit_cancel").addEventListener("click", cancelAddTevent);
-
-    document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
-
-    document.querySelector("#task_project").addEventListener("click", showTPSelectEvent);
-
-    document.querySelector("#task--date").addEventListener("click", showTDateSelectEvent);
-
     document.querySelector(".task--menuouter_hidden").addEventListener("click", hideTPSelectEvent);
 
     document.querySelector(".task--datemenuouter_hidden").addEventListener("click", hideTDateSelectEvent);
@@ -78,5 +83,11 @@ function createEvents() {
     document.querySelector(".datemenu--today").addEventListener("click",selectedDateEvent);
     
     document.querySelector(".datemenu--tomorrow").addEventListener("click",selectedDateEvent);
+    //click today in sidebar
+    document.querySelector(".sidebar--header_today").addEventListener("click",showTInDate);
+
+    document.querySelector(".sidebar--header_tomorrow").addEventListener("click",showTInDate);
+
+    document.querySelector(".sidebar--header_upcoming").addEventListener("click",showTInDate);
 }
-export { createEvents };
+export { createEvents, createMainEvents };
