@@ -527,21 +527,18 @@ body {
 }
 .months--select{
     display: flex;
-    align-items: center;
     justify-items: center;
     gap: 2px;
 }
 .months--select_left{
-    width: 14px;
-    height: 14px;
     mask: url(icons/angle-small-left.svg);
-    mask-size: cover;
-    background: var(--add-color);
 }
 .months--select_right{
-    width: 14px;
-    height: 14px;
     mask: url(icons/angle-small-right.svg);
+}
+.months--select_right, .months--select_left{
+    width: 14px;
     mask-size: cover;
     background: var(--add-color);
+    mask-position: center;
 }

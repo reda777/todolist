@@ -154,11 +154,14 @@ function nextMonth(){
     selected.dataset.date=format(nextDate,"yyyy-MM-dd");
 }
 function preMonth(){
-    let selected=document.querySelector(".months--select_current");
-    let preDate=addMonths(parse(selected.dataset.date, 'yyyy-MM-dd', new Date()),-1);
+    let selected=document.querySelector(".months--select_current");  
+    let selectedDate=parse(selected.dataset.date, 'yyyy-MM-dd', new Date());
+    let preDate=addMonths(selectedDate,-1);
+    //compare the year and month
+    let dateToCompare=parse(selected.dataset.date.slice(0,7), 'yyyy-MM', new Date());
     let currentDate=new Date();
-    let checkDate=compareAsc(preDate,currentDate);
-    if(checkDate==1){
+    let checkDate=compareAsc(dateToCompare,currentDate);
+    if(checkDate!=-1){
         selected.textContent=format(preDate,"LLL");
         selected.dataset.date=format(preDate,"yyyy-MM-dd");
     }
