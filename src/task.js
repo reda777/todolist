@@ -1,5 +1,5 @@
 import { mainListTask,mainGroup } from "./DOMscripts.js";
-import {format,addDays} from 'date-fns';
+import {format,addDays,addMonths,parse,compareDesc, compareAsc} from 'date-fns';
 import {createMainEvents} from './eventsScripts';
 const task = (name, projectId, date) => {
     return {
@@ -147,11 +147,27 @@ function populateTaskListOfDate(dateOption) {
         }
     }
 }
+function nextMonth(){
+    let selected=document.querySelector(".months--select_current");
+    let nextDate=addMonths(parse(selected.dataset.date, 'yyyy-MM-dd', new Date()),1);
+    selected.textContent=format(nextDate,"LLL");
+    selected.dataset.date=format(nextDate,"yyyy-MM-dd");
+}
+function preMonth(){
+    let selected=document.querySelector(".months--select_current");
+    let preDate=addMonths(parse(selected.dataset.date, 'yyyy-MM-dd', new Date()),-1);
+    let currentDate=new Date();
+    let checkDate=compareAsc(preDate,currentDate);
+    if(checkDate==1){
+        selected.textContent=format(preDate,"LLL");
+        selected.dataset.date=format(preDate,"yyyy-MM-dd");
+    }
+}
 function createdTaskListEvents(pOption) {
     let optionEvent = function () {
         taskProjectSelectedOption(pOption);
     }
     pOption.addEventListener("click", optionEvent);
 }
-export { showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
+export { preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
 

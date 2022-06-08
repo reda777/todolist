@@ -323,6 +323,24 @@ function taskDateSelect() {
     let tomDate=addDays(todayDate,1);
     tomorrow.dataset.date= format(tomDate, 'yyyy-MM-dd');
     editMenu.appendChild(tomorrow);
+    //calendar
+    const monthsSelect=document.createElement("div");
+    monthsSelect.className = "months--select";
+    editMenu.appendChild(monthsSelect);
+
+    const monthsSelectLeft=document.createElement("div");
+    monthsSelectLeft.className = "months--select_left";
+    monthsSelect.appendChild(monthsSelectLeft);
+
+    const monthsSelectCurrent=document.createElement("div");
+    monthsSelectCurrent.className = "months--select_current";
+    monthsSelectCurrent.dataset.date=format(new Date(), 'yyyy-MM-dd');
+    monthsSelectCurrent.textContent=format(new Date(), "LLL");
+    monthsSelect.appendChild(monthsSelectCurrent);
+
+    const monthsSelectRight=document.createElement("div");
+    monthsSelectRight.className = "months--select_right";
+    monthsSelect.appendChild(monthsSelectRight);
 
     return editDateMenu;
 }

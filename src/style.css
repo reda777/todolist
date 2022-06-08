@@ -477,12 +477,8 @@ body {
     position: absolute;
     display: flex;
     flex-direction: column;
-    border-radius: 12px;
     background-color: var(--main-hover-color);
     width: 150px;
-    height: 100px;
-    overflow-y: scroll;
-    overflow-x: hidden;
 }
 .task--menu {
     position: absolute;
@@ -528,4 +524,24 @@ body {
 
 .task--add_hidden {
     display: none;
+}
+.months--select{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    gap: 2px;
+}
+.months--select_left{
+    width: 14px;
+    height: 14px;
+    mask: url(icons/angle-small-left.svg);
+    mask-size: cover;
+    background: var(--add-color);
+}
+.months--select_right{
+    width: 14px;
+    height: 14px;
+    mask: url(icons/angle-small-right.svg);
+    mask-size: cover;
+    background: var(--add-color);
 }
