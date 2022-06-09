@@ -1,5 +1,5 @@
 import { mainListTask,mainGroup } from "./DOMscripts.js";
-import {format,addDays,addMonths,parse,compareDesc, compareAsc} from 'date-fns';
+import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
 import {createMainEvents} from './eventsScripts';
 const task = (name, projectId, date) => {
     return {
@@ -61,8 +61,10 @@ function showTaskDateSelect() {
 function hideTaskProjectSelect() {
     document.querySelector(".task--menuouter_hidden").classList.remove("task--menuouter");
 }
-function hideTaskDateSelect() {
-    document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
+function hideTaskDateSelect(e) {
+    let datemenuOuter=document.querySelector(".task--datemenuouter_hidden");
+    if(datemenuOuter==e.target)
+        document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
 function deleteTasks(taskId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
@@ -98,6 +100,7 @@ function taskDateSelectedOption(selectedDate) {
     child.dataset.date = selectedDate.dataset.date;
     taskDate.appendChild(child);
     child.textContent = `${selectedDate.textContent}`;
+    document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
 function showTasksInDate(element){
     const main=document.querySelector("#main");
@@ -150,8 +153,9 @@ function populateTaskListOfDate(dateOption) {
 function nextMonth(){
     let selected=document.querySelector(".months--select_current");
     let nextDate=addMonths(parse(selected.dataset.date, 'yyyy-MM-dd', new Date()),1);
-    selected.textContent=format(nextDate,"LLL");
+    selected.textContent=format(nextDate,"LLL yyyy");
     selected.dataset.date=format(nextDate,"yyyy-MM-dd");
+    createCalendar();
 }
 function preMonth(){
     let selected=document.querySelector(".months--select_current");  
@@ -162,9 +166,47 @@ function preMonth(){
     let currentDate=new Date();
     let checkDate=compareAsc(dateToCompare,currentDate);
     if(checkDate!=-1){
-        selected.textContent=format(preDate,"LLL");
+        selected.textContent=format(preDate,"LLL yyyy");
         selected.dataset.date=format(preDate,"yyyy-MM-dd");
     }
+    createCalendar();
+}
+function createCalendar(){
+    const calendar=document.querySelector(".task--datemenu");
+    const selectedMonth=document.querySelector(".months--select_current").dataset.date;
+    let checkDate=compareAsc(parse(selectedMonth, 'yyyy-MM-dd', new Date()),new Date());
+    let currentMonth;
+    if(checkDate==-1){
+        currentMonth=new Date();
+    }else{
+        currentMonth=parse(selectedMonth.slice(0,7), 'yyyy-MM', new Date());
+    }
+    const dateOfDays=document.createElement("div");
+    dateOfDays.className="months--days";
+    let daysArray=[[],[],[],[],[],[]];
+    let daysOfMonth=eachDayOfInterval({
+        start: currentMonth,
+        end: lastDayOfMonth(currentMonth)
+    });
+    for(let day of daysOfMonth){
+        daysArray[getWeekOfMonth(day)-1][getDay(day)]=day;
+    }
+    for(let i=0;i<daysArray.length;i++){
+        const eachWeek=document.createElement("div");
+        eachWeek.className=`months--days_week`;
+        for(let k=0;daysArray[i].length!=0 && k<daysArray[i].length;k++){
+            const eachDay=document.createElement("div");
+            if(daysArray[i][k]===undefined){
+                eachDay.textContent="";
+            }else{
+                eachDay.textContent=format(daysArray[i][k],"d");
+            }
+            eachWeek.appendChild(eachDay);
+        }
+        dateOfDays.appendChild(eachWeek);
+    }
+    calendar.removeChild(calendar.lastChild);
+    calendar.appendChild(dateOfDays);
 }
 function createdTaskListEvents(pOption) {
     let optionEvent = function () {

@@ -1,6 +1,6 @@
 import * as p from "./project";
 import * as t from "./task";
-import {format, addDays} from 'date-fns';
+import {format, addDays, eachDayOfInterval,lastDayOfMonth, addMonths,getWeekOfMonth, getDay} from 'date-fns';
 function header() {
     const div = document.createElement("div");
     div.id = "header";
@@ -99,7 +99,7 @@ function main() {
 function mainGroup(option){
     const mainGroup = document.createElement("div");
     mainGroup.id = "main--group";
-    
+
     const mainHeader = document.createElement("div");
     mainHeader.className = "main--header";
     const mainHeaderTitle = document.createElement("div");
@@ -324,6 +324,7 @@ function taskDateSelect() {
     tomorrow.dataset.date= format(tomDate, 'yyyy-MM-dd');
     editMenu.appendChild(tomorrow);
     //calendar
+    //calendar select month
     const monthsSelect=document.createElement("div");
     monthsSelect.className = "months--select";
     editMenu.appendChild(monthsSelect);
@@ -335,13 +336,49 @@ function taskDateSelect() {
     const monthsSelectCurrent=document.createElement("div");
     monthsSelectCurrent.className = "months--select_current";
     monthsSelectCurrent.dataset.date=format(new Date(), 'yyyy-MM-dd');
-    monthsSelectCurrent.textContent=format(new Date(), "LLL");
+    monthsSelectCurrent.textContent=format(new Date(), "LLL yyyy");
     monthsSelect.appendChild(monthsSelectCurrent);
 
     const monthsSelectRight=document.createElement("div");
     monthsSelectRight.className = "months--select_right";
     monthsSelect.appendChild(monthsSelectRight);
-
+    //calendar days header
+    const monthDaysHeader=document.createElement("div");
+    monthDaysHeader.className = "months--days_header";
+    editMenu.appendChild(monthDaysHeader);
+    let nameOfDaysArray=["Su","Mo","Tu","We","Th","Fr","Sa"];
+    for(let day of nameOfDaysArray){
+        const dayOfweek=document.createElement("div");
+        dayOfweek.textContent=day;
+        monthDaysHeader.appendChild(dayOfweek);
+    }
+    //calendar days
+    //every array has all dates of a single week
+    const dateOfDays=document.createElement("div");
+    dateOfDays.className="months--days";
+    editMenu.appendChild(dateOfDays);
+    let daysArray=[[],[],[],[],[],[]];
+    let daysOfMonth=eachDayOfInterval({
+        start: new Date(),
+        end: lastDayOfMonth(new Date())
+    });
+    for(let day of daysOfMonth){
+        daysArray[getWeekOfMonth(day)-1][getDay(day)]=day;
+    }
+    for(let i=0;i<daysArray.length;i++){
+        const eachWeek=document.createElement("div");
+        eachWeek.className=`months--days_week`;
+        for(let k=0;daysArray[i].length!=0 && k<daysArray[i].length;k++){
+            const eachDay=document.createElement("div");
+            if(daysArray[i][k]===undefined){
+                eachDay.textContent="";
+            }else{
+                eachDay.textContent=format(daysArray[i][k],"d");
+            }
+            eachWeek.appendChild(eachDay);
+        }
+        dateOfDays.appendChild(eachWeek);
+    }
     return editDateMenu;
 }
 function getTodayDate(){

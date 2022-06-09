@@ -53,8 +53,8 @@ function createEvents() {
         t.hideTaskProjectSelect();
     }
     
-    let hideTDateSelectEvent = function(){
-        t.hideTaskDateSelect();
+    let hideTDateSelectEvent = function(e){
+        t.hideTaskDateSelect(e);
     }
     let selectedDateEvent= function(){
         t.taskDateSelectedOption(this);
@@ -89,7 +89,9 @@ function createEvents() {
     document.querySelector(".datemenu--today").addEventListener("click",selectedDateEvent);
     
     document.querySelector(".datemenu--tomorrow").addEventListener("click",selectedDateEvent);
+
     document.querySelector(".months--select_left").addEventListener("click",preMonth);
+
     document.querySelector(".months--select_right").addEventListener("click",nextMonth);
     //click today in sidebar
     document.querySelector(".sidebar--header_today").addEventListener("click",showTInDate);
