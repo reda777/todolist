@@ -260,12 +260,9 @@ function addTask() {
     taskNewInputs.id = "task--new_inputs";
     taskNew.appendChild(taskNewInputs);
 
-    const taskNameInput = document.createElement("input");
-    Object.assign(taskNameInput, {
-        type: "text",
-        name: "task_name",
-        id: "task_name"
-    });
+    const taskNameInput = document.createElement("div");
+    taskNameInput.id="task_name";
+    taskNameInput.contentEditable=true;
     taskNewInputs.appendChild(taskNameInput);
 
     const taskSelectInput = document.createElement("div");
@@ -373,6 +370,8 @@ function taskDateSelect() {
             if(daysArray[i][k]===undefined){
                 eachDay.textContent="";
             }else{
+                eachDay.className="day";
+                eachDay.dataset.date=format(daysArray[i][k],'dd/MM/yyyy');
                 eachDay.textContent=format(daysArray[i][k],"d");
             }
             eachWeek.appendChild(eachDay);

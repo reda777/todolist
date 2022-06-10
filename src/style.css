@@ -581,3 +581,10 @@ body {
     justify-content: center;
     padding:3px 3px 3px 3px;
 }
+.months--days_week .day:hover{
+    background-color: var(--secondary-hover-color);
+    border-radius: 50%;
+}
+#task_input{
+    min-height: 50px;
+}

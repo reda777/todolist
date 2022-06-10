@@ -172,7 +172,7 @@ function preMonth(){
     createCalendar();
 }
 function createCalendar(){
-    const calendar=document.querySelector(".task--datemenu");
+    const calendar=document.querySelector(".months--days");
     const selectedMonth=document.querySelector(".months--select_current").dataset.date;
     let checkDate=compareAsc(parse(selectedMonth, 'yyyy-MM-dd', new Date()),new Date());
     let currentMonth;
@@ -199,14 +199,31 @@ function createCalendar(){
             if(daysArray[i][k]===undefined){
                 eachDay.textContent="";
             }else{
+                eachDay.className="day";
+                eachDay.dataset.date=format(daysArray[i][k],'dd/MM/yyyy');
                 eachDay.textContent=format(daysArray[i][k],"d");
             }
             eachWeek.appendChild(eachDay);
         }
         dateOfDays.appendChild(eachWeek);
     }
-    calendar.removeChild(calendar.lastChild);
+    while(calendar.firstChild){
+        calendar.removeChild(calendar.firstChild);
+    }
     calendar.appendChild(dateOfDays);
+}
+function taskCalDateSelected(e){
+    if(e.target.className=="day"){
+        const taskDate = document.querySelector("#task--date");
+        if (taskDate.firstChild) {
+            taskDate.removeChild(taskDate.firstChild);
+        }
+        const child = document.createElement("div");
+        child.dataset.date = `${e.target.dataset.date}`;
+        taskDate.appendChild(child);
+        child.textContent = `${e.target.dataset.date}`;
+        document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
+    }
 }
 function createdTaskListEvents(pOption) {
     let optionEvent = function () {
@@ -214,5 +231,5 @@ function createdTaskListEvents(pOption) {
     }
     pOption.addEventListener("click", optionEvent);
 }
-export { preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
+export { taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
 

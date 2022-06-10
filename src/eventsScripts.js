@@ -15,8 +15,11 @@ function createMainEvents(){
         t.cancelAddTask();
     }
     let addTevent = function () {
-        t.addTask(document.querySelector("#task_name").value, document.querySelector("#task_project div").className,
+        t.addTask(document.querySelector("#task_name").textContent, document.querySelector("#task_project div").className,
         document.querySelector("#task--date div").dataset.date);
+    }
+    let selectedCalDate=function(e){
+        t.taskCalDateSelected(e);
     }
     document.querySelector(".task--add").addEventListener("click", showAddTevent);
 
@@ -27,6 +30,8 @@ function createMainEvents(){
     document.querySelector("#task--new_submit_cancel").addEventListener("click", cancelAddTevent);
 
     document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
+    //calendar
+    document.querySelector(".months--days").addEventListener("click",selectedCalDate);
 }
 function createEvents() {
     createMainEvents();
@@ -99,5 +104,6 @@ function createEvents() {
     document.querySelector(".sidebar--header_tomorrow").addEventListener("click",showTInDate);
 
     document.querySelector(".sidebar--header_upcoming").addEventListener("click",showTInDate);
+    
 }
 export { createEvents, createMainEvents };
