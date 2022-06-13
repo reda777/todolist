@@ -1,6 +1,6 @@
 import * as p from "./project";
 import * as t from "./task";
-import {format, addDays, eachDayOfInterval,lastDayOfMonth, addMonths,getWeekOfMonth, getDay} from 'date-fns';
+import {format, addDays, eachDayOfInterval,lastDayOfMonth, parse,getWeekOfMonth, getDay} from 'date-fns';
 function header() {
     const div = document.createElement("div");
     div.id = "header";
@@ -260,9 +260,10 @@ function addTask() {
     taskNewInputs.id = "task--new_inputs";
     taskNew.appendChild(taskNewInputs);
 
-    const taskNameInput = document.createElement("div");
+    const taskNameInput = document.createElement("textarea");
     taskNameInput.id="task_name";
-    taskNameInput.contentEditable=true;
+    taskNameInput.placeholder="Task Name...";
+    taskNameInput.rows=1;
     taskNewInputs.appendChild(taskNameInput);
 
     const taskSelectInput = document.createElement("div");
@@ -272,6 +273,8 @@ function addTask() {
     const taskDateInput = document.createElement("div");
     taskDateInput.id = "task--date";
     taskNewInputs.appendChild(taskDateInput);
+
+    taskDateInput.appendChild(createToday());
 
     const taskNewSubmit = document.createElement("div");
     taskNewSubmit.id = "task--new_submit";
@@ -299,8 +302,52 @@ function taskProjectSelect() {
 
     return editMenuOuter;
 }
+function createToday(){
+    const today = document.createElement("div");
+    today.className = "datemenu--today";
+    today.dataset.date= format(getTodayDate(), 'yyyy-MM-dd');
+
+    const todayIcon=document.createElement("span");
+    todayIcon.className="datemenu--today_icon";
+    today.appendChild(todayIcon);
+
+    const todayText=document.createElement("span");
+    todayText.className="datemenu--today_text";
+    todayText.textContent="Today";
+    today.appendChild(todayText);
+    return today;
+}
+function createTomorrow(){
+    const tomorrow = document.createElement("div");
+    tomorrow.className = "datemenu--tomorrow";
+    tomorrow.dataset.date= format(addDays(getTodayDate(),1), 'yyyy-MM-dd');
+
+    const tomorrowIcon=document.createElement("span");
+    tomorrowIcon.className="datemenu--tomorrow_icon";
+    tomorrow.appendChild(tomorrowIcon);
+
+    const tomorrowText=document.createElement("span");
+    tomorrowText.className="datemenu--tomorrow_text";
+    tomorrowText.textContent="Tomorrow";
+    tomorrow.appendChild(tomorrowText);
+    return tomorrow;
+}
+function createDay(e){
+    const day = document.createElement("div");
+    day.className = "picked--date";
+    day.dataset.date= `${e.target.dataset.date}`;
+
+    const dayIcon=document.createElement("span");
+    dayIcon.className="picked--date_icon";
+    day.appendChild(dayIcon);
+
+    const dayText = document.createElement("span");
+    dayText.className = "picked--date_text";
+    dayText.textContent = `${format(parse(e.target.dataset.date,'dd/MM/yyyy',new Date()),"dd LLL")}`;
+    day.appendChild(dayText);
+    return day;
+}
 function taskDateSelect() {
-    let todayDate=getTodayDate();
     const editDateMenu = document.createElement("div");
     editDateMenu.className = "task--datemenuouter_hidden";
 
@@ -308,18 +355,9 @@ function taskDateSelect() {
     editMenu.className = "task--datemenu";
     editDateMenu.appendChild(editMenu);
 
-    const today = document.createElement("div");
-    today.className = "datemenu--today";
-    today.textContent = "Today";
-    today.dataset.date= format(todayDate, 'yyyy-MM-dd');
-    editMenu.appendChild(today);
+    editMenu.appendChild(createToday());
+    editMenu.appendChild(createTomorrow());
 
-    const tomorrow = document.createElement("div");
-    tomorrow.className = "datemenu--tomorrow";
-    tomorrow.textContent = "Tomorrow";
-    let tomDate=addDays(todayDate,1);
-    tomorrow.dataset.date= format(tomDate, 'yyyy-MM-dd');
-    editMenu.appendChild(tomorrow);
     //calendar
     //calendar select month
     const monthsSelect=document.createElement("div");
@@ -404,4 +442,4 @@ function buildSite() {
     t.populateProjectSelect();
 }
 
-export { mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };
+export {createDay, createToday,createTomorrow,mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };

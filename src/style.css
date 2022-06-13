@@ -22,7 +22,7 @@ body {
 
 #content {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(200px ,1fr) minmax(400px ,3fr);
     grid-template-rows: 30px 1fr 50px;
     background-color: var(--main-bg-color);
     height: inherit;
@@ -439,13 +439,16 @@ body {
 #task_project {
     width: 100px;
     height: 20px;
-    border: 1px solid black;
+    border: var(--main-border);
+    border-radius: var(--main-border-radius);
 }
 
 #task--date {
-    width: 100px;
-    height: 20px;
-    border: 1px solid black;
+    width: max-content;
+    height: calc(29px - 2px);
+    border: var(--main-border);
+    border-radius: var(--main-border-radius);
+    color: var(--main-f-color);
 }
 
 .task--menuouter_hidden {
@@ -584,7 +587,63 @@ body {
 .months--days_week .day:hover{
     background-color: var(--secondary-hover-color);
     border-radius: 50%;
+    cursor: pointer;
 }
-#task_input{
-    min-height: 50px;
+#task_name{
+   width: auto;
+   resize: none;
+   background-color: var(--main-bg-color);
+   outline: none;
+   border: none;
+   color:var(--main-f-color);
+}
+.datemenu--today, .datemenu--tomorrow{
+    display: flex;
+    font-size: 14px;
+    gap: 5px;
+    padding: 5px 5px 5px 5px;
+    color: var(--main-f-color);
+}
+#task--date .datemenu--today{
+    width: 72px;
+}
+#task--date .datemenu--tomorrow{
+    width: 100px;
+}
+.datemenu--today:hover, .datemenu--tomorrow:hover{
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
+}
+.datemenu--today_icon{
+    width: 14px;
+    height: 14px;
+    mask: url(icons/sun.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.datemenu--tomorrow_icon{
+    width: 14px;
+    height: 14px;
+    mask: url(icons/sunrise-alt.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.picked--date{
+    width: 72px;
+    display: flex;
+    font-size: 14px;
+    gap: 5px;
+    padding: 5px 5px 5px 5px;
+    color: var(--main-f-color);
+}
+.picked--date_icon{
+    width: 14px;
+    height: 14px;
+    mask: url(icons/calendar-clock.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.picked--date:hover{
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
 }

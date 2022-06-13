@@ -21,6 +21,9 @@ function createMainEvents(){
     let selectedCalDate=function(e){
         t.taskCalDateSelected(e);
     }
+    let resizeTextArea=function(){
+        t.taskResizeTextArea(this);
+    }
     document.querySelector(".task--add").addEventListener("click", showAddTevent);
 
     document.querySelector("#task_project").addEventListener("click", showTPSelectEvent);
@@ -32,6 +35,8 @@ function createMainEvents(){
     document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
     //calendar
     document.querySelector(".months--days").addEventListener("click",selectedCalDate);
+    //textarea
+    document.querySelector("#task_name").addEventListener("input",resizeTextArea);
 }
 function createEvents() {
     createMainEvents();
@@ -91,9 +96,9 @@ function createEvents() {
 
     document.querySelector(".task--datemenuouter_hidden").addEventListener("click", hideTDateSelectEvent);
 
-    document.querySelector(".datemenu--today").addEventListener("click",selectedDateEvent);
+    document.querySelector(".task--datemenu .datemenu--today").addEventListener("click",selectedDateEvent);
     
-    document.querySelector(".datemenu--tomorrow").addEventListener("click",selectedDateEvent);
+    document.querySelector(".task--datemenu .datemenu--tomorrow").addEventListener("click",selectedDateEvent);
 
     document.querySelector(".months--select_left").addEventListener("click",preMonth);
 

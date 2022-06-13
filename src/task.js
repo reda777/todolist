@@ -1,4 +1,4 @@
-import { mainListTask,mainGroup } from "./DOMscripts.js";
+import { createDay,createToday, createTomorrow,mainListTask,mainGroup } from "./DOMscripts.js";
 import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
 import {createMainEvents} from './eventsScripts';
 const task = (name, projectId, date) => {
@@ -95,11 +95,17 @@ function taskDateSelectedOption(selectedDate) {
     if (taskDate.firstChild) {
         taskDate.removeChild(taskDate.firstChild);
     }
-    const child = document.createElement("div");
-    child.className = selectedDate.className;
-    child.dataset.date = selectedDate.dataset.date;
-    taskDate.appendChild(child);
-    child.textContent = `${selectedDate.textContent}`;
+    switch (selectedDate.textContent) {
+        case "Today":
+            taskDate.appendChild(createToday());
+            break;
+        case "Tomorrow":
+            taskDate.appendChild(createTomorrow());
+            break;
+        default:
+            console.log("Error selectedDate.textContent doesn't match");
+            break;
+    }
     document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
 function showTasksInDate(element){
@@ -218,12 +224,14 @@ function taskCalDateSelected(e){
         if (taskDate.firstChild) {
             taskDate.removeChild(taskDate.firstChild);
         }
-        const child = document.createElement("div");
-        child.dataset.date = `${e.target.dataset.date}`;
-        taskDate.appendChild(child);
-        child.textContent = `${e.target.dataset.date}`;
+        taskDate.appendChild(createDay(e));
         document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
     }
+}
+function taskResizeTextArea(element){
+    let maxHeight=200;
+    element.style.height = "";
+    element.style.height = Math.min(element.scrollHeight, maxHeight) + "px";
 }
 function createdTaskListEvents(pOption) {
     let optionEvent = function () {
@@ -231,5 +239,5 @@ function createdTaskListEvents(pOption) {
     }
     pOption.addEventListener("click", optionEvent);
 }
-export { taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
+export { taskResizeTextArea,taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
 
