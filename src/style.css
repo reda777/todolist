@@ -548,14 +548,19 @@ body {
     align-items: center;
     justify-content: flex-start;
     padding: 10px 0 0 0;
-    gap: 15px;
+    gap: 5px;
+    font-size: 14px;
 }
 
 #task--new_submit div {
     background-color: var(--main-hover-color);
-    padding: 10px;
-    border-radius: 6px;
+    padding: 8px;
+    border-radius: var(--main-border-radius);
     color: var(--main-f-color);
+}
+#task--new_submit div:hover {
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
 }
 
 .task--add_hidden {

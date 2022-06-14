@@ -15,7 +15,7 @@ function createMainEvents(){
         t.cancelAddTask();
     }
     let addTevent = function () {
-        t.addTask(document.querySelector("#task_name").textContent, document.querySelector("#task_project div").className,
+        t.addTask(document.querySelector("#task_name").value, document.querySelector("#task_project div").className,
         document.querySelector("#task--date div").dataset.date);
     }
     let selectedCalDate=function(e){
