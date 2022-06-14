@@ -433,14 +433,30 @@ body {
 #task--new_inputs {
     display: flex;
     flex-direction: column;
+}
+#task--select--date{
+    display: flex;
+    align-items: center;
     gap: 5px;
 }
 
 #task_project {
-    width: 100px;
-    height: 20px;
+   width: max-content;
+    height: calc(29px - 2px);
     border: var(--main-border);
     border-radius: var(--main-border-radius);
+    color: var(--main-f-color);
+}
+#task_project div{
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 5px 5px 5px 5px;
+    font-size: 14px;
+}
+#task_project div:hover{
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
 }
 
 #task--date {
@@ -490,23 +506,37 @@ body {
     position: absolute;
     display: flex;
     flex-direction: column;
-    border-radius: 12px;
     background-color: var(--main-hover-color);
-    width: 150px;
+    width: 172px;
     height: 100px;
     overflow-y: scroll;
     overflow-x: hidden;
+    color: var(--main-f-color);
+    font-size: 14px;
 }
 
 .task--menu div {
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    gap: 5px;
+    padding: 5px 5px 5px 5px;
+}
+.optionText{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.task--menu div:hover {
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
 }
 
 .optionColor {
+    display: block;
+    flex-shrink: 0;
     width: 10px;
     height: 10px;
-    display: block;
 }
 
 #task--new_hidden {

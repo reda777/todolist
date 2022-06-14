@@ -266,13 +266,17 @@ function addTask() {
     taskNameInput.rows=1;
     taskNewInputs.appendChild(taskNameInput);
 
+    const taskSelectAndDate = document.createElement("div");
+    taskSelectAndDate.id = "task--select--date";
+    taskNew.appendChild(taskSelectAndDate);
+
     const taskSelectInput = document.createElement("div");
     taskSelectInput.id = "task_project";
-    taskNewInputs.appendChild(taskSelectInput);
+    taskSelectAndDate.appendChild(taskSelectInput);
 
     const taskDateInput = document.createElement("div");
     taskDateInput.id = "task--date";
-    taskNewInputs.appendChild(taskDateInput);
+    taskSelectAndDate.appendChild(taskDateInput);
 
     taskDateInput.appendChild(createToday());
 
@@ -424,7 +428,7 @@ function getTodayDate(){
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
-        let todoList = { project: [], task: [] };
+        let todoList = { project: [{ id : "l4e1z0lb8b64u4jcayc" , name : "default" , color:"#d3d3d3",count:0}], task: [] };
         let preferences = { sidebar: { listState: true, day: "Today" } };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));

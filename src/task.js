@@ -9,8 +9,10 @@ const task = (name, projectId, date) => {
     }
 }
 function showAddTask() {
+    const pOption=document.querySelector(".task--menu").firstChild;
     document.querySelector("#task--new_hidden").id = "task--new";
     document.querySelector(".task--add").classList.replace("task--add", "task--add_hidden");
+    taskProjectSelectedOption(pOption);
 }
 function addTask(nameValue, projectValue, dateValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
@@ -34,13 +36,19 @@ function populateProjectSelect() {
     for (let i = 0; i < projectsArray.length; i++) {
         const pOption = document.createElement("div");
         pOption.className = i;
-        pOption.textContent = projectsArray[i].name;
-        selectElement.appendChild(pOption);
+        const optionText=document.createElement("span");
+        optionText.className="optionText";
+        const optionTextInside=document.createElement("span");
+        optionTextInside.textContent =projectsArray[i].name;
+        
 
         const optionColor = document.createElement("span");
         optionColor.className = "optionColor";
         optionColor.style.backgroundColor = projectsArray[i].color;
+        selectElement.appendChild(pOption);
         pOption.appendChild(optionColor);
+        optionText.appendChild(optionTextInside);
+        pOption.appendChild(optionText);
         createdTaskListEvents(pOption);
     }
 }
@@ -85,10 +93,8 @@ function taskProjectSelectedOption(selectedProject) {
     if (taskProject.firstChild) {
         taskProject.removeChild(taskProject.firstChild);
     }
-    const child = document.createElement("div");
-    child.className = selectedProject.className;
-    taskProject.appendChild(child);
-    child.textContent = `${selectedProject.textContent}`;
+    let clonedProject=selectedProject.cloneNode(true);
+    taskProject.appendChild(clonedProject);
 }
 function taskDateSelectedOption(selectedDate) {
     const taskDate = document.querySelector("#task--date");
