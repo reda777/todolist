@@ -44,8 +44,7 @@ function createEvents() {
         p.showAddProject();
     }
     let addPevent = function () {
-        p.addProject(document.querySelector("#newproject--form_name input").value,
-            document.querySelector("#newproject--form_color input").value);
+        p.addProjectButton();
     }
     let cancelAddPevent = function () {
         p.cancelAddProject();
@@ -78,15 +77,23 @@ function createEvents() {
     let nextMonth=function(){
         t.nextMonth();
     }
+    let currentMonth=function(){
+        t.currentMonth();
+    }
+    let selectColor=function(e){
+        p.selectColor(e);
+    }
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
+
+    document.querySelector(".project--color_list").addEventListener("click", selectColor);
 
     document.querySelector("#newproject--form_submit_add").addEventListener("click", addPevent);
 
     document.querySelector("#newproject--form_submit_cancel").addEventListener("click", cancelAddPevent);
 
     //project ui
-    document.querySelector(".sidebar--header_btn").addEventListener("click", toggleShowPList);
+    document.querySelector("div.sidebar--header.projects").addEventListener("click", toggleShowPList);
     //delete project 
     document.querySelector(".project--menu_delete").addEventListener("click", deletePevent);
     //project menu
@@ -103,6 +110,7 @@ function createEvents() {
     document.querySelector(".months--select_left").addEventListener("click",preMonth);
 
     document.querySelector(".months--select_right").addEventListener("click",nextMonth);
+    document.querySelector(".months--select_current").addEventListener("click",currentMonth);
     //click today in sidebar
     document.querySelector(".sidebar--header_today").addEventListener("click",showTInDate);
 

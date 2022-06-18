@@ -64,11 +64,19 @@ function sidebar() {
 }
 function sidebarHeader(tContent) {
     const div = document.createElement("div");
-    div.className = "sidebar--header";
+    div.classList.add("sidebar--header");
+    if(tContent=="Projects")
+        div.classList.add(tContent.toLowerCase());
     const divChild = document.createElement("div");
     divChild.className = `sidebar--header_${tContent.toLowerCase()}`;
-    divChild.textContent = tContent;
     div.appendChild(divChild);
+    const spanChild= document.createElement("span");
+    spanChild.className=`sidebar--header_${tContent.toLowerCase()}_icon`;
+    divChild.appendChild(spanChild);
+    const spanChildT=document.createElement("span");
+    spanChildT.className=`sidebar--header_${tContent.toLowerCase()}_text`;
+    spanChildT.textContent=tContent;
+    divChild.appendChild(spanChildT);
     return div;
 }
 function sidebarProject(tId, tContent, tColor, tCount) {
@@ -77,9 +85,11 @@ function sidebarProject(tId, tContent, tColor, tCount) {
     project.className = "project";
     const projectName = document.createElement("div");
     projectName.className = "project--name";
-    projectName.textContent = tContent;
     projectName.style.color = tColor;
     project.appendChild(projectName);
+    const projectNameSpan=document.createElement("span");
+    projectNameSpan.textContent=tContent;
+    projectName.appendChild(projectNameSpan);
     const projectCount = document.createElement("div");
     projectCount.className = "project--count";
     projectCount.textContent = tCount;
@@ -167,6 +177,8 @@ function footer() {
     return div;
 }
 function addProject() {
+    const colorsArray=["#13c7e7","#6484c6","#1014cb","#d24157","#a50d10","#4fc972","#cc552c",
+    "#d4459a","#b7b434","#69a537","#a556c6","#35845a","#986e34","#582c7d","#5e2dbb"];
     const newProject = document.createElement("div");
     newProject.id = "newproject_hidden";
     const newProjectTitle = document.createElement("div");
@@ -207,13 +219,20 @@ function addProject() {
     });
     newProjectFormColor.appendChild(projectColorLabel);
 
-    const projectColorInput = document.createElement("input");
-    Object.assign(projectColorInput, {
-        type: "color",
-        name: "project_color",
-        id: "project_color"
-    });
-    newProjectFormColor.appendChild(projectColorInput);
+    const projectColorList = document.createElement("div");
+    projectColorList.className="project--color_list";
+    newProjectFormColor.appendChild(projectColorList);
+
+    for(let i=0;i<colorsArray.length;i++){
+        const listColor=document.createElement("div");
+        const listColorCheck=document.createElement("span");
+        listColorCheck.className="list--color_check";
+        listColor.appendChild(listColorCheck);
+        listColor.style.backgroundColor=colorsArray[i];
+        listColor.dataset.bgColor=colorsArray[i];
+        listColor.className="list--color";
+        projectColorList.appendChild(listColor);
+    }
 
     const newProjectFormSubmit = document.createElement("div");
     newProjectFormSubmit.id = "newproject--form_submit";
@@ -428,7 +447,7 @@ function getTodayDate(){
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
-        let todoList = { project: [{ id : "l4e1z0lb8b64u4jcayc" , name : "default" , color:"#d3d3d3",count:0}], task: [] };
+        let todoList = { project: [{ id : "1" , name : "default" , color:"#d3d3d3",count:0}], task: [] };
         let preferences = { sidebar: { listState: true, day: "Today" } };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));

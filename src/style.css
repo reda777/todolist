@@ -63,14 +63,16 @@ body {
     font-size: 14px;
     font-weight: 300;
 }
-.sidebar--header > div:first-child{
+.sidebar--header > div{
     padding-left: 10px;
     display: flex;
     justify-content: start;
     align-items: center;
     flex-basis: 100%;
 }
-.sidebar--header > div:first-child:hover{
+.sidebar--header_today:hover, 
+.sidebar--header_tomorrow:hover,
+.sidebar--header_upcoming:hover{
     background-color: var(--main-hover-color);
     cursor: pointer;
     border-radius: var(--main-border-radius);
@@ -84,12 +86,7 @@ body {
     font-weight: 500;
 }
 
-.sidebar--header_btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-}
+
 
 .sidebar--header_btn_icon_up {
     width: 14px;
@@ -120,6 +117,8 @@ body {
     align-items: center;
     height: 50px;
     padding-right: 5px;
+    font-size: 14px;
+    min-width: 0;
 }
 
 .project:hover {
@@ -130,10 +129,14 @@ body {
 
 .project--name {
     display: flex;
-    justify-content: start;
     align-items: center;
-    flex-basis: 100%;
+    flex: 1;
     padding-left: 10px;
+    overflow: hidden;
+}
+.project--name span{
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .project--count {
@@ -329,6 +332,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    font-size: 14px;
 }
 
 #newproject_hidden {
@@ -346,6 +350,7 @@ body {
     padding-left: 25px;
     box-sizing: border-box;
     font-weight: 500;
+    font-size: 16px;
     border-bottom: 1px solid rgba(150, 150, 150, 0.3);
 }
 
@@ -381,6 +386,10 @@ body {
     align-items: flex-end;
     gap: 15px;
     flex-basis: 100%;
+}
+div#newproject--form_submit_add:hover,div#newproject--form_submit_cancel:hover{
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
 }
 
 #newproject--form_submit div {
@@ -570,11 +579,16 @@ body {
     display: flex;
     justify-content: center;
     gap: 2px;
+    font-size: 14px;
 }
 .months--select_current{
     width: 80px;
     display: flex;
     justify-content: center;
+}
+.months--select_current:hover{
+    background-color: var(--secondary-hover-color);
+    cursor: pointer;
 }
 .months--select_left{
     mask: url(icons/angle-small-left.svg);
@@ -585,8 +599,12 @@ body {
 .months--select_right, .months--select_left{
     width: 14px;
     mask-size: cover;
-    background: var(--add-color);
+    background: var(--main-f-color);
     mask-position: center;
+}
+.months--select_right:hover, .months--select_left:hover{
+    background:var(--add-color);
+    cursor: pointer;
 }
 .months--days_header{
     display: grid;
@@ -625,12 +643,12 @@ body {
     cursor: pointer;
 }
 #task_name{
-   width: auto;
-   resize: none;
-   background-color: var(--main-bg-color);
-   outline: none;
-   border: none;
-   color:var(--main-f-color);
+    width: auto;
+    resize: none;
+    background-color: var(--main-bg-color);
+    outline: none;
+    border: none;
+    color:var(--main-f-color);
 }
 .datemenu--today, .datemenu--tomorrow{
     display: flex;
@@ -681,4 +699,69 @@ body {
 .picked--date:hover{
     background-color: var(--secondary-hover-color);
     cursor: pointer;
+}
+.sidebar--header_today_icon{
+    width: 16px;
+    height: 16px;
+    mask: url(icons/sun.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.sidebar--header_tomorrow_icon{
+    width: 16px;
+    height: 16px;
+    mask: url(icons/sunrise-alt.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.sidebar--header_upcoming_icon{
+    width: 16px;
+    height: 16px;
+    mask: url(icons/calendar-clock.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.sidebar--header_today, 
+.sidebar--header_tomorrow,
+.sidebar--header_upcoming{
+    display: flex;
+    gap: 8px;
+}
+div.sidebar--header_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: max-content;
+    margin-right: 10px;
+}
+div.sidebar--header.projects:hover{
+    cursor: pointer;
+}
+div.list--color{
+    height: 40px;
+    width: 70px;
+    box-sizing: border-box;
+    position: relative;
+}
+div.list--color:hover{
+    border: 1px solid var(--main-f-color);
+    cursor: pointer;
+}
+div.list--color_selected{
+    border: 1px solid var(--main-f-color);
+}
+span.list--color_check_selected{
+    display: block;
+    position: absolute;
+    mask: url(icons/checkbox.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+    left: 0;
+    bottom: 0;
+    height: 10px;
+    width: 10px;
+}
+div.project--color_list{
+    display: flex;
+    flex-wrap: wrap;
 }

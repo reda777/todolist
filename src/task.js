@@ -162,6 +162,12 @@ function populateTaskListOfDate(dateOption) {
         }
     }
 }
+function currentMonth(){
+    let selected=document.querySelector(".months--select_current");
+    selected.textContent=format(new Date(),"LLL yyyy");
+    selected.dataset.date=format(new Date(),"yyyy-MM-dd");
+    createCalendar();
+}
 function nextMonth(){
     let selected=document.querySelector(".months--select_current");
     let nextDate=addMonths(parse(selected.dataset.date, 'yyyy-MM-dd', new Date()),1);
@@ -245,5 +251,5 @@ function createdTaskListEvents(pOption) {
     }
     pOption.addEventListener("click", optionEvent);
 }
-export { taskResizeTextArea,taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
+export { currentMonth,taskResizeTextArea,taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
 
