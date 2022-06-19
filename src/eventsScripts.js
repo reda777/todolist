@@ -92,6 +92,9 @@ function createEvents() {
     let cancelEditPevent=function(){
         p.cancelEditProject();
     }
+    let showTUpcomig=function(){
+        t.showUpcomingTasks();
+    }
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
 
@@ -135,7 +138,7 @@ function createEvents() {
 
     document.querySelector(".sidebar--header_tomorrow").addEventListener("click",showTInDate);
 
-    document.querySelector(".sidebar--header_upcoming").addEventListener("click",showTInDate);
+    document.querySelector(".sidebar--header_upcoming").addEventListener("click",showTUpcomig);
     
 }
 export { createEvents, createMainEvents };

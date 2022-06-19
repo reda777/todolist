@@ -142,6 +142,41 @@ function mainGroup(option){
     mainList.append(addTask());
     return mainGroup;
 }
+function mainUpcomingTasks(){
+    const mainGroup = document.createElement("div");
+    mainGroup.id = "main--group";
+
+    const mainHeader = document.createElement("div");
+    mainHeader.className = "main--header";
+    const mainHeaderTitle = document.createElement("div");
+    mainHeaderTitle.className = "main--header_title";
+    mainHeaderTitle.textContent = "Upcoming";
+    mainHeader.appendChild(mainHeaderTitle);
+    mainGroup.appendChild(mainHeader);
+    const mainList = document.createElement("div");
+    mainList.id = "main--list";
+    mainGroup.appendChild(mainList);
+
+    const taskAdd = document.createElement("div");
+    taskAdd.className = "task--add";
+    mainList.appendChild(taskAdd);
+
+    const taskAddBtn = document.createElement("div");
+    taskAddBtn.className = "task--add_btn";
+    taskAdd.appendChild(taskAddBtn);
+
+    const taskAddBtnIcon = document.createElement("span");
+    taskAddBtnIcon.className = "task--add_btn_icon";
+    taskAddBtn.appendChild(taskAddBtnIcon);
+
+    const taskAddName = document.createElement("div");
+    taskAddName.className = "task--add_name";
+    taskAddName.textContent = "Add Task";
+    taskAdd.appendChild(taskAddName);
+
+    mainList.append(addTask());
+    return mainGroup;
+}
 function mainListTask(tContent, tProject, tColor) {
     const task = document.createElement("div");
     task.className = "task";
@@ -454,7 +489,7 @@ function createTomorrow(){
 function createDay(e){
     const day = document.createElement("div");
     day.className = "picked--date";
-    day.dataset.date= `${e.target.dataset.date}`;
+    day.dataset.date= `${format(parse(e.target.dataset.date,'dd/MM/yyyy',new Date()),"yyyy-MM-dd")}`;
 
     const dayIcon=document.createElement("span");
     dayIcon.className="picked--date_icon";
@@ -543,7 +578,7 @@ function getTodayDate(){
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
-        let todoList = { project: [{ id : "1" , name : "default" , color:"#d3d3d3",count:0}], task: [] };
+        let todoList = { project: [{ id : "id1" , name : "default" , color:"#d3d3d3",count:0}], task: [] };
         let preferences = { sidebar: { listState: true, day: "Today" } };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));
@@ -561,4 +596,4 @@ function buildSite() {
     t.populateProjectSelect();
 }
 
-export {createDay, createToday,createTomorrow,mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };
+export {mainUpcomingTasks,createDay, createToday,createTomorrow,mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };
