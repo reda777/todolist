@@ -52,6 +52,12 @@ function createEvents() {
     let toggleShowPList = function () {
         p.toggleProjectList();
     }
+    let editPevent = function(){
+        p.editProject();
+    }
+    let savePevent= function(){
+        p.saveEditProject();
+    }
     let deletePevent = function () {
         p.deleteProject();
     }
@@ -83,18 +89,31 @@ function createEvents() {
     let selectColor=function(e){
         p.selectColor(e);
     }
+    let cancelEditPevent=function(){
+        p.cancelEditProject();
+    }
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
 
     document.querySelector(".project--color_list").addEventListener("click", selectColor);
 
+    document.querySelector(".editproject--color_list").addEventListener("click", selectColor);
+    
     document.querySelector("#newproject--form_submit_add").addEventListener("click", addPevent);
 
     document.querySelector("#newproject--form_submit_cancel").addEventListener("click", cancelAddPevent);
 
+   
+    document.querySelector("#editproject--form_submit_cancel").addEventListener("click", cancelEditPevent);
+    // edit project
+    document.querySelector("#editproject--form_submit_save").addEventListener("click", savePevent);
+
+    document.querySelector("#editproject--form_submit_cancel").addEventListener("click", cancelAddPevent);
+
     //project ui
     document.querySelector("div.sidebar--header.projects").addEventListener("click", toggleShowPList);
-    //delete project 
+    //edit delete project
+    document.querySelector(".project--menu_edit").addEventListener("click", editPevent); 
     document.querySelector(".project--menu_delete").addEventListener("click", deletePevent);
     //project menu
     document.querySelector(".project--menuouter_hidden").addEventListener("click", hideMenuEvent);

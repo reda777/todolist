@@ -48,6 +48,7 @@ function showProjectEditMenu(element) {
     let elementPos = iconClicked.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".project--menuouter_hidden").classList.add("project--menuouter");
+    document.querySelector("#editproject--form_submit_save").dataset.id= `${element.id}`;
     document.querySelector(".project--menu_delete").dataset.id = `${element.id}`;
     document.querySelector(".project--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".project--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
@@ -112,6 +113,32 @@ function addProjectButton(){
     const colorValue=document.querySelector(".list--color_selected").dataset.bgColor;
     addProject(nameValue,colorValue);
 }
+function editProject(){
+    document.querySelector("#editproject_hidden").id = "editproject";
+}
+function saveEditProject(){
+    const nameValue=document.querySelector("#editproject--form_name input").value;
+    const colorValue=document.querySelector("#editproject--form_color .list--color_selected").dataset.bgColor;
+    let id =document.querySelector("#editproject--form_submit_save").dataset.id;
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    console.log(id,obj.project[2]);
+    for(let i=1;i<obj.project.length;i++){
+        if(id==obj.project[i].id){
+            console.log("entered");
+            obj.project[i].name=nameValue;
+            obj.project[i].color=colorValue;
+        }
+    }
+    localStorage.setItem("todoList", JSON.stringify(obj));
+    populateProjectList();
+    document.querySelector("#editproject--form_submit_save").removeAttribute("data-id");
+    document.querySelector("#editproject").id = "editproject_hidden";
+    t.populateProjectSelect();
+}
+function cancelEditProject(){
+    document.querySelector("#editproject").id = "editproject_hidden";
+    document.querySelector("#editproject--form_submit_save").removeAttribute("data-id");
+}
 function createdProjectEvents(p) {
     let showIconEvent = function () {
         showProjectEditIcon(p);
@@ -128,4 +155,4 @@ function createdProjectEvents(p) {
 
     p.querySelector(".project--edit_hidden").addEventListener("click", showMenuEvent);
 }
-export { addProjectButton,selectColor,deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };
+export { cancelEditProject,saveEditProject,editProject,addProjectButton,selectColor,deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

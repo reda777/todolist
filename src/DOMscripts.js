@@ -181,14 +181,17 @@ function addProject() {
     "#d4459a","#b7b434","#69a537","#a556c6","#35845a","#986e34","#582c7d","#5e2dbb"];
     const newProject = document.createElement("div");
     newProject.id = "newproject_hidden";
+    const projectInterface = document.createElement("div");
+    projectInterface.id = "project--interface";
+    newProject.appendChild(projectInterface);
     const newProjectTitle = document.createElement("div");
     newProjectTitle.id = "newproject--title";
     newProjectTitle.textContent = "Add Project";
-    newProject.appendChild(newProjectTitle);
+    projectInterface.appendChild(newProjectTitle);
 
     const newProjectForm = document.createElement("div");
     newProjectForm.id = "newproject--form";
-    newProject.appendChild(newProjectForm);
+    projectInterface.appendChild(newProjectForm);
 
     const newProjectFormName = document.createElement("div");
     newProjectFormName.id = "newproject--form_name";
@@ -248,6 +251,81 @@ function addProject() {
     newProjectFormSubmit.appendChild(newProjectFormSubmitCancel);
     return newProject;
 }
+function editProject() {
+    const colorsArray=["#13c7e7","#6484c6","#1014cb","#d24157","#a50d10","#4fc972","#cc552c",
+    "#d4459a","#b7b434","#69a537","#a556c6","#35845a","#986e34","#582c7d","#5e2dbb"];
+    const editProject = document.createElement("div");
+    editProject.id = "editproject_hidden";
+    const projectInterface = document.createElement("div");
+    projectInterface.id = "project--interface";
+    editProject.appendChild(projectInterface);
+    const newProjectTitle = document.createElement("div");
+    newProjectTitle.id = "editproject--title";
+    newProjectTitle.textContent = "Edit Project";
+    projectInterface.appendChild(newProjectTitle);
+
+    const newProjectForm = document.createElement("div");
+    newProjectForm.id = "editproject--form";
+    projectInterface.appendChild(newProjectForm);
+
+    const newProjectFormName = document.createElement("div");
+    newProjectFormName.id = "editproject--form_name";
+    newProjectForm.appendChild(newProjectFormName);
+    const newProjectFormColor = document.createElement("div");
+    newProjectFormColor.id = "editproject--form_color";
+    newProjectForm.appendChild(newProjectFormColor);
+
+    const projectNameLabel = document.createElement("label");
+    Object.assign(projectNameLabel, {
+        for: "project_name",
+        textContent: "Name"
+    });
+    newProjectFormName.appendChild(projectNameLabel);
+
+    const projectNameInput = document.createElement("input");
+    Object.assign(projectNameInput, {
+        type: "text",
+        name: "project_name",
+        id: "project_name"
+    });
+    newProjectFormName.appendChild(projectNameInput);
+
+    const projectColorLabel = document.createElement("label");
+    Object.assign(projectColorLabel, {
+        for: "project_color",
+        textContent: "Color"
+    });
+    newProjectFormColor.appendChild(projectColorLabel);
+
+    const projectColorList = document.createElement("div");
+    projectColorList.className="editproject--color_list";
+    newProjectFormColor.appendChild(projectColorList);
+
+    for(let i=0;i<colorsArray.length;i++){
+        const listColor=document.createElement("div");
+        const listColorCheck=document.createElement("span");
+        listColorCheck.className="list--color_check";
+        listColor.appendChild(listColorCheck);
+        listColor.style.backgroundColor=colorsArray[i];
+        listColor.dataset.bgColor=colorsArray[i];
+        listColor.className="list--color";
+        projectColorList.appendChild(listColor);
+    }
+
+    const newProjectFormSubmit = document.createElement("div");
+    newProjectFormSubmit.id = "editproject--form_submit";
+    newProjectForm.appendChild(newProjectFormSubmit);
+
+    const newProjectFormSubmitAdd = document.createElement("div");
+    newProjectFormSubmitAdd.id = "editproject--form_submit_save";
+    newProjectFormSubmitAdd.textContent = "Save";
+    newProjectFormSubmit.appendChild(newProjectFormSubmitAdd);
+    const newProjectFormSubmitCancel = document.createElement("div");
+    newProjectFormSubmitCancel.id = "editproject--form_submit_cancel";
+    newProjectFormSubmitCancel.textContent = "Cancel";
+    newProjectFormSubmit.appendChild(newProjectFormSubmitCancel);
+    return editProject;
+}
 function projectEditBtn() {
     const projectEdit = document.createElement("div");
     projectEdit.className = "project--edit_hidden";
@@ -264,9 +342,27 @@ function projectEditMenu() {
     const editMenu = document.createElement("div");
     editMenu.className = "project--menu";
     editMenuOuter.appendChild(editMenu);
+
+    const editMenuEdit = document.createElement("div");
+    const editMenuEditText = document.createElement("div");
+    const editMenuEditIcon = document.createElement("div");
+    editMenuEditIcon.className="project--menu_edit_icon";
+    editMenuEdit.appendChild(editMenuEditIcon);
+    editMenuEditText.className="project--menu_edit_text";
+    editMenuEditText.textContent="Edit project";
+    editMenuEdit.appendChild(editMenuEditText);
+    editMenuEdit.className = "project--menu_edit";
+    editMenu.appendChild(editMenuEdit);
+
     const editMenuDelete = document.createElement("div");
+    const editMenuDeleteText = document.createElement("div");
+    const editMenuDeleteIcon = document.createElement("div");
+    editMenuDeleteIcon.className="project--menu_delete_icon";
+    editMenuDelete.appendChild(editMenuDeleteIcon);
+    editMenuDeleteText.className="project--menu_delete_text";
+    editMenuDeleteText.textContent="Delete project";
+    editMenuDelete.appendChild(editMenuDeleteText);
     editMenuDelete.className = "project--menu_delete";
-    editMenuDelete.textContent = "Delete project";
     editMenu.appendChild(editMenuDelete);
 
     return editMenuOuter;
@@ -458,7 +554,7 @@ function buildSite() {
     content.id = "content";
     createStorage();
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect());
+    content.append(header(), sidebar(), main(), footer(), addProject(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateTaskListOfDate(objP["sidebar"]["day"]);
