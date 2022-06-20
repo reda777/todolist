@@ -1,4 +1,4 @@
-import {mainListTask, mainGroup, sidebarProject } from "./DOMscripts.js";
+import {mainGroup, sidebarProject } from "./DOMscripts.js";
 import * as t from "./task";
 import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
 import {createMainEvents} from './eventsScripts';
@@ -20,9 +20,9 @@ function addProject(nameValue, colorValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     obj.project.push(currentProject);
     localStorage.setItem("todoList", JSON.stringify(obj));
-    populateProjectList();
     document.querySelector("#newproject").id = "newproject_hidden";
-    t.populateProjectSelect();
+    populateProjectList();
+    populateProjectSelect();
 }
 function populateProjectList() {
     let projectList = document.querySelectorAll("#sidebar--list .project");
@@ -41,6 +41,39 @@ function populateProjectList() {
         document.querySelector(".project--add").before(sideBarProject);
         createdProjectEvents(sideBarProject);
     }
+}
+function populateProjectSelect() {
+    let projectsArray = JSON.parse(localStorage.getItem("todoList")).project;
+    let selectElement = document.querySelector(".task--menu");
+    //remove old options
+    while (selectElement.firstChild) {
+        selectElement.removeChild(selectElement.firstChild);
+    }
+    //if project array is not empty repopulate select element
+    for (let i = 0; i < projectsArray.length; i++) {
+        const pOption = document.createElement("div");
+        pOption.className = i;
+        const optionText=document.createElement("span");
+        optionText.className="optionText";
+        const optionTextInside=document.createElement("span");
+        optionTextInside.textContent =projectsArray[i].name;
+        
+
+        const optionColor = document.createElement("span");
+        optionColor.className = "optionColor";
+        optionColor.style.backgroundColor = projectsArray[i].color;
+        selectElement.appendChild(pOption);
+        pOption.appendChild(optionColor);
+        optionText.appendChild(optionTextInside);
+        pOption.appendChild(optionText);
+        createEventInProjectList(pOption);
+    }
+}
+function createEventInProjectList(pOption) {
+    let optionEvent = function () {
+        t.taskProjectSelectedOption(pOption);
+    }
+    pOption.addEventListener("click", optionEvent);
 }
 function cancelAddProject() {
     document.querySelector("#newproject").id = "newproject_hidden";
@@ -80,9 +113,9 @@ function deleteProject() {
     });
     obj.project = newProject;
     localStorage.setItem("todoList", JSON.stringify(obj));
-    t.deleteTasks(id);
+    t.deleteTasksOfProject(id);
     populateProjectList();
-    t.populateProjectSelect();
+    populateProjectSelect();
 }
 function toggleProjectList() {
     const selectOne = document.querySelector("#sidebar--list");
@@ -135,7 +168,7 @@ function saveEditProject(){
     populateProjectList();
     document.querySelector("#editproject--form_submit_save").removeAttribute("data-id");
     document.querySelector("#editproject").id = "editproject_hidden";
-    t.populateProjectSelect();
+    populateProjectSelect();
 }
 function cancelEditProject(){
     document.querySelector("#editproject").id = "editproject_hidden";
@@ -145,7 +178,7 @@ function populateProjectListOfDate(p){
     let date=format(new Date(), 'yyyy-MM-dd');
     let taskList = document.querySelectorAll("#main--list .task");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue;
+    let projectNameValue, projectColorValue, nameValue,idValue;
     //delete old list
     taskList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -163,6 +196,7 @@ function populateProjectListOfDate(p){
             if( i==0 || perviousDate != currentDate ){
                 const dateHeader=document.createElement("div");
                 nameValue = obj.task[i].name;
+                idValue=obj.task[i].id;
                 dateHeader.className="main--list";
                 dateHeader.textContent=format(parse(obj.task[i].date,'yyyy-MM-dd',new Date()),'do LLL yyyy');
                 document.querySelector(".task--add")?.before(dateHeader) ||
@@ -173,9 +207,9 @@ function populateProjectListOfDate(p){
                     projectNameValue = obj.project[k].name;
                     projectColorValue = obj.project[k].color;
                     (document.querySelector(".task--add")
-                        ?.before(mainListTask(nameValue, projectNameValue, projectColorValue))) ||
+                        ?.before(t.mainListTask(idValue,nameValue, projectNameValue, projectColorValue))) ||
                         (document.querySelector(".task--add_hidden")
-                            ?.before(mainListTask(nameValue, projectNameValue, projectColorValue)));
+                            ?.before(t.mainListTask(idValue,nameValue, projectNameValue, projectColorValue)));
                 }
             }
         }
@@ -183,7 +217,8 @@ function populateProjectListOfDate(p){
     }
 }
 function showProjectDates(p,e){
-    if(e.target.className!="project--edit_hidden"){
+    console.log(e.target.classList[0]);
+    if(e.target.classList[0]!="project--edit_hidden" && e.target.classList[0]!="project--edit_icon"){
         const main=document.querySelector("#main");
         main.removeChild(main.firstChild);
         main.appendChild(mainGroup(p.firstChild.textContent));
@@ -215,4 +250,4 @@ function createdProjectEvents(p) {
 
     p.addEventListener("click",showPDates);
 }
-export { cancelEditProject,saveEditProject,editProject,addProjectButton,selectColor,deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };
+export {populateProjectSelect, cancelEditProject,saveEditProject,editProject,addProjectButton,selectColor,deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

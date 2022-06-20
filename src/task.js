@@ -1,8 +1,11 @@
-import {createDay,createToday, createTomorrow,mainListTask,mainGroup } from "./DOMscripts.js";
+import {createDay,createToday, createTomorrow,mainGroup } from "./DOMscripts.js";
 import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
 import {createMainEvents} from './eventsScripts';
+import * as p from "./project.js";
 const task = (name, projectId, date) => {
+    let id = Date.now().toString(36) + Math.random().toString(36).slice(2);
     return {
+        id,
         name,
         projectId,
         date,
@@ -24,33 +27,6 @@ function addTask(nameValue, projectValue, dateValue) {
     if(turnDateToString(dateValue)==objP["sidebar"]["day"]){
         populateTaskListOfDate(turnDateToString(dateValue));
     }   
-}
-function populateProjectSelect() {
-    let projectsArray = JSON.parse(localStorage.getItem("todoList")).project;
-    let selectElement = document.querySelector(".task--menu");
-    //remove old options
-    while (selectElement.firstChild) {
-        selectElement.removeChild(selectElement.firstChild);
-    }
-    //if project array is not empty repopulate select element
-    for (let i = 0; i < projectsArray.length; i++) {
-        const pOption = document.createElement("div");
-        pOption.className = i;
-        const optionText=document.createElement("span");
-        optionText.className="optionText";
-        const optionTextInside=document.createElement("span");
-        optionTextInside.textContent =projectsArray[i].name;
-        
-
-        const optionColor = document.createElement("span");
-        optionColor.className = "optionColor";
-        optionColor.style.backgroundColor = projectsArray[i].color;
-        selectElement.appendChild(pOption);
-        pOption.appendChild(optionColor);
-        optionText.appendChild(optionTextInside);
-        pOption.appendChild(optionText);
-        createdTaskListEvents(pOption);
-    }
 }
 function showTaskProjectSelect() {
     let elementPos = document.querySelector("#task_project").getBoundingClientRect();
@@ -74,15 +50,15 @@ function hideTaskDateSelect(e) {
     if(datemenuOuter==e.target)
         document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
-function deleteTasks(taskId) {
+function deleteTasksOfProject(projectId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let objP =JSON.parse(localStorage.getItem("preferences"));
     let newTask = obj.task.filter((element, index) => {
-        return element.projectId != taskId;
+        return element.projectId != projectId;
     });
     obj.task = newTask;
     localStorage.setItem("todoList", JSON.stringify(obj));
-    populateTaskListOfDate(objP["sidebar"]["listState"]);
+    populateTaskListOfDate(objP["sidebar"]["day"]);
 }
 function cancelAddTask() {
     document.querySelector("#task--new").id = "task--new_hidden";
@@ -150,7 +126,7 @@ function populateTaskListOfDate(dateOption) {
     }
     let taskList = document.querySelectorAll("#main--list .task");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue;
+    let projectNameValue, projectColorValue, nameValue,idValue;
     //delete old list
     taskList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -158,25 +134,56 @@ function populateTaskListOfDate(dateOption) {
     //populate task list
     for (let i = 0; i < obj.task.length; i++) {
         nameValue = obj.task[i].name;
+        idValue=obj.task[i].id;
         if(obj.task[i].date==date){
             for (let k = 0; k < obj.project.length; k++) {
                 if (obj.task[i].projectId == obj.project[k].id) {
                     projectNameValue = obj.project[k].name;
                     projectColorValue = obj.project[k].color;
                     (document.querySelector(".task--add")
-                        ?.before(mainListTask(nameValue, projectNameValue, projectColorValue))) ||
+                        ?.before(mainListTask(idValue,nameValue, projectNameValue, projectColorValue))) ||
                         (document.querySelector(".task--add_hidden")
-                            ?.before(mainListTask(nameValue, projectNameValue, projectColorValue)));
+                            ?.before(mainListTask(idValue,nameValue, projectNameValue, projectColorValue)));
                 }
             }
         }
     }
 }
+function mainListTask(tId,tContent, tProject, tColor) {
+    const task = document.createElement("div");
+    task.className = "task";
+    task.dataset.id=tId;
+
+    const taskInputOuter = document.createElement("div");
+    taskInputOuter.className = "task--inputouter";
+    task.appendChild(taskInputOuter);
+
+    const taskCheckboxInput = document.createElement("input");
+    Object.assign(taskCheckboxInput, {
+        type: "checkbox",
+        name: "task_state",
+        id: "task_state"
+    });
+    taskInputOuter.appendChild(taskCheckboxInput);
+
+    const taskName = document.createElement("div");
+    taskName.className = "task--name";
+    taskName.textContent = tContent;
+    task.appendChild(taskName);
+
+    const taskName_project = document.createElement("div");
+    taskName_project.className = "task--name_project";
+    taskName_project.textContent = tProject;
+    taskName_project.style.color = tColor;
+    task.appendChild(taskName_project);
+    createdTaskEvents(task);
+    return task;
+}
 function populateUpcomingListOfDate() {
     let date=format(new Date(), 'yyyy-MM-dd');
     let taskList = document.querySelectorAll("#main--list .task");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue;
+    let projectNameValue, projectColorValue, nameValue,idValue;
     //delete old list
     taskList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -193,6 +200,7 @@ function populateUpcomingListOfDate() {
         if( i==0 || perviousDate != currentDate ){
             const dateHeader=document.createElement("div");
             nameValue = obj.task[i].name;
+            idValue=obj.task[i].id;
             dateHeader.className="main--list";
             dateHeader.textContent=format(parse(obj.task[i].date,'yyyy-MM-dd',new Date()),'do LLL yyyy');
             document.querySelector(".task--add")?.before(dateHeader) ||
@@ -203,9 +211,9 @@ function populateUpcomingListOfDate() {
                 projectNameValue = obj.project[k].name;
                 projectColorValue = obj.project[k].color;
                 (document.querySelector(".task--add")
-                    ?.before(mainListTask(nameValue, projectNameValue, projectColorValue))) ||
+                    ?.before(mainListTask(idValue,nameValue, projectNameValue, projectColorValue))) ||
                     (document.querySelector(".task--add_hidden")
-                        ?.before(mainListTask(nameValue, projectNameValue, projectColorValue)));
+                        ?.before(mainListTask(idValue,nameValue, projectNameValue, projectColorValue)));
             }
         }
     }
@@ -293,11 +301,36 @@ function taskResizeTextArea(element){
     element.style.height = "";
     element.style.height = Math.min(element.scrollHeight, maxHeight) + "px";
 }
-function createdTaskListEvents(pOption) {
-    let optionEvent = function () {
-        taskProjectSelectedOption(pOption);
+function markTaskDone(that){
+    let projectTaskId;
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    let objP =JSON.parse(localStorage.getItem("preferences"));
+    let completedTask = obj.task.filter((element, index) => {
+        return element.id == that.parentNode.parentNode.dataset.id;
+    });
+    let newTask = obj.task.filter((element, index) => {
+        return element.id != that.parentNode.parentNode.dataset.id;
+    });
+    for(let task of obj.task){
+        if(task.id==that.parentNode.parentNode.dataset.id)
+            projectTaskId=task.projectId;
     }
-    pOption.addEventListener("click", optionEvent);
+    for(let project of obj.project){
+        if(project.id==projectTaskId){
+            project.count--;
+        }
+    }
+    obj.completedTask = completedTask;
+    obj.task = newTask;
+    localStorage.setItem("todoList", JSON.stringify(obj));
+    populateTaskListOfDate(objP["sidebar"]["day"]);
+    p.populateProjectList();
 }
-export { showUpcomingTasks,currentMonth,taskResizeTextArea,taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasks, showAddTask, addTask, cancelAddTask, populateTaskListOfDate, populateProjectSelect };
+function createdTaskEvents(t) {
+    let taskDone=function(){
+        markTaskDone(this);
+    }
+    t.querySelector(".task--inputouter input").addEventListener("change",taskDone);
+}
+export { mainListTask,taskProjectSelectedOption,showUpcomingTasks,currentMonth,taskResizeTextArea,taskCalDateSelected,preMonth,nextMonth,showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask, populateTaskListOfDate };
 

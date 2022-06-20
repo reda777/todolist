@@ -142,34 +142,6 @@ function mainGroup(option){
     mainList.append(addTask());
     return mainGroup;
 }
-function mainListTask(tContent, tProject, tColor) {
-    const task = document.createElement("div");
-    task.className = "task";
-
-    const taskInputOuter = document.createElement("div");
-    taskInputOuter.className = "task--inputouter";
-    task.appendChild(taskInputOuter);
-
-    const taskCheckboxInput = document.createElement("input");
-    Object.assign(taskCheckboxInput, {
-        type: "checkbox",
-        name: "task_state",
-        id: "task_state"
-    });
-    taskInputOuter.appendChild(taskCheckboxInput);
-
-    const taskName = document.createElement("div");
-    taskName.className = "task--name";
-    taskName.textContent = tContent;
-    task.appendChild(taskName);
-
-    const taskName_project = document.createElement("div");
-    taskName_project.className = "task--name_project";
-    taskName_project.textContent = tProject;
-    taskName_project.style.color = tColor;
-    task.appendChild(taskName_project);
-    return task;
-}
 function footer() {
     const div = document.createElement("div");
     div.id = "footer";
@@ -543,7 +515,7 @@ function getTodayDate(){
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
-        let todoList = { project: [{ id : "id1" , name : "default" , color:"#d3d3d3",count:0}], task: [] };
+        let todoList = { project: [{ id : "id1" , name : "default" , color:"#d3d3d3",count:0}], task: [], completedTasks: [] };
         let preferences = { sidebar: { listState: true, day: "Today" } };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));
@@ -558,7 +530,6 @@ function buildSite() {
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateTaskListOfDate(objP["sidebar"]["day"]);
-    t.populateProjectSelect();
+    p.populateProjectSelect();
 }
-
-export {createDay, createToday,createTomorrow,mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };
+export {createDay, createToday,createTomorrow,mainGroup, buildSite, sidebarProject, projectEditBtn };
