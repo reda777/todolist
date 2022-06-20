@@ -1,5 +1,7 @@
-import { sidebarProject } from "./DOMscripts.js";
+import {mainListTask, mainGroup, sidebarProject } from "./DOMscripts.js";
 import * as t from "./task";
+import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
+import {createMainEvents} from './eventsScripts';
 const project = (name, color) => {
     let id = Date.now().toString(36) + Math.random().toString(36).slice(2);
     let count = 0;
@@ -139,6 +141,59 @@ function cancelEditProject(){
     document.querySelector("#editproject").id = "editproject_hidden";
     document.querySelector("#editproject--form_submit_save").removeAttribute("data-id");
 }
+function populateProjectListOfDate(p){
+    let date=format(new Date(), 'yyyy-MM-dd');
+    let taskList = document.querySelectorAll("#main--list .task");
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    let projectNameValue, projectColorValue, nameValue;
+    //delete old list
+    taskList.forEach(element => {
+        element.parentNode.removeChild(element);
+    });
+    //populate task list
+    for (let i = 0; i < obj.task.length; i++) {
+        if(p.id==obj.task[i].projectId){
+            let perviousDate;
+            if(i==0){
+                perviousDate=obj.task[i].date;
+            }else{
+                perviousDate=obj.task[i-1].date;
+            }
+            let currentDate=obj.task[i].date;
+            if( i==0 || perviousDate != currentDate ){
+                const dateHeader=document.createElement("div");
+                nameValue = obj.task[i].name;
+                dateHeader.className="main--list";
+                dateHeader.textContent=format(parse(obj.task[i].date,'yyyy-MM-dd',new Date()),'do LLL yyyy');
+                document.querySelector(".task--add")?.before(dateHeader) ||
+                document.querySelector(".task--add_hidden")?.before(dateHeader);
+            }
+            for (let k = 0; k < obj.project.length; k++) {
+                if (obj.task[i].projectId == obj.project[k].id && p.id==obj.task[i].projectId) {
+                    projectNameValue = obj.project[k].name;
+                    projectColorValue = obj.project[k].color;
+                    (document.querySelector(".task--add")
+                        ?.before(mainListTask(nameValue, projectNameValue, projectColorValue))) ||
+                        (document.querySelector(".task--add_hidden")
+                            ?.before(mainListTask(nameValue, projectNameValue, projectColorValue)));
+                }
+            }
+        }
+        
+    }
+}
+function showProjectDates(p,e){
+    if(e.target.className!="project--edit_hidden"){
+        const main=document.querySelector("#main");
+        main.removeChild(main.firstChild);
+        main.appendChild(mainGroup(p.firstChild.textContent));
+        let obj = JSON.parse(localStorage.getItem("preferences"));
+        obj["sidebar"]["day"]=p.firstChild.textContent;
+        localStorage.setItem("preferences", JSON.stringify(obj));
+        populateProjectListOfDate(p);
+        createMainEvents();
+    }
+}
 function createdProjectEvents(p) {
     let showIconEvent = function () {
         showProjectEditIcon(p);
@@ -149,10 +204,15 @@ function createdProjectEvents(p) {
     let hideIconEvent = function () {
         hideProjectEditIcon(p);
     }
+    let showPDates = function (e){
+        showProjectDates(p,e);
+    }
     p.addEventListener("mouseenter", showIconEvent);
 
     p.addEventListener("mouseleave", hideIconEvent);
 
     p.querySelector(".project--edit_hidden").addEventListener("click", showMenuEvent);
+
+    p.addEventListener("click",showPDates);
 }
 export { cancelEditProject,saveEditProject,editProject,addProjectButton,selectColor,deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };

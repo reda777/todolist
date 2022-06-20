@@ -142,41 +142,6 @@ function mainGroup(option){
     mainList.append(addTask());
     return mainGroup;
 }
-function mainUpcomingTasks(){
-    const mainGroup = document.createElement("div");
-    mainGroup.id = "main--group";
-
-    const mainHeader = document.createElement("div");
-    mainHeader.className = "main--header";
-    const mainHeaderTitle = document.createElement("div");
-    mainHeaderTitle.className = "main--header_title";
-    mainHeaderTitle.textContent = "Upcoming";
-    mainHeader.appendChild(mainHeaderTitle);
-    mainGroup.appendChild(mainHeader);
-    const mainList = document.createElement("div");
-    mainList.id = "main--list";
-    mainGroup.appendChild(mainList);
-
-    const taskAdd = document.createElement("div");
-    taskAdd.className = "task--add";
-    mainList.appendChild(taskAdd);
-
-    const taskAddBtn = document.createElement("div");
-    taskAddBtn.className = "task--add_btn";
-    taskAdd.appendChild(taskAddBtn);
-
-    const taskAddBtnIcon = document.createElement("span");
-    taskAddBtnIcon.className = "task--add_btn_icon";
-    taskAddBtn.appendChild(taskAddBtnIcon);
-
-    const taskAddName = document.createElement("div");
-    taskAddName.className = "task--add_name";
-    taskAddName.textContent = "Add Task";
-    taskAdd.appendChild(taskAddName);
-
-    mainList.append(addTask());
-    return mainGroup;
-}
 function mainListTask(tContent, tProject, tColor) {
     const task = document.createElement("div");
     task.className = "task";
@@ -596,4 +561,4 @@ function buildSite() {
     t.populateProjectSelect();
 }
 
-export {mainUpcomingTasks,createDay, createToday,createTomorrow,mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };
+export {createDay, createToday,createTomorrow,mainGroup, buildSite, mainListTask, sidebarProject, projectEditBtn };

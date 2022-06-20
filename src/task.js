@@ -1,4 +1,4 @@
-import { mainUpcomingTasks,createDay,createToday, createTomorrow,mainListTask,mainGroup } from "./DOMscripts.js";
+import {createDay,createToday, createTomorrow,mainListTask,mainGroup } from "./DOMscripts.js";
 import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
 import {createMainEvents} from './eventsScripts';
 const task = (name, projectId, date) => {
@@ -127,7 +127,7 @@ function showTasksInDate(element){
 function showUpcomingTasks(){
     const main=document.querySelector("#main");
     main.removeChild(main.firstChild);
-    main.appendChild(mainUpcomingTasks());
+    main.appendChild(mainGroup("Upcoming"));
     let obj = JSON.parse(localStorage.getItem("preferences"));
     obj["sidebar"]["day"]="Upcoming";
     localStorage.setItem("preferences", JSON.stringify(obj));
