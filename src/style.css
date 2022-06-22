@@ -77,6 +77,10 @@ body {
     cursor: pointer;
     border-radius: var(--main-border-radius);
 }
+.sidebar--header_clicked{
+    background-color: var(--main-hover-color);
+    border-radius: var(--main-border-radius);
+}
 
 .sidebar--header:first-child {
     border-bottom: 1px solid rgba(150, 150, 150, 0.3);
@@ -774,6 +778,7 @@ div.sidebar--header_btn {
 }
 div.sidebar--header.projects:hover{
     cursor: pointer;
+    user-select: none;
 }
 div.list--color{
     height: 40px;

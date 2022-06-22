@@ -93,7 +93,7 @@ function createEvents() {
         p.cancelEditProject();
     }
     let showTUpcomig=function(){
-        t.showUpcomingTasks();
+        t.showUpcomingTasks(this);
     }
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);

@@ -217,7 +217,12 @@ function populateProjectListOfDate(p){
     }
 }
 function showProjectDates(p,e){
-    console.log(e.target.classList[0]);
+    //keep the tab selected
+    if(document.querySelector(".sidebar--header_clicked")){
+        document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+    }
+    p.classList.add("sidebar--header_clicked");
+    
     if(e.target.classList[0]!="project--edit_hidden" && e.target.classList[0]!="project--edit_icon"){
         const main=document.querySelector("#main");
         main.removeChild(main.firstChild);

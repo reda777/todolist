@@ -91,6 +91,12 @@ function taskDateSelectedOption(selectedDate) {
     document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
 function showTasksInDate(element){
+    //keep the tab selected
+    if(document.querySelector(".sidebar--header_clicked")){
+        document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+    }
+    element.classList.add("sidebar--header_clicked");
+
     const main=document.querySelector("#main");
     main.removeChild(main.firstChild);
     main.appendChild(mainGroup(element.textContent));
@@ -100,7 +106,13 @@ function showTasksInDate(element){
     populateTaskListOfDate(element.textContent);
     createMainEvents();
 }
-function showUpcomingTasks(){
+function showUpcomingTasks(element){
+    //keep the tab selected
+    if(document.querySelector(".sidebar--header_clicked")){
+        document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+    }
+    element.classList.add("sidebar--header_clicked");
+
     const main=document.querySelector("#main");
     main.removeChild(main.firstChild);
     main.appendChild(mainGroup("Upcoming"));
