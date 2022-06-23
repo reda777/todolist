@@ -53,6 +53,7 @@ function populateProjectSelect() {
     for (let i = 0; i < projectsArray.length; i++) {
         const pOption = document.createElement("div");
         pOption.className = i;
+        pOption.dataset.id=projectsArray[i].id;
         const optionText=document.createElement("span");
         optionText.className="optionText";
         const optionTextInside=document.createElement("span");
@@ -108,11 +109,16 @@ function hideProjectEditIcon(element) {
 function deleteProject() {
     let id = document.querySelector(".project--menu_delete").dataset.id;
     let obj = JSON.parse(localStorage.getItem("todoList"));
+    let objP = JSON.parse(localStorage.getItem("preferences"));
+    if(objP["lastProject"]==id){
+        objP["lastProject"]="id1";
+    }
     let newProject = obj.project.filter((element, index) => {
         return element.id != id;
     });
     obj.project = newProject;
     localStorage.setItem("todoList", JSON.stringify(obj));
+    localStorage.setItem("preferences", JSON.stringify(objP));
     t.deleteTasksOfProject(id);
     populateProjectList();
     populateProjectSelect();

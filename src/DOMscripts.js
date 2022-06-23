@@ -523,7 +523,7 @@ function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
         let todoList = { project: [{ id : "id1" , name : "default" , color:"#d3d3d3",count:0}], task: [], completedTasks: [] };
-        let preferences = { sidebar: { listState: true, day: "Today" },lastProject: "0"};
+        let preferences = { sidebar: { listState: true, day: "Today" },lastProject: "id1"};
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));
     }
