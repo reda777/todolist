@@ -32,7 +32,7 @@ function populateProjectList() {
     });
     //add new list
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for (let i = 1; i < obj.project.length; i++) {
+    for (let i = 0; i < obj.project.length; i++) {
         let idValue = obj.project[i].id;
         let nameValue = obj.project[i].name;
         let colorValue = obj.project[i].color;
@@ -222,7 +222,7 @@ function showProjectDates(p,e){
         document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
     }
     p.classList.add("sidebar--header_clicked");
-    
+
     if(e.target.classList[0]!="project--edit_hidden" && e.target.classList[0]!="project--edit_icon"){
         const main=document.querySelector("#main");
         main.removeChild(main.firstChild);
@@ -247,9 +247,11 @@ function createdProjectEvents(p) {
     let showPDates = function (e){
         showProjectDates(p,e);
     }
-    p.addEventListener("mouseenter", showIconEvent);
+    if(p.id!="id1"){//remove menu for default project
+        p.addEventListener("mouseenter", showIconEvent);
 
-    p.addEventListener("mouseleave", hideIconEvent);
+        p.addEventListener("mouseleave", hideIconEvent);
+    }
 
     p.querySelector(".project--edit_hidden").addEventListener("click", showMenuEvent);
 

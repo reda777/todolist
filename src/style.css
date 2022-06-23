@@ -4,7 +4,9 @@ html {
 }
 
 body {
-    --main-bg-color: #353535;
+    --main-sb-color: #313131;
+    --main-bg-color: #343434;
+    --main-h-color: #404040;
     --main-f-color: #eeeafd;
     --icon-hover-color:#b8b7be;
     --add-color:#b8b7be; 
@@ -24,7 +26,6 @@ body {
     display: grid;
     grid-template-columns: minmax(200px ,1fr) minmax(400px ,3fr);
     grid-template-rows: 30px 1fr 50px;
-    background-color: var(--main-bg-color);
     height: inherit;
     position: relative;
 }
@@ -38,6 +39,7 @@ body {
     font-size: 21px;
     font-weight: 300;
     color: var(--main-f-color);
+    background-color: var(--main-h-color);
 }
 
 /*sidebar ============================================*/
@@ -48,6 +50,7 @@ body {
     flex-direction: column;
     gap: 5px;
     padding: 5px;
+    background-color: var(--main-sb-color);
 }
 
 #sidebar--group {
@@ -215,6 +218,7 @@ body {
     flex-direction: column;
     gap: 5px;
     padding: 5px;
+    background-color: var(--main-bg-color);
 }
 
 #main--group {

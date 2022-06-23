@@ -12,10 +12,11 @@ const task = (name, projectId, date) => {
     }
 }
 function showAddTask() {
-    const pOption=document.querySelector(".task--menu").firstChild;
+    let objP = JSON.parse(localStorage.getItem("preferences"));
+    const pOption=document.querySelector(`.task--menu [class="${objP["lastProject"]}"]`);
+    taskProjectSelectedOption(pOption);
     document.querySelector("#task--new_hidden").id = "task--new";
     document.querySelector(".task--add").classList.replace("task--add", "task--add_hidden");
-    taskProjectSelectedOption(pOption);
 }
 function addTask(nameValue, projectValue, dateValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
@@ -65,6 +66,9 @@ function cancelAddTask() {
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden", "task--add");
 }
 function taskProjectSelectedOption(selectedProject) {
+    let objP =JSON.parse(localStorage.getItem("preferences"));
+    objP["lastProject"]=selectedProject.className;
+    localStorage.setItem("preferences", JSON.stringify(objP));
     const taskProject = document.querySelector("#task_project");
     if (taskProject.firstChild) {
         taskProject.removeChild(taskProject.firstChild);
@@ -103,6 +107,7 @@ function showTasksInDate(element){
     let obj = JSON.parse(localStorage.getItem("preferences"));
     obj["sidebar"]["day"]=element.textContent;
     localStorage.setItem("preferences", JSON.stringify(obj));
+    taskDateSelectedOption(element);
     populateTaskListOfDate(element.textContent);
     createMainEvents();
 }

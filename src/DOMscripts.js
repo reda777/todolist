@@ -149,8 +149,9 @@ function footer() {
     return div;
 }
 function addProject() {
-    const colorsArray=["#13c7e7","#6484c6","#1014cb","#d24157","#a50d10","#4fc972","#cc552c",
-    "#d4459a","#b7b434","#69a537","#a556c6","#35845a","#986e34","#582c7d","#5e2dbb"];
+    const colorsArray=["#13c7e7","#6484c6","#1014cb","#d24157","#ff0000"
+                        ,"#4fc972","#cc552c","#d4459a","#b7b434","#69a537"
+                        ,"#a556c6","#35845a","#986e34","#8E05C2","#5e2dbb"];
     const newProject = document.createElement("div");
     newProject.id = "newproject_hidden";
     const projectInterface = document.createElement("div");
@@ -365,7 +366,13 @@ function addTask() {
     taskDateInput.id = "task--date";
     taskSelectAndDate.appendChild(taskDateInput);
 
-    taskDateInput.appendChild(createToday());
+    let obj = JSON.parse(localStorage.getItem("preferences"));
+    if(obj["sidebar"]["day"]=="Tomorrow"){
+        taskDateInput.appendChild(createTomorrow());
+    }else{
+        taskDateInput.appendChild(createToday());
+    }
+    
 
     const taskNewSubmit = document.createElement("div");
     taskNewSubmit.id = "task--new_submit";
@@ -516,7 +523,7 @@ function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
         let todoList = { project: [{ id : "id1" , name : "default" , color:"#d3d3d3",count:0}], task: [], completedTasks: [] };
-        let preferences = { sidebar: { listState: true, day: "Today" } };
+        let preferences = { sidebar: { listState: true, day: "Today" },lastProject: "0"};
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));
     }
