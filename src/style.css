@@ -823,3 +823,49 @@ input#project_name:focus{
     border: 1px solid var(--icon-hover-color);
     outline: none;
 }
+.message--container_hidden {
+    display: none;
+}
+.message--container{
+    font-size: 14px;
+    border-radius: var(--main-border-radius);
+    position: fixed;
+    width: 300px;
+    height: 30px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-hover-color);
+    color: var(--main-f-color);
+    gap: 5px;
+}
+.message--dest{
+    width: 80px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.message--close{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.message--close:hover{
+    background-color: var(--main-hover-color);
+    cursor: pointer;
+    border-radius: var(--main-border-radius);
+}
+.message--close_icon{
+    display: block;
+    width: 12px;
+    height: 12px;
+    mask: url(icons/cross.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}

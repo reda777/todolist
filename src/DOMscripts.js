@@ -519,6 +519,27 @@ function taskDateSelect() {
 function getTodayDate(){
     return new Date();
 }
+function floatingMessage(){
+    const message=document.createElement("div");
+    message.className="message--container_hidden";
+    
+    const messageText=document.createElement("div");
+    messageText.className="message--text";
+    message.appendChild(messageText);
+
+    const messageDest=document.createElement("div");
+    messageDest.className="message--dest";
+    message.appendChild(messageDest);
+
+    const messageClose=document.createElement("div");
+    messageClose.className="message--close";
+    message.appendChild(messageClose);
+
+    const messageCloseIcon=document.createElement("span");
+    messageCloseIcon.className="message--close_icon";
+    messageClose.appendChild(messageCloseIcon);
+    return message;
+}
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
@@ -533,7 +554,7 @@ function buildSite() {
     content.id = "content";
     createStorage();
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect());
+    content.append(header(), sidebar(), main(), footer(), addProject(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(),floatingMessage());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateTaskListOfDate(objP["sidebar"]["day"]);

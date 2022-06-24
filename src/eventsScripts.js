@@ -1,6 +1,7 @@
 import * as p from "./project";
 import * as t from "./task";
 function createMainEvents(){
+    let timeoutID;
     let showAddTevent = function () {
         //+ add task
         t.showAddTask();
@@ -15,14 +16,19 @@ function createMainEvents(){
         t.cancelAddTask();
     }
     let addTevent = function () {
-        t.addTask(document.querySelector("#task_name").value, document.querySelector("#task_project div").className,
-        document.querySelector("#task--date div").dataset.date);
+        timeoutID=t.addTaskButton();
     }
     let selectedCalDate=function(e){
         t.taskCalDateSelected(e);
     }
     let resizeTextArea=function(){
         t.taskResizeTextArea(this);
+    }
+    let closeMessage=function(){
+        document.querySelector(".message--container_hidden").classList.remove("message--container");
+    }
+    let keepMessage=function(){
+        t.closeMessageTab(false,timeoutID);
     }
     document.querySelector(".task--add").addEventListener("click", showAddTevent);
 
@@ -37,6 +43,10 @@ function createMainEvents(){
     document.querySelector(".months--days").addEventListener("click",selectedCalDate);
     //textarea
     document.querySelector("#task_name").addEventListener("input",resizeTextArea);
+    //close floating message
+    document.querySelector(".message--close").addEventListener("click",closeMessage);
+    document.querySelector(".message--container_hidden").addEventListener("mouseenter", keepMessage);
+    document.querySelector(".message--container_hidden").addEventListener("mouseleave", closeMessage);
 }
 function createEvents() {
     createMainEvents();
@@ -95,6 +105,7 @@ function createEvents() {
     let showTUpcomig=function(){
         t.showUpcomingTasks(this);
     }
+    
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
 
@@ -139,6 +150,7 @@ function createEvents() {
     document.querySelector(".sidebar--header_tomorrow").addEventListener("click",showTInDate);
 
     document.querySelector(".sidebar--header_upcoming").addEventListener("click",showTUpcomig);
+    
     
 }
 export { createEvents, createMainEvents };
