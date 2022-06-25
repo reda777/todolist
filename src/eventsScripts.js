@@ -1,6 +1,6 @@
 import * as p from "./project";
 import * as t from "./task";
-function createMainEvents(){
+function createMainEvents() {
     let timeoutID;
     let showAddTevent = function () {
         //+ add task
@@ -16,19 +16,19 @@ function createMainEvents(){
         t.cancelAddTask();
     }
     let addTevent = function () {
-        timeoutID=t.addTaskButton();
+        timeoutID = t.addTaskButton();
     }
-    let selectedCalDate=function(e){
+    let selectedCalDate = function (e) {
         t.taskCalDateSelected(e);
     }
-    let resizeTextArea=function(){
+    let resizeTextArea = function () {
         t.taskResizeTextArea(this);
     }
-    let closeMessage=function(){
+    let closeMessage = function () {
         document.querySelector(".message--container_hidden").classList.remove("message--container");
     }
-    let keepMessage=function(){
-        t.closeMessageTab(false,timeoutID);
+    let keepMessage = function () {
+        t.closeMessageTab(false, timeoutID);
     }
     document.querySelector(".task--add").addEventListener("click", showAddTevent);
 
@@ -40,11 +40,11 @@ function createMainEvents(){
 
     document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
     //calendar
-    document.querySelector(".months--days").addEventListener("click",selectedCalDate);
+    document.querySelector(".months--days").addEventListener("click", selectedCalDate);
     //textarea
-    document.querySelector("#task_name").addEventListener("input",resizeTextArea);
+    document.querySelector("#task_name").addEventListener("input", resizeTextArea);
     //close floating message
-    document.querySelector(".message--close").addEventListener("click",closeMessage);
+    document.querySelector(".message--close").addEventListener("click", closeMessage);
     document.querySelector(".message--container_hidden").addEventListener("mouseenter", keepMessage);
     document.querySelector(".message--container_hidden").addEventListener("mouseleave", closeMessage);
 }
@@ -62,10 +62,10 @@ function createEvents() {
     let toggleShowPList = function () {
         p.toggleProjectList();
     }
-    let editPevent = function(){
+    let editPevent = function () {
         p.editProject();
     }
-    let savePevent= function(){
+    let savePevent = function () {
         p.saveEditProject();
     }
     let deletePevent = function () {
@@ -77,47 +77,47 @@ function createEvents() {
     let hideTPSelectEvent = function () {
         t.hideTaskProjectSelect();
     }
-    
-    let hideTDateSelectEvent = function(e){
+
+    let hideTDateSelectEvent = function (e) {
         t.hideTaskDateSelect(e);
     }
-    let selectedDateEvent= function(){
+    let selectedDateEvent = function () {
         t.taskDateSelectedOption(this);
     }
-    let showTInDate= function(){
+    let showTInDate = function () {
         t.showTasksInDate(this);
     }
-    let preMonth=function(){
+    let preMonth = function () {
         t.preMonth();
     }
-    let nextMonth=function(){
+    let nextMonth = function () {
         t.nextMonth();
     }
-    let currentMonth=function(){
+    let currentMonth = function () {
         t.currentMonth();
     }
-    let selectColor=function(e){
+    let selectColor = function (e) {
         p.selectColor(e);
     }
-    let cancelEditPevent=function(){
+    let cancelEditPevent = function () {
         p.cancelEditProject();
     }
-    let showTUpcomig=function(){
+    let showTUpcomig = function () {
         t.showUpcomingTasks(this);
     }
-    
+
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
 
     document.querySelector(".project--color_list").addEventListener("click", selectColor);
 
     document.querySelector(".editproject--color_list").addEventListener("click", selectColor);
-    
+
     document.querySelector("#newproject--form_submit_add").addEventListener("click", addPevent);
 
     document.querySelector("#newproject--form_submit_cancel").addEventListener("click", cancelAddPevent);
 
-   
+
     document.querySelector("#editproject--form_submit_cancel").addEventListener("click", cancelEditPevent);
     // edit project
     document.querySelector("#editproject--form_submit_save").addEventListener("click", savePevent);
@@ -127,7 +127,7 @@ function createEvents() {
     //project ui
     document.querySelector("div.sidebar--header.projects").addEventListener("click", toggleShowPList);
     //edit delete project
-    document.querySelector(".project--menu_edit").addEventListener("click", editPevent); 
+    document.querySelector(".project--menu_edit").addEventListener("click", editPevent);
     document.querySelector(".project--menu_delete").addEventListener("click", deletePevent);
     //project menu
     document.querySelector(".project--menuouter_hidden").addEventListener("click", hideMenuEvent);
@@ -136,21 +136,21 @@ function createEvents() {
 
     document.querySelector(".task--datemenuouter_hidden").addEventListener("click", hideTDateSelectEvent);
 
-    document.querySelector(".task--datemenu .datemenu--today").addEventListener("click",selectedDateEvent);
-    
-    document.querySelector(".task--datemenu .datemenu--tomorrow").addEventListener("click",selectedDateEvent);
+    document.querySelector(".task--datemenu .datemenu--today").addEventListener("click", selectedDateEvent);
 
-    document.querySelector(".months--select_left").addEventListener("click",preMonth);
+    document.querySelector(".task--datemenu .datemenu--tomorrow").addEventListener("click", selectedDateEvent);
 
-    document.querySelector(".months--select_right").addEventListener("click",nextMonth);
-    document.querySelector(".months--select_current").addEventListener("click",currentMonth);
+    document.querySelector(".months--select_left").addEventListener("click", preMonth);
+
+    document.querySelector(".months--select_right").addEventListener("click", nextMonth);
+    document.querySelector(".months--select_current").addEventListener("click", currentMonth);
     //click today in sidebar
-    document.querySelector(".sidebar--header_today").addEventListener("click",showTInDate);
+    document.querySelector(".sidebar--header_today").addEventListener("click", showTInDate);
 
-    document.querySelector(".sidebar--header_tomorrow").addEventListener("click",showTInDate);
+    document.querySelector(".sidebar--header_tomorrow").addEventListener("click", showTInDate);
 
-    document.querySelector(".sidebar--header_upcoming").addEventListener("click",showTUpcomig);
-    
-    
+    document.querySelector(".sidebar--header_upcoming").addEventListener("click", showTUpcomig);
+
+
 }
 export { createEvents, createMainEvents };

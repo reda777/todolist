@@ -1,7 +1,7 @@
-import {mainGroup, sidebarProject } from "./DOMscripts.js";
+import { mainGroup, sidebarProject } from "./DOMscripts.js";
 import * as t from "./task";
-import {format,addDays,addMonths,parse, compareAsc,eachDayOfInterval,lastDayOfMonth,getWeekOfMonth,getDay} from 'date-fns';
-import {createMainEvents} from './eventsScripts';
+import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
+import { createMainEvents } from './eventsScripts';
 const project = (name, color) => {
     let id = Date.now().toString(36) + Math.random().toString(36).slice(2);
     let count = 0;
@@ -53,12 +53,12 @@ function populateProjectSelect() {
     for (let i = 0; i < projectsArray.length; i++) {
         const pOption = document.createElement("div");
         pOption.className = i;
-        pOption.dataset.id=projectsArray[i].id;
-        const optionText=document.createElement("span");
-        optionText.className="optionText";
-        const optionTextInside=document.createElement("span");
-        optionTextInside.textContent =projectsArray[i].name;
-        
+        pOption.dataset.id = projectsArray[i].id;
+        const optionText = document.createElement("span");
+        optionText.className = "optionText";
+        const optionTextInside = document.createElement("span");
+        optionTextInside.textContent = projectsArray[i].name;
+
 
         const optionColor = document.createElement("span");
         optionColor.className = "optionColor";
@@ -84,14 +84,14 @@ function showProjectEditMenu(element) {
     let elementPos = iconClicked.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".project--menuouter_hidden").classList.add("project--menuouter");
-    document.querySelector("#editproject--form_submit_save").dataset.id= `${element.id}`;
+    document.querySelector("#editproject--form_submit_save").dataset.id = `${element.id}`;
     document.querySelector(".project--menu_delete").dataset.id = `${element.id}`;
     document.querySelector(".project--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".project--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
 function hideProjectEditMenu() {
-    const deleteElement=document.querySelector(".project--menu_delete");
-    const projectElement=document.getElementById(`${deleteElement.dataset.id}`);
+    const deleteElement = document.querySelector(".project--menu_delete");
+    const projectElement = document.getElementById(`${deleteElement.dataset.id}`);
     document.querySelector(".project--menuouter_hidden").classList.remove("project--menuouter");
     deleteElement.removeAttribute("data-id");
     hideProjectEditIcon(projectElement);
@@ -102,7 +102,7 @@ function showProjectEditIcon(element) {
 }
 function hideProjectEditIcon(element) {
     //see if menu is open if its not hide icon
-    if(document.querySelector(".project--menuouter") === null && element !== null){
+    if (document.querySelector(".project--menuouter") === null && element !== null) {
         element.querySelector(".project--edit_hidden").classList.remove("project--edit");
     }
 }
@@ -110,8 +110,8 @@ function deleteProject() {
     let id = document.querySelector(".project--menu_delete").dataset.id;
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    if(objP["lastProject"]==id){
-        objP["lastProject"]="id1";
+    if (objP["lastProject"] == id) {
+        objP["lastProject"] = "id1";
     }
     let newProject = obj.project.filter((element, index) => {
         return element.id != id;
@@ -128,20 +128,20 @@ function toggleProjectList() {
     const selectTwo = document.querySelector("#sidebar--list_hidden");
     let obj = JSON.parse(localStorage.getItem("preferences"));
     if (selectOne) {
-        obj["sidebar"]["listState"]=false;
+        obj["sidebar"]["listState"] = false;
         selectOne.id = "sidebar--list_hidden";
         document.querySelector(".sidebar--header_btn_icon_down").classList.replace("sidebar--header_btn_icon_down", "sidebar--header_btn_icon_up");
     } else if (selectTwo) {
-        obj["sidebar"]["listState"]=true;
+        obj["sidebar"]["listState"] = true;
         selectTwo.id = "sidebar--list";
         document.querySelector(".sidebar--header_btn_icon_up").classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
     }
     localStorage.setItem("preferences", JSON.stringify(obj));
 }
-function selectColor(e){
-    const selectedColor=document.querySelector(".list--color_selected");
-    if(e.target.className=="list--color"){
-        if(selectedColor){
+function selectColor(e) {
+    const selectedColor = document.querySelector(".list--color_selected");
+    if (e.target.className == "list--color") {
+        if (selectedColor) {
             selectedColor.classList.remove("list--color_selected");
             selectedColor.firstChild.classList.remove("list--color_check_selected");
         }
@@ -149,25 +149,25 @@ function selectColor(e){
         e.target.firstChild.classList.add("list--color_check_selected");
     }
 }
-function addProjectButton(){
-    const nameValue=document.querySelector("#newproject--form_name input").value;
-    const colorValue=document.querySelector(".list--color_selected").dataset.bgColor;
-    addProject(nameValue,colorValue);
+function addProjectButton() {
+    const nameValue = document.querySelector("#newproject--form_name input").value;
+    const colorValue = document.querySelector(".list--color_selected").dataset.bgColor;
+    addProject(nameValue, colorValue);
 }
-function editProject(){
+function editProject() {
     document.querySelector("#editproject_hidden").id = "editproject";
 }
-function saveEditProject(){
-    const nameValue=document.querySelector("#editproject--form_name input").value;
-    const colorValue=document.querySelector("#editproject--form_color .list--color_selected").dataset.bgColor;
-    let id =document.querySelector("#editproject--form_submit_save").dataset.id;
+function saveEditProject() {
+    const nameValue = document.querySelector("#editproject--form_name input").value;
+    const colorValue = document.querySelector("#editproject--form_color .list--color_selected").dataset.bgColor;
+    let id = document.querySelector("#editproject--form_submit_save").dataset.id;
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    console.log(id,obj.project[2]);
-    for(let i=1;i<obj.project.length;i++){
-        if(id==obj.project[i].id){
+    console.log(id, obj.project[2]);
+    for (let i = 1; i < obj.project.length; i++) {
+        if (id == obj.project[i].id) {
             console.log("entered");
-            obj.project[i].name=nameValue;
-            obj.project[i].color=colorValue;
+            obj.project[i].name = nameValue;
+            obj.project[i].color = colorValue;
         }
     }
     localStorage.setItem("todoList", JSON.stringify(obj));
@@ -176,69 +176,9 @@ function saveEditProject(){
     document.querySelector("#editproject").id = "editproject_hidden";
     populateProjectSelect();
 }
-function cancelEditProject(){
+function cancelEditProject() {
     document.querySelector("#editproject").id = "editproject_hidden";
     document.querySelector("#editproject--form_submit_save").removeAttribute("data-id");
-}
-function populateProjectListOfDate(p){
-    let date=format(new Date(), 'yyyy-MM-dd');
-    let taskList = document.querySelectorAll("#main--list .task");
-    let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue,idValue;
-    //delete old list
-    taskList.forEach(element => {
-        element.parentNode.removeChild(element);
-    });
-    //populate task list
-    for (let i = 0; i < obj.task.length; i++) {
-        if(p.id==obj.task[i].projectId){
-            let perviousDate;
-            if(i==0){
-                perviousDate=obj.task[i].date;
-            }else{
-                perviousDate=obj.task[i-1].date;
-            }
-            let currentDate=obj.task[i].date;
-            if( i==0 || perviousDate != currentDate ){
-                const dateHeader=document.createElement("div");
-                nameValue = obj.task[i].name;
-                idValue=obj.task[i].id;
-                dateHeader.className="main--list";
-                dateHeader.textContent=format(parse(obj.task[i].date,'yyyy-MM-dd',new Date()),'do LLL yyyy');
-                document.querySelector(".task--add")?.before(dateHeader) ||
-                document.querySelector(".task--add_hidden")?.before(dateHeader);
-            }
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id && p.id==obj.task[i].projectId) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    (document.querySelector(".task--add")
-                        ?.before(t.mainListTask(idValue,nameValue, projectNameValue, projectColorValue))) ||
-                        (document.querySelector(".task--add_hidden")
-                            ?.before(t.mainListTask(idValue,nameValue, projectNameValue, projectColorValue)));
-                }
-            }
-        }
-        
-    }
-}
-function showProjectDates(p,e){
-    //keep the tab selected
-    if(document.querySelector(".sidebar--header_clicked")){
-        document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
-    }
-    p.classList.add("sidebar--header_clicked");
-
-    if(e.target.classList[0]!="project--edit_hidden" && e.target.classList[0]!="project--edit_icon"){
-        const main=document.querySelector("#main");
-        main.removeChild(main.firstChild);
-        main.appendChild(mainGroup(p.firstChild.textContent));
-        let obj = JSON.parse(localStorage.getItem("preferences"));
-        obj["sidebar"]["day"]=p.firstChild.textContent;
-        localStorage.setItem("preferences", JSON.stringify(obj));
-        populateProjectListOfDate(p);
-        createMainEvents();
-    }
 }
 function createdProjectEvents(p) {
     let showIconEvent = function () {
@@ -250,10 +190,10 @@ function createdProjectEvents(p) {
     let hideIconEvent = function () {
         hideProjectEditIcon(p);
     }
-    let showPDates = function (e){
-        showProjectDates(p,e);
+    let showPDates = function (e) {
+        t.showProjectDates(p, e);
     }
-    if(p.id!="id1"){//remove menu for default project
+    if (p.id != "id1") {//remove menu for default project
         p.addEventListener("mouseenter", showIconEvent);
 
         p.addEventListener("mouseleave", hideIconEvent);
@@ -261,6 +201,6 @@ function createdProjectEvents(p) {
 
     p.querySelector(".project--edit_hidden").addEventListener("click", showMenuEvent);
 
-    p.addEventListener("click",showPDates);
+    p.addEventListener("click", showPDates);
 }
-export {populateProjectSelect, cancelEditProject,saveEditProject,editProject,addProjectButton,selectColor,deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };
+export { populateProjectSelect, cancelEditProject, saveEditProject, editProject, addProjectButton, selectColor, deleteProject, hideProjectEditIcon, showProjectEditIcon, hideProjectEditMenu, showProjectEditMenu, project, showAddProject, addProject, cancelAddProject, toggleProjectList, populateProjectList };
