@@ -335,7 +335,15 @@ function mainListTask(tId, tContent, tProject, tColor) {
         id: "task_state"
     });
     taskInputOuter.appendChild(taskCheckboxInput);
+    ////////trying svg
+    const inputSvg=document.createElement("svg");
+    inputSvg.setAttribute("viewBox","0 0 21 21");
+    taskInputOuter.appendChild(inputSvg);
 
+    const inputSvgPath=document.createElement("path");
+    inputSvgPath.setAttribute("d","M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186");
+    inputSvg.appendChild(inputSvgPath);
+    ///////////
     const taskName = document.createElement("div");
     taskName.className = "task--name";
     taskName.textContent = tContent;
@@ -435,7 +443,6 @@ function taskResizeTextArea(element) {
 function markTaskDone(that) {
     let projectTaskId;
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let objP = JSON.parse(localStorage.getItem("preferences"));
     let completedTask = obj.task.filter((element, index) => {
         return element.id == that.parentNode.parentNode.dataset.id;
     });
@@ -459,7 +466,10 @@ function markTaskDone(that) {
 }
 function createdTaskEvents(t) {
     let taskDone = function () {
-        markTaskDone(this);
+        setTimeout(() => {
+            markTaskDone(this);
+        }, 350);
+            
     }
     t.querySelector(".task--inputouter input").addEventListener("change", taskDone);
 }

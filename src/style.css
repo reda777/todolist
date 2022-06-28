@@ -301,10 +301,36 @@ body {
 }
 
 #task_state {
+    appearance: none;
+    background: var(--main-bg-color);
+    border-radius: var(--main-border-radius);
+    border: 2px solid var(--add-color);
     width: 16px;
     height: 16px;
 }
-
+#task_state:hover{
+    cursor: pointer;
+    border: 2px solid #dad8eb;
+}
+#task_state:checked{
+    width: 16px;
+    height: 16px;
+    mask: url(icons/checkbox.svg);
+    mask-size: cover;
+    background: #dad8eb;
+    animation: bounce .2s linear forwards .1s;
+}
+@keyframes bounce {
+    50% {
+        transform: scale(1.2);
+    }
+    75% {
+        transform: scale(.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 .task--add {
     display: flex;
     align-items: stretch;
