@@ -12,6 +12,9 @@ function createMainEvents() {
     let showTDateSelectEvent = function () {
         t.showTaskDateSelect();
     }
+    let showTPrioSelectEvent=function(){
+        t.showPrioSelect();
+    }
     let cancelAddTevent = function () {
         t.cancelAddTask();
     }
@@ -35,6 +38,8 @@ function createMainEvents() {
     document.querySelector("#task_project").addEventListener("click", showTPSelectEvent);
 
     document.querySelector("#task--date").addEventListener("click", showTDateSelectEvent);
+
+    document.querySelector("#task_prio").addEventListener("click", showTPrioSelectEvent);
 
     document.querySelector("#task--new_submit_cancel").addEventListener("click", cancelAddTevent);
 
@@ -81,8 +86,14 @@ function createEvents() {
     let hideTDateSelectEvent = function (e) {
         t.hideTaskDateSelect(e);
     }
+    let hideTPrioSelectEvent= function(e){
+        t.hideTaskPrioSelect(e);
+    }
     let selectedDateEvent = function () {
         t.taskDateSelectedOption(this);
+    }
+    let selectedPrioEvent=function(e){
+        t.selectedPrio(e);
     }
     let showTInDate = function () {
         t.showTasksInDate(this);
@@ -136,9 +147,13 @@ function createEvents() {
 
     document.querySelector(".task--datemenuouter_hidden").addEventListener("click", hideTDateSelectEvent);
 
+    document.querySelector(".task--outerprio_hidden").addEventListener("click", hideTPrioSelectEvent);
+
     document.querySelector(".task--datemenu .datemenu--today").addEventListener("click", selectedDateEvent);
 
     document.querySelector(".task--datemenu .datemenu--tomorrow").addEventListener("click", selectedDateEvent);
+
+    document.querySelector(".task--prio").addEventListener("click", selectedPrioEvent);
 
     document.querySelector(".months--select_left").addEventListener("click", preMonth);
 

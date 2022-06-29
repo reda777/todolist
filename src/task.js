@@ -1,14 +1,16 @@
-import { createDay, createToday, createTomorrow, mainGroup } from "./DOMscripts.js";
+import {createPriority, createDay, createToday, createTomorrow, mainGroup } from "./DOMscripts.js";
 import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
 import { createMainEvents } from './eventsScripts';
 import * as p from "./project.js";
-const task = (name, projectId, date) => {
+const task = (name, projectId, date, desc, prio) => {
     let id = Date.now().toString(36) + Math.random().toString(36).slice(2);
     return {
         id,
         name,
+        desc,
         projectId,
         date,
+        prio
     }
 }
 function showAddTask() {
@@ -41,14 +43,16 @@ function addTaskButton() {
     const nameValue = document.querySelector("#task_name").value;
     const projectValue = document.querySelector("#task_project div").className;
     const dateValue = document.querySelector("#task--date div").dataset.date;
-    addTask(nameValue, projectValue, dateValue);
+    const descValue= document.querySelector("#task_desc").value;
+    const prioValue=document.querySelector("#task_prio div").dataset.prio;
+    addTask(nameValue, projectValue, dateValue, descValue, prioValue);
     return closeMessageTab(true);
 }
-function addTask(nameValue, projectValue, dateValue) {
+function addTask(nameValue, projectValue, dateValue, descValue, prioValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let objP = JSON.parse(localStorage.getItem("preferences"));
     //store the task in localstorage
-    obj.task.push(task(nameValue, obj.project[projectValue].id, dateValue));
+    obj.task.push(task(nameValue, obj.project[projectValue].id, dateValue, descValue, prioValue));
     //update count of tasks in localstorage
     obj.project[projectValue].count++;
     //update count of tasks in the sidebar
@@ -464,14 +468,39 @@ function markTaskDone(that) {
     populateCurrentTab();
     p.populateProjectList();
 }
+function showPrioSelect(){
+    let elementPos = document.querySelector("#task_prio").getBoundingClientRect();
+    let bodyPos = document.body.getBoundingClientRect();
+    document.querySelector(".task--outerprio_hidden").classList.add("task--outerprio");
+    document.querySelector(".task--prio").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
+    document.querySelector(".task--prio").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
+}
+function hideTaskPrioSelect(e){
+    let outerPrio = document.querySelector(".task--outerprio_hidden");
+    if (outerPrio == e.target)
+        document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
+}
+function selectedPrio(e){
+    const taskPrio = document.querySelector("#task_prio");
+    if (taskPrio.firstChild) {
+        taskPrio.removeChild(taskPrio.firstChild);
+    }
+    console.log(e.target);
+    if(e.target.className=="select--prio" ){
+        taskPrio.appendChild(createPriority(parseInt(e.target.dataset.prio) ));
+    }else if(e.target.parentNode.className=="select--prio"){
+        taskPrio.appendChild(createPriority(parseInt(e.target.parentNode.dataset.prio)));
+    }
+    document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
+}
 function createdTaskEvents(t) {
     let taskDone = function () {
         setTimeout(() => {
             markTaskDone(this);
-        }, 350);
+        }, 370);
             
     }
     t.querySelector(".task--inputouter input").addEventListener("change", taskDone);
 }
-export { showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

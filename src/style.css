@@ -318,7 +318,7 @@ body {
     mask: url(icons/checkbox.svg);
     mask-size: cover;
     background: #dad8eb;
-    animation: bounce .2s linear forwards .1s;
+    animation: bounce .3s linear forwards .1s;
 }
 @keyframes bounce {
     50% {
@@ -547,7 +547,7 @@ div.project--menu_delete_icon {
     gap: 5px;
 }
 
-#task_project {
+#task_project, #task_prio {
     width: max-content;
     height: calc(29px - 2px);
     border: var(--main-border);
@@ -590,11 +590,13 @@ div.project--menu_delete_icon {
     flex-direction: column;
 }
 
-.task--datemenuouter_hidden {
+.task--datemenuouter_hidden,
+.task--outerprio_hidden {
     display: none;
 }
 
-.task--datemenuouter {
+.task--datemenuouter,
+.task--outerprio {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -603,7 +605,14 @@ div.project--menu_delete_icon {
     justify-content: center;
     flex-direction: column;
 }
-
+.task--prio{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-hover-color);
+    color: var(--main-f-color);
+    user-select: none;
+}
 .task--datemenu {
     position: absolute;
     display: flex;
@@ -764,7 +773,7 @@ div.project--menu_delete_icon {
     cursor: pointer;
 }
 
-#task_name {
+#task_name, #task_desc {
     width: auto;
     resize: none;
     background-color: var(--main-bg-color);
@@ -774,7 +783,8 @@ div.project--menu_delete_icon {
 }
 
 .datemenu--today,
-.datemenu--tomorrow {
+.datemenu--tomorrow,
+.select--prio {
     display: flex;
     font-size: 14px;
     gap: 5px;
@@ -791,11 +801,18 @@ div.project--menu_delete_icon {
 }
 
 .datemenu--today:hover,
-.datemenu--tomorrow:hover {
+.datemenu--tomorrow:hover,
+.select--prio:hover {
     background-color: var(--secondary-hover-color);
     cursor: pointer;
 }
-
+.select--prio_icon{
+    width: 14px;
+    height: 14px;
+    mask: url(icons/stats.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
 .datemenu--today_icon {
     width: 14px;
     height: 14px;

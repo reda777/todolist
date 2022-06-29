@@ -365,6 +365,13 @@ function addTask() {
     taskNameInput.rows = 1;
     taskNewInputs.appendChild(taskNameInput);
 
+    const taskDescInput = document.createElement("textarea");
+    taskDescInput.id = "task_desc";
+    taskDescInput.placeholder = "Task Description...";
+    taskDescInput.rows = 3;
+    taskNewInputs.appendChild(taskDescInput);
+
+
     const taskSelectAndDate = document.createElement("div");
     taskSelectAndDate.id = "task--select--date";
     taskNew.appendChild(taskSelectAndDate);
@@ -383,7 +390,10 @@ function addTask() {
     } else {
         taskDateInput.appendChild(createToday());
     }
-
+    const taskPrio = document.createElement("div");
+    taskPrio.id = "task_prio";
+    taskSelectAndDate.appendChild(taskPrio);
+    taskPrio.appendChild(createPriority(3));
 
     const taskNewSubmit = document.createElement("div");
     taskNewSubmit.id = "task--new_submit";
@@ -410,6 +420,39 @@ function taskProjectSelect() {
     editMenuOuter.appendChild(editMenu);
 
     return editMenuOuter;
+}
+function createPriority(prioValue){
+    const prio = document.createElement("div");
+    prio.className = "select--prio";
+    prio.dataset.prio=prioValue;
+    
+    const prioIcon = document.createElement("span");
+    prioIcon.className = "select--prio_icon";
+    prio.appendChild(prioIcon);
+
+    switch (prioValue) {
+        case 0:
+            prio.style.color="red";
+            prioIcon.style.background="red";
+            break;
+        case 1:
+            prio.style.color="orange";
+            prioIcon.style.background="orange";
+            break;
+        case 2:
+            prio.style.color="yellow";
+            prioIcon.style.background="yellow";
+            break;
+        default:
+            console.log("wrong prio value.");
+            break;
+    }
+
+    const prioText = document.createElement("span");
+    prioText.className = "select--prio_text";
+    prioText.textContent = `Priority ${prioValue}`;
+    prio.appendChild(prioText);
+    return prio;
 }
 function createToday() {
     const today = document.createElement("div");
@@ -455,6 +498,20 @@ function createDay(e) {
     dayText.textContent = `${format(parse(e.target.dataset.date, 'dd/MM/yyyy', new Date()), "dd LLL")}`;
     day.appendChild(dayText);
     return day;
+}
+function taskPrioSelect(){
+    const editPrioMenu = document.createElement("div");
+    editPrioMenu.className = "task--outerprio_hidden";
+
+    const editMenu = document.createElement("div");
+    editMenu.className = "task--prio";
+    editPrioMenu.appendChild(editMenu);
+
+    editMenu.appendChild(createPriority(0));
+    editMenu.appendChild(createPriority(1));
+    editMenu.appendChild(createPriority(2));
+    editMenu.appendChild(createPriority(3));
+    return editPrioMenu;
 }
 function taskDateSelect() {
     const editDateMenu = document.createElement("div");
@@ -565,10 +622,10 @@ function buildSite() {
     content.id = "content";
     createStorage();
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage());
+    content.append(header(), sidebar(), main(), footer(), addProject(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateCurrentTab();
     p.populateProjectSelect();
 }
-export { createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn };
+export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn };
