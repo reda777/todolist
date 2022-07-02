@@ -1,6 +1,6 @@
-import {createPriority, createDay, createToday, createTomorrow, mainGroup } from "./DOMscripts.js";
+import {createPriority, createDay, createToday, createTomorrow, mainGroup,taskEditBtn } from "./DOMscripts.js";
 import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
-import { createMainEvents } from './eventsScripts';
+import { createMainEvents} from './eventsScripts';
 import * as p from "./project.js";
 const task = (name, projectId, date, desc, prio) => {
     let id = Date.now().toString(36) + Math.random().toString(36).slice(2);
@@ -17,7 +17,7 @@ function showAddTask() {
     let objP = JSON.parse(localStorage.getItem("preferences"));
     const pOption = document.querySelector(`.task--menu [data-id="${objP["lastProject"]}"]`);
     taskProjectSelectedOption(pOption);
-    document.querySelector("#task--new_hidden").id = "task--new";
+    document.querySelector(".task--new_hidden").classList.add("task--new");
     document.querySelector(".task--add").classList.replace("task--add", "task--add_hidden");
 }
 function closeMessageTab(condition, time) {
@@ -50,7 +50,6 @@ function addTaskButton() {
 }
 function addTask(nameValue, projectValue, dateValue, descValue, prioValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let objP = JSON.parse(localStorage.getItem("preferences"));
     //store the task in localstorage
     obj.task.push(task(nameValue, obj.project[projectValue].id, dateValue, descValue, prioValue));
     //update count of tasks in localstorage
@@ -256,15 +255,15 @@ function showTasksInDate(element) {
     createMainEvents();
 }
 ////////////////////////////////////////////////////
-function showTaskProjectSelect() {
-    let elementPos = document.querySelector("#task_project").getBoundingClientRect();
+function showTaskProjectSelect(elem) {
+    let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".task--menuouter_hidden").classList.add("task--menuouter");
     document.querySelector(".task--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".task--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
-function showTaskDateSelect() {
-    let elementPos = document.querySelector("#task--date").getBoundingClientRect();
+function showTaskDateSelect(elem) {
+    let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".task--datemenuouter_hidden").classList.add("task--datemenuouter");
     document.querySelector(".task--datemenu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
@@ -289,7 +288,7 @@ function deleteTasksOfProject(projectId) {
     populateCurrentTab();
 }
 function cancelAddTask() {
-    document.querySelector("#task--new").id = "task--new_hidden";
+    document.querySelector(".task--new_hidden").classList.remove("task--new");
     document.querySelector(".task--add_hidden").classList.replace("task--add_hidden", "task--add");
 }
 function taskProjectSelectedOption(selectedProject) {
@@ -298,7 +297,8 @@ function taskProjectSelectedOption(selectedProject) {
         objP["lastProject"] = selectedProject.dataset.id;
         localStorage.setItem("preferences", JSON.stringify(objP));
     }
-    const taskProject = document.querySelector("#task_project");
+    const taskProject = document.querySelector(".task--new #task_project")||document.querySelector(".task_edit #task_project")
+    ||document.querySelector(".task--new_hidden #task_project");
     if (taskProject.firstChild) {
         taskProject.removeChild(taskProject.firstChild);
     }
@@ -306,7 +306,9 @@ function taskProjectSelectedOption(selectedProject) {
     taskProject.appendChild(clonedProject);
 }
 function taskDateSelectedOption(selectedDate) {
-    const taskDate = document.querySelector("#task--date");
+    const taskDate = document.querySelector(".task--new #task--date")
+    ||document.querySelector(".task_edit #task--date")
+    ||document.querySelector(".task--new_hidden #task--date");
     if (taskDate.firstChild) {
         taskDate.removeChild(taskDate.firstChild);
     }
@@ -339,15 +341,7 @@ function mainListTask(tId, tContent, tProject, tColor) {
         id: "task_state"
     });
     taskInputOuter.appendChild(taskCheckboxInput);
-    ////////trying svg
-    const inputSvg=document.createElement("svg");
-    inputSvg.setAttribute("viewBox","0 0 21 21");
-    taskInputOuter.appendChild(inputSvg);
 
-    const inputSvgPath=document.createElement("path");
-    inputSvgPath.setAttribute("d","M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186");
-    inputSvg.appendChild(inputSvgPath);
-    ///////////
     const taskName = document.createElement("div");
     taskName.className = "task--name";
     taskName.textContent = tContent;
@@ -358,6 +352,7 @@ function mainListTask(tId, tContent, tProject, tColor) {
     taskName_project.textContent = tProject;
     taskName_project.style.color = tColor;
     task.appendChild(taskName_project);
+    task.appendChild(taskEditBtn());
     createdTaskEvents(task);
     return task;
 }
@@ -431,11 +426,11 @@ function createCalendar() {
 }
 function taskCalDateSelected(e) {
     if (e.target.className == "day") {
-        const taskDate = document.querySelector("#task--date");
+        const taskDate = document.querySelector(".task--new #task--date")||document.querySelector(".task_edit #task--date");
         if (taskDate.firstChild) {
             taskDate.removeChild(taskDate.firstChild);
         }
-        taskDate.appendChild(createDay(e));
+        taskDate.appendChild(createDay(e.target.dataset.date));
         document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
     }
 }
@@ -462,14 +457,14 @@ function markTaskDone(that) {
             project.count--;
         }
     }
-    obj.completedTask = completedTask;
+    obj.completedTasks.push(completedTask);
     obj.task = newTask;
     localStorage.setItem("todoList", JSON.stringify(obj));
     populateCurrentTab();
     p.populateProjectList();
 }
-function showPrioSelect(){
-    let elementPos = document.querySelector("#task_prio").getBoundingClientRect();
+function showPrioSelect(elem){
+    let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".task--outerprio_hidden").classList.add("task--outerprio");
     document.querySelector(".task--prio").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
@@ -481,11 +476,10 @@ function hideTaskPrioSelect(e){
         document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
 }
 function selectedPrio(e){
-    const taskPrio = document.querySelector("#task_prio");
+    const taskPrio = document.querySelector(".task--new #task_prio")||document.querySelector(".task_edit #task_prio");
     if (taskPrio.firstChild) {
         taskPrio.removeChild(taskPrio.firstChild);
     }
-    console.log(e.target);
     if(e.target.className=="select--prio" ){
         taskPrio.appendChild(createPriority(parseInt(e.target.dataset.prio) ));
     }else if(e.target.parentNode.className=="select--prio"){
@@ -493,14 +487,152 @@ function selectedPrio(e){
     }
     document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
 }
+function showTaskEditIcon(element) {
+    element.querySelector(".task--edit_hidden").classList.add("task--edit");
+}
+function hideTaskEditIcon(element) {
+    //see if menu is open if its not hide icon
+    if (document.querySelector(".task--menuouter") === null && element !== null) {
+        element.querySelector(".task--edit_hidden").classList.remove("task--edit");
+    }
+}
+function getProjectIdOfTaskId(tId){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for(let t of obj["task"]){
+        if(tId==t.id)
+            return t.projectId;
+    }
+    return null;
+}
+function getTaskName(tId){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for(let t of obj["task"]){
+        if(tId==t.id)
+            return t.name;
+    }
+    return "";
+}
+function getTaskDesc(tId){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for(let t of obj["task"]){
+        if(tId==t.id)
+            return t.desc;
+    }
+    return "";
+}
+function projectOfTask(selectedProject) {
+    const taskProject = document.querySelector(".task_edit_hidden #task_project");
+    if (taskProject.firstChild) {
+        taskProject.removeChild(taskProject.firstChild);
+    }
+    let clonedProject = selectedProject.cloneNode(true);
+    taskProject.appendChild(clonedProject);
+}
+function prioOfTask(prio){
+    const taskPrio = document.querySelector(".task_edit_hidden #task_prio");
+    if (taskPrio.firstChild) {
+        taskPrio.removeChild(taskPrio.firstChild);
+    }
+    taskPrio.appendChild(createPriority(parseInt(prio)));
+    document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
+}
+function getTaskPrio(tId){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for(let t of obj["task"]){
+        if(tId==t.id)
+            return t.prio;
+    }
+    return "";
+}
+function dateOfTask(tDate){
+    const taskDate = document.querySelector(".task_edit_hidden #task--date");
+    if (taskDate.firstChild) {
+        taskDate.removeChild(taskDate.firstChild);
+    }
+    let todayDate=parse(format(new Date(),'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
+    let tomorrowDate=parse(format(addDays(new Date(), 1), 'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
+    if(compareAsc(todayDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+        taskDate.appendChild(createToday());
+    }else if(compareAsc(tomorrowDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+        taskDate.appendChild(createTomorrow());
+    }else{
+        taskDate.appendChild(createDay(format(parse(tDate,'yyyy-MM-dd',new Date()),'dd/MM/yyyy')));
+    }
+}
+function getTaskDate(tId){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for(let t of obj["task"]){
+        if(tId==t.id)
+            return t.date;
+    }
+    return "";
+}
+function showEditTask(t){
+    let taskId=t.dataset.id;
+    const editTaskInterface=document.querySelector(".task_edit_hidden");
+    //task name
+    editTaskInterface.querySelector("#task_name").value=getTaskName(taskId);
+    //task desc
+    editTaskInterface.querySelector("#task_desc").value=getTaskDesc(taskId);
+    //selected project
+    const pOption = document.querySelector(`.task--menu [data-id="${getProjectIdOfTaskId(taskId)}"]`);
+    projectOfTask(pOption);
+    //selected date
+    dateOfTask(getTaskDate(taskId));
+    //selected priority
+    prioOfTask(getTaskPrio(taskId));
+    document.querySelector(".task_edit_hidden").classList.add("task_edit");
+    document.querySelector(".task_edit #task--new_submit_add").dataset.id=taskId;
+}
+function cancelEditTask(){
+    document.querySelector(".task_edit_hidden").classList.remove("task_edit");
+}
+function saveTaskButton(elem) {
+    const nameValue = document.querySelector(".task_edit #task_name").value;
+    const dateValue = document.querySelector(".task_edit #task--date div").dataset.date;
+    const descValue= document.querySelector(".task_edit #task_desc").value;
+    const prioValue=document.querySelector(".task_edit #task_prio div").dataset.prio;
+    const taskId=elem.dataset.id;
+    editTask(taskId,nameValue, dateValue, descValue, prioValue);
+    return closeMessageTab(true);
+}
+function editTask(taskId,nameValue, dateValue, descValue, prioValue) {
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for(let t of obj["task"]){
+        if(t.id==taskId){
+            t.name=nameValue;
+            t.date=dateValue;
+            t.desc=descValue;
+            t.prio=prioValue;
+        }
+    }
+    localStorage.setItem("todoList", JSON.stringify(obj));
+    //populate correspondent task list 
+    populateCurrentTab();
+    //close edit tab
+    document.querySelector(".task_edit_hidden").classList.remove("task_edit");
+}
 function createdTaskEvents(t) {
     let taskDone = function () {
         setTimeout(() => {
             markTaskDone(this);
-        }, 370);
-            
+        }, 370);     
     }
     t.querySelector(".task--inputouter input").addEventListener("change", taskDone);
+    let showIconEvent = function () {
+        showTaskEditIcon(t);
+    }
+    let hideIconEvent = function () {
+        hideTaskEditIcon(t);
+    }
+    t.addEventListener("mouseenter", showIconEvent);
+
+    t.addEventListener("mouseleave", hideIconEvent);
+    let showEditTevent = function () {
+        //edit task
+        showEditTask(t);
+    }
+    t.querySelector(".task--edit_hidden").addEventListener("click", showEditTevent);
 }
-export { selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

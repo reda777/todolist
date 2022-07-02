@@ -151,6 +151,7 @@ function mainGroup(option) {
     taskAdd.appendChild(taskAddName);
 
     mainList.append(addTask());
+    mainList.append(editTask());
     return mainGroup;
 }
 function footer() {
@@ -319,6 +320,15 @@ function projectEditBtn() {
     projectEdit.appendChild(projectEditIcon);
     return projectEdit;
 }
+function taskEditBtn() {
+    const taskEdit = document.createElement("div");
+    taskEdit.className = "task--edit_hidden";
+
+    const taskEditIcon = document.createElement("span");
+    taskEditIcon.className = "task--edit_icon";
+    taskEdit.appendChild(taskEditIcon);
+    return taskEdit;
+}
 function projectEditMenu() {
     const editMenuOuter = document.createElement("div");
     editMenuOuter.className = "project--menuouter_hidden";
@@ -353,7 +363,7 @@ function projectEditMenu() {
 }
 function addTask() {
     const taskNew = document.createElement("div");
-    taskNew.id = "task--new_hidden";
+    taskNew.className = "task--new_hidden";
 
     const taskNewInputs = document.createElement("div");
     taskNewInputs.id = "task--new_inputs";
@@ -444,7 +454,6 @@ function createPriority(prioValue){
             prioIcon.style.background="yellow";
             break;
         default:
-            console.log("wrong prio value.");
             break;
     }
 
@@ -484,10 +493,10 @@ function createTomorrow() {
     tomorrow.appendChild(tomorrowText);
     return tomorrow;
 }
-function createDay(e) {
+function createDay(tDate) {
     const day = document.createElement("div");
     day.className = "picked--date";
-    day.dataset.date = `${format(parse(e.target.dataset.date, 'dd/MM/yyyy', new Date()), "yyyy-MM-dd")}`;
+    day.dataset.date = `${format(parse(tDate, 'dd/MM/yyyy', new Date()), "yyyy-MM-dd")}`;
 
     const dayIcon = document.createElement("span");
     dayIcon.className = "picked--date_icon";
@@ -495,7 +504,7 @@ function createDay(e) {
 
     const dayText = document.createElement("span");
     dayText.className = "picked--date_text";
-    dayText.textContent = `${format(parse(e.target.dataset.date, 'dd/MM/yyyy', new Date()), "dd LLL")}`;
+    dayText.textContent = `${format(parse(tDate, 'dd/MM/yyyy', new Date()), "dd LLL")}`;
     day.appendChild(dayText);
     return day;
 }
@@ -608,6 +617,67 @@ function floatingMessage() {
     messageClose.appendChild(messageCloseIcon);
     return message;
 }
+function editTask() {
+    const taskNew = document.createElement("div");
+    taskNew.className = "task_edit_hidden";
+    //name and description
+    const taskNewInputs = document.createElement("div");
+    taskNewInputs.id = "task--new_inputs";
+    taskNew.appendChild(taskNewInputs);
+    //task name
+    const taskNameInput = document.createElement("textarea");
+    taskNameInput.id = "task_name";
+    taskNameInput.placeholder = "Task Name...";
+    taskNameInput.rows = 1;
+    taskNewInputs.appendChild(taskNameInput);
+    //task description
+    const taskDescInput = document.createElement("textarea");
+    taskDescInput.id = "task_desc";
+    taskDescInput.placeholder = "Task Description...";
+    taskDescInput.rows = 3;
+    taskNewInputs.appendChild(taskDescInput);
+
+    //select project, date and priority
+    const taskSelectAndDate = document.createElement("div");
+    taskSelectAndDate.id = "task--select--date";
+    taskNew.appendChild(taskSelectAndDate);
+    //select project
+    const taskSelectInput = document.createElement("div");
+    taskSelectInput.id = "task_project";
+    taskSelectAndDate.appendChild(taskSelectInput);
+    //select date
+    const taskDateInput = document.createElement("div");
+    taskDateInput.id = "task--date";
+    taskSelectAndDate.appendChild(taskDateInput);
+
+    let obj = JSON.parse(localStorage.getItem("preferences"));
+    if (obj["sidebar"]["tab"] == "Tomorrow") {
+        taskDateInput.appendChild(createTomorrow());
+    } else {
+        taskDateInput.appendChild(createToday());
+    }
+    //select prio
+    const taskPrio = document.createElement("div");
+    taskPrio.id = "task_prio";
+    taskSelectAndDate.appendChild(taskPrio);
+    taskPrio.appendChild(createPriority(3));
+    //add or cancel adding task
+    const taskNewSubmit = document.createElement("div");
+    taskNewSubmit.id = "task--new_submit";
+    taskNew.appendChild(taskNewSubmit);
+
+    const taskNewSubmitAdd = document.createElement("div");
+    taskNewSubmitAdd.id = "task--new_submit_add";
+    taskNewSubmitAdd.textContent = "Save";
+    taskNewSubmit.appendChild(taskNewSubmitAdd);
+
+    const taskNewSubmitCancel = document.createElement("div");
+    taskNewSubmitCancel.id = "task--new_submit_cancel";
+    taskNewSubmitCancel.textContent = "Cancel";
+    taskNewSubmit.appendChild(taskNewSubmitCancel);
+
+    return taskNew;
+}
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
@@ -628,4 +698,4 @@ function buildSite() {
     t.populateCurrentTab();
     p.populateProjectSelect();
 }
-export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn };
+export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn };

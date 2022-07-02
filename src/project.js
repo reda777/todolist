@@ -162,10 +162,8 @@ function saveEditProject() {
     const colorValue = document.querySelector("#editproject--form_color .list--color_selected").dataset.bgColor;
     let id = document.querySelector("#editproject--form_submit_save").dataset.id;
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    console.log(id, obj.project[2]);
     for (let i = 1; i < obj.project.length; i++) {
         if (id == obj.project[i].id) {
-            console.log("entered");
             obj.project[i].name = nameValue;
             obj.project[i].color = colorValue;
         }

@@ -170,8 +170,31 @@ body {
     height: 30px;
     border-radius: var(--main-border-radius);
 }
+.task--edit_hidden {
+    display: none;
+}
 
-
+.task--edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--main-border-radius);
+}
+.task--edit_icon {
+    width: 15px;
+    height: 15px;
+    mask: url(icons/pencil.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+.task--edit:hover {
+    background: var(--secondary-hover-color);
+}
 .project--edit_icon {
     width: 15px;
     height: 15px;
@@ -219,6 +242,7 @@ body {
     grid-row: 2/3;
     grid-column: 2/3;
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 5px;
     padding: 5px;
@@ -229,6 +253,7 @@ body {
     display: flex;
     flex-direction: column;
     border-radius: 12px;
+    width: 80%;
 }
 
 .main--header {
@@ -271,25 +296,24 @@ body {
 
 .task {
     display: flex;
-    align-items: stretch;
     height: 50px;
+    position: relative;
 }
-
+.task:hover{
+    cursor: pointer;
+}
 .task--name {
     display: flex;
     justify-content: start;
     align-items: center;
-    flex-basis: 50%;
     padding-left: 10px;
     color: var(--main-f-color);
 }
 
 .task--name_project {
-    display: flex;
-    justify-content: end;
-    align-items: flex-end;
-    flex-basis: 50%;
-    padding-right: 10px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
     font-size: small;
 }
 
@@ -336,6 +360,10 @@ body {
     align-items: stretch;
     height: 40px;
     font-size: 14px;
+}
+.task--add:hover{
+    cursor: pointer;
+    background: var(--main-hover-color);
 }
 
 .task--add_name {
@@ -527,7 +555,21 @@ div.project--menu_delete_icon {
 }
 
 /*add task interface===============================*/
-#task--new {
+.task--new_hidden {
+    display: none;
+}
+.task--new {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(150, 150, 150, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+.task_edit_hidden {
+    display: none;
+}
+.task_edit {
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(150, 150, 150, 0.3);
@@ -661,9 +703,7 @@ div.project--menu_delete_icon {
     height: 10px;
 }
 
-#task--new_hidden {
-    display: none;
-}
+
 
 #task--new_submit {
     display: flex;
