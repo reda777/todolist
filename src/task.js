@@ -279,7 +279,6 @@ function hideTaskDateSelect(e) {
 }
 function deleteTasksOfProject(projectId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let objP = JSON.parse(localStorage.getItem("preferences"));
     let newTask = obj.task.filter((element, index) => {
         return element.projectId != projectId;
     });
@@ -589,23 +588,39 @@ function cancelEditTask(){
 }
 function saveTaskButton(elem) {
     const nameValue = document.querySelector(".task_edit #task_name").value;
+    const projectValue = document.querySelector(".task_edit #task_project div").className;
     const dateValue = document.querySelector(".task_edit #task--date div").dataset.date;
     const descValue= document.querySelector(".task_edit #task_desc").value;
     const prioValue=document.querySelector(".task_edit #task_prio div").dataset.prio;
     const taskId=elem.dataset.id;
-    editTask(taskId,nameValue, dateValue, descValue, prioValue);
+    editTask(taskId,nameValue, projectValue, dateValue, descValue, prioValue);
     return closeMessageTab(true);
 }
-function editTask(taskId,nameValue, dateValue, descValue, prioValue) {
+function editTask(taskId,nameValue, projectValue, dateValue, descValue, prioValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     for(let t of obj["task"]){
         if(t.id==taskId){
+            if(t.projectId!=obj.project[projectValue].id){
+                //decrease count of tasks
+                for(let pro of obj["project"]){
+                    if(t.projectId==pro.id){
+                        pro.count--;
+                        document.querySelector("#" + pro.id + " .project--count").textContent = pro.count;
+                    }
+                }
+                //update count of tasks in localstorage
+                t.projectId=obj.project[projectValue].id;
+                obj.project[projectValue].count++;
+                //update count of tasks in the sidebar
+                document.querySelector("#" + obj.project[projectValue].id + " .project--count").textContent = obj.project[projectValue].count;
+            }
             t.name=nameValue;
             t.date=dateValue;
             t.desc=descValue;
             t.prio=prioValue;
         }
     }
+    
     localStorage.setItem("todoList", JSON.stringify(obj));
     //populate correspondent task list 
     populateCurrentTab();
