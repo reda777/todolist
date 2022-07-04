@@ -160,6 +160,87 @@ function footer() {
     div.textContent = "Copyright © 2022 Reda";
     return div;
 }
+function showTaskSummary() {
+    const showTask = document.createElement("div");
+    showTask.classList = "show--task_hidden";
+
+    const taskInterface = document.createElement("div");
+    taskInterface.id = "task--interface";
+    showTask.appendChild(taskInterface);
+    //header
+    const taskTitle = document.createElement("div");
+    taskTitle.id = "task--title";
+    taskInterface.appendChild(taskTitle);
+    //header title
+    const taskTitleName = document.createElement("div");
+    taskTitleName.id = "task--title_name";
+    taskTitleName.textContent = "Task";
+    taskTitle.appendChild(taskTitleName);
+    //header button
+    const taskTitleClose = document.createElement("div");
+    taskTitleClose.id = "task--title_close";
+    taskTitle.appendChild(taskTitleClose);
+
+    const taskTitleCloseBtn = document.createElement("span");
+    taskTitleCloseBtn.id = "task--title_closeBtn";
+    taskTitleClose.appendChild(taskTitleCloseBtn);
+    //main
+    const taskMain = document.createElement("div");
+    taskMain.id = "task--main";
+    taskInterface.appendChild(taskMain);
+    //main task name
+    const taskName = document.createElement("div");
+    taskName.id = "task--main_name";
+    taskMain.appendChild(taskName);
+    //main task description
+    const taskDesc = document.createElement("div");
+    taskDesc.id = "task--main_desc";
+    taskMain.appendChild(taskDesc);
+    //left side
+    const taskSide = document.createElement("div");
+    taskSide.id = "task--side";
+    taskInterface.appendChild(taskSide);
+    //project
+    const taskProject = document.createElement("div");
+    taskProject.id = "task--side_project";
+    taskSide.appendChild(taskProject);
+
+    const taskProjectLabel = document.createElement("div");
+    taskProjectLabel.id = "task--side_projectLabel";
+    taskProjectLabel.textContent="Project";
+    taskProject.appendChild(taskProjectLabel);
+
+    const taskProjectName = document.createElement("div");
+    taskProjectName.id = "task--side_projectName";
+    taskProject.appendChild(taskProjectName);
+    //date
+    const taskDate = document.createElement("div");
+    taskDate.id = "task--side_date";
+    taskSide.appendChild(taskDate);
+
+    const taskDateLabel = document.createElement("div");
+    taskDateLabel.id = "task--side_dateLabel";
+    taskDateLabel.textContent="Due Date";
+    taskDate.appendChild(taskDateLabel);
+
+    const taskDateName = document.createElement("div");
+    taskDateName.id = "task--side_dateName";
+    taskDate.appendChild(taskDateName);
+    //priority
+    const taskPrio = document.createElement("div");
+    taskPrio.id = "task--side_prio";
+    taskSide.appendChild(taskPrio);
+
+    const taskPrioLabel = document.createElement("div");
+    taskPrioLabel.id = "task--side_prioLabel";
+    taskPrioLabel.textContent="Priority";
+    taskPrio.appendChild(taskPrioLabel);
+
+    const taskPrioName = document.createElement("div");
+    taskPrioName.id = "task--side_prioName";
+    taskPrio.appendChild(taskPrioName);
+    return showTask;
+}
 function addProject() {
     const colorsArray = ["#13c7e7", "#6484c6", "#1014cb", "#d24157", "#ff0000"
         , "#4fc972", "#cc552c", "#d4459a", "#b7b434", "#69a537"
@@ -326,6 +407,15 @@ function taskEditBtn() {
 
     const taskEditIcon = document.createElement("span");
     taskEditIcon.className = "task--edit_icon";
+    taskEdit.appendChild(taskEditIcon);
+    return taskEdit;
+}
+function taskDeleteBtn() {
+    const taskEdit = document.createElement("div");
+    taskEdit.className = "task--del_hidden";
+
+    const taskEditIcon = document.createElement("span");
+    taskEditIcon.className = "task--del_icon";
     taskEdit.appendChild(taskEditIcon);
     return taskEdit;
 }
@@ -692,10 +782,10 @@ function buildSite() {
     content.id = "content";
     createStorage();
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect());
+    content.append(header(), sidebar(), main(), footer(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateCurrentTab();
     p.populateProjectSelect();
 }
-export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn };
+export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn, taskDeleteBtn };

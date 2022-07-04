@@ -1,4 +1,4 @@
-import {createPriority, createDay, createToday, createTomorrow, mainGroup,taskEditBtn } from "./DOMscripts.js";
+import {createPriority, createDay, createToday, createTomorrow, mainGroup,taskEditBtn,taskDeleteBtn } from "./DOMscripts.js";
 import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
 import { createMainEvents} from './eventsScripts';
 import * as p from "./project.js";
@@ -352,6 +352,7 @@ function mainListTask(tId, tContent, tProject, tColor) {
     taskName_project.style.color = tColor;
     task.appendChild(taskName_project);
     task.appendChild(taskEditBtn());
+    task.appendChild(taskDeleteBtn());
     createdTaskEvents(task);
     return task;
 }
@@ -462,6 +463,26 @@ function markTaskDone(that) {
     populateCurrentTab();
     p.populateProjectList();
 }
+function delTask(elem){
+    let projectTaskId;
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    let newTask = obj.task.filter((element, index) => {
+        return element.id !=elem.dataset.id;
+    });
+    for (let task of obj.task) {
+        if (task.id ==elem.dataset.id)
+            projectTaskId = task.projectId;
+    }
+    for (let project of obj.project) {
+        if (project.id == projectTaskId) {
+            project.count--;
+        }
+    }
+    obj.task = newTask;
+    localStorage.setItem("todoList", JSON.stringify(obj));
+    populateCurrentTab();
+    p.populateProjectList();
+}
 function showPrioSelect(elem){
     let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
@@ -489,10 +510,19 @@ function selectedPrio(e){
 function showTaskEditIcon(element) {
     element.querySelector(".task--edit_hidden").classList.add("task--edit");
 }
+function showTaskDelIcon(element) {
+    element.querySelector(".task--del_hidden").classList.add("task--del");
+}
 function hideTaskEditIcon(element) {
     //see if menu is open if its not hide icon
     if (document.querySelector(".task--menuouter") === null && element !== null) {
         element.querySelector(".task--edit_hidden").classList.remove("task--edit");
+    }
+}
+function hideTaskDelIcon(element) {
+    //see if menu is open if its not hide icon
+    if (document.querySelector(".task--menuouter") === null && element !== null) {
+        element.querySelector(".task--del_hidden").classList.remove("task--del");
     }
 }
 function getProjectIdOfTaskId(tId){
@@ -627,6 +657,47 @@ function editTask(taskId,nameValue, projectValue, dateValue, descValue, prioValu
     //close edit tab
     document.querySelector(".task_edit_hidden").classList.remove("task_edit");
 }
+function showTaskSum(t){
+    let taskId=t.dataset.id;
+    document.querySelector(".show--task_hidden").classList.add("show--task");
+    
+    //project of task
+    const projectName=document.querySelector("#task--side_projectName");
+    const pOption = document.querySelector(`.task--menu [data-id="${getProjectIdOfTaskId(taskId)}"]`);
+    if (projectName.firstChild) {
+        projectName.removeChild(projectName.firstChild);
+    }
+    let clonedProject = pOption.cloneNode(true);
+    projectName.appendChild(clonedProject);
+    //date of task
+    const dateName=document.querySelector("#task--side_dateName");
+    let tDate=getTaskDate(taskId);
+    if (dateName.firstChild) {
+        dateName.removeChild(dateName.firstChild);
+    }
+    let todayDate=parse(format(new Date(),'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
+    let tomorrowDate=parse(format(addDays(new Date(), 1), 'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
+    if(compareAsc(todayDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+        dateName.appendChild(createToday());
+    }else if(compareAsc(tomorrowDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+        dateName.appendChild(createTomorrow());
+    }else{
+        dateName.appendChild(createDay(format(parse(tDate,'yyyy-MM-dd',new Date()),'dd/MM/yyyy')));
+    }
+    //prio of task
+    const prioName=document.querySelector("#task--side_prioName");
+    if (prioName.firstChild) {
+        prioName.removeChild(prioName.firstChild);
+    }
+    prioName.appendChild(createPriority(parseInt(getTaskPrio(taskId))));
+    //task name
+    document.querySelector("#task--main_name").textContent=getTaskName(taskId);
+    //task desc
+    document.querySelector("#task--main_desc").textContent=getTaskDesc(taskId);
+}
+function closeShowTaskSum(){
+    document.querySelector(".show--task_hidden").classList.remove("show--task");
+}
 function createdTaskEvents(t) {
     let taskDone = function () {
         setTimeout(() => {
@@ -636,9 +707,11 @@ function createdTaskEvents(t) {
     t.querySelector(".task--inputouter input").addEventListener("change", taskDone);
     let showIconEvent = function () {
         showTaskEditIcon(t);
+        showTaskDelIcon(t);
     }
     let hideIconEvent = function () {
         hideTaskEditIcon(t);
+        hideTaskDelIcon(t);
     }
     t.addEventListener("mouseenter", showIconEvent);
 
@@ -648,6 +721,18 @@ function createdTaskEvents(t) {
         showEditTask(t);
     }
     t.querySelector(".task--edit_hidden").addEventListener("click", showEditTevent);
+    let delTevent = function () {
+        //delete task
+        delTask(t);
+    }
+    t.querySelector(".task--del_hidden").addEventListener("click", delTevent);
+    //show task summary
+    let showTaskSumEvent = function (e) {
+        console.log(e.target.className);
+        if(e.target.className=="task"||e.target.className=="task--name"||e.target.className=="task--inputouter")
+            showTaskSum(t);
+    }
+    t.addEventListener("click", showTaskSumEvent);
 }
-export { saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

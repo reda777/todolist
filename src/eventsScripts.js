@@ -39,6 +39,9 @@ function createMainEvents() {
     let keepMessage = function () {
         t.closeMessageTab(false, timeoutID);
     }
+    let closeShowTEvent=function (){
+        t.closeShowTaskSum();
+    }
     document.querySelector(".task--add").addEventListener("click", showAddTevent);
    
     document.querySelectorAll("#task_project").forEach(element => {
@@ -63,6 +66,8 @@ function createMainEvents() {
     document.querySelector(".message--close").addEventListener("click", closeMessage);
     document.querySelector(".message--container_hidden").addEventListener("mouseenter", keepMessage);
     document.querySelector(".message--container_hidden").addEventListener("mouseleave", closeMessage);
+    //close task summary
+    document.querySelector("#task--title_close").addEventListener("click", closeShowTEvent)
 }
 function createEvents() {
     createMainEvents();
