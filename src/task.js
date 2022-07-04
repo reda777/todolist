@@ -232,6 +232,7 @@ function showProjectDates(p, e) {
         main.appendChild(mainGroup(p.id));
         let obj = JSON.parse(localStorage.getItem("preferences"));
         obj["sidebar"]["tab"] = p.id;
+        obj["lastProject"] = p.id;
         localStorage.setItem("preferences", JSON.stringify(obj));
         populateCurrentTab();
         createMainEvents();
