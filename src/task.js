@@ -79,7 +79,7 @@ function populateCurrentTab() {
 function populateProjectTab(pId) {
     let mainList = document.querySelectorAll("#main--list .main--list_dates");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue, idValue;
+    let projectNameValue, projectColorValue, nameValue, idValue,prioValue;
     //delete old list
     mainList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -111,12 +111,13 @@ function populateProjectTab(pId) {
         if (obj.task[i].projectId == pId) {
             idValue = obj.task[i].id;
             nameValue = obj.task[i].name;
+            prioValue = obj.task[i].prio;
             for (let k = 0; k < obj.project.length; k++) {
                 if (obj.task[i].projectId == obj.project[k].id) {
                     projectNameValue = obj.project[k].name;
                     projectColorValue = obj.project[k].color;
                     document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue));
+                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
                 }
             }
         }
@@ -125,7 +126,7 @@ function populateProjectTab(pId) {
 function populateUpcomingTab() {
     let mainList = document.querySelectorAll("#main--list .main--list_dates");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue, idValue;
+    let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
     //delete old list
     mainList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -156,12 +157,13 @@ function populateUpcomingTab() {
     for (let i = 0; i < obj.task.length; i++) {
         idValue = obj.task[i].id;
         nameValue = obj.task[i].name;
+        prioValue = obj.task[i].prio;
         for (let k = 0; k < obj.project.length; k++) {
             if (obj.task[i].projectId == obj.project[k].id) {
                 projectNameValue = obj.project[k].name;
                 projectColorValue = obj.project[k].color;
                 document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                    .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue));
+                    .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
             }
         }
     }
@@ -180,7 +182,7 @@ function populateTodayOrTomorrowTab() {
 
     let taskList = document.querySelectorAll("#main--list .task");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue, idValue;
+    let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
     //delete old list
     taskList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -189,15 +191,16 @@ function populateTodayOrTomorrowTab() {
     for (let i = 0; i < obj.task.length; i++) {
         nameValue = obj.task[i].name;
         idValue = obj.task[i].id;
+        prioValue = obj.task[i].prio;
         if (obj.task[i].date == turnStringToDate(currentTab)) {
             for (let k = 0; k < obj.project.length; k++) {
                 if (obj.task[i].projectId == obj.project[k].id) {
                     projectNameValue = obj.project[k].name;
                     projectColorValue = obj.project[k].color;
                     (document.querySelector(".task--add")
-                        ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue))) ||
+                        ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
                         (document.querySelector(".task--add_hidden")
-                            ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue)));
+                            ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
                 }
             }
         }
@@ -325,13 +328,26 @@ function taskDateSelectedOption(selectedDate) {
     }
     document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
-function mainListTask(tId, tContent, tProject, tColor) {
+function colorOfPrio(prioNum){
+    switch (prioNum) {
+        case 0:
+            return "red";
+        case 1:
+            return "orange";
+        case 2:
+            return "yellow";    
+        default:
+            return null;
+    }
+}
+function mainListTask(tId, tContent, tProject, tColor, tPrio) {
     const task = document.createElement("div");
     task.className = "task";
     task.dataset.id = tId;
 
     const taskInputOuter = document.createElement("div");
     taskInputOuter.className = "task--inputouter";
+    taskInputOuter.setAttribute("style",`border-left: 4px solid ${colorOfPrio(parseInt(tPrio))};`);
     task.appendChild(taskInputOuter);
 
     const taskCheckboxInput = document.createElement("input");
@@ -344,8 +360,12 @@ function mainListTask(tId, tContent, tProject, tColor) {
 
     const taskName = document.createElement("div");
     taskName.className = "task--name";
-    taskName.textContent = tContent;
     task.appendChild(taskName);
+
+    const taskNameText = document.createElement("div");
+    taskNameText.className = "task--name_text";
+    taskNameText.textContent = tContent;
+    taskName.appendChild(taskNameText);
 
     const taskName_project = document.createElement("div");
     taskName_project.className = "task--name_project";
@@ -735,5 +755,5 @@ function createdTaskEvents(t) {
     }
     t.addEventListener("click", showTaskSumEvent);
 }
-export { closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, mainListTask, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 
