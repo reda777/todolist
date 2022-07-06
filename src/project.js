@@ -173,6 +173,7 @@ function saveEditProject() {
     document.querySelector("#editproject--form_submit_save").removeAttribute("data-id");
     document.querySelector("#editproject").id = "editproject_hidden";
     populateProjectSelect();
+    t.populateCurrentTab();
 }
 function cancelEditProject() {
     document.querySelector("#editproject").id = "editproject_hidden";

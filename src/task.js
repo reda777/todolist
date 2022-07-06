@@ -76,10 +76,30 @@ function populateCurrentTab() {
         populateProjectTab(currentTab);
     }
 }
+function popProjectPrio(tPrio,pId){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
+    for (let i = 0; i < obj.task.length; i++) {
+        if (obj.task[i].projectId == pId) {
+            idValue = obj.task[i].id;
+            nameValue = obj.task[i].name;
+            prioValue = obj.task[i].prio;
+            if(obj.task[i].prio==tPrio){
+                for (let k = 0; k < obj.project.length; k++) {
+                    if (obj.task[i].projectId == obj.project[k].id) {
+                        projectNameValue = obj.project[k].name;
+                        projectColorValue = obj.project[k].color;
+                        document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
+                            .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
+                    }
+                }
+            }
+        }
+    }
+}
 function populateProjectTab(pId) {
     let mainList = document.querySelectorAll("#main--list .main--list_dates");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue, idValue,prioValue;
     //delete old list
     mainList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -107,74 +127,25 @@ function populateProjectTab(pId) {
             document.querySelector(".task--add_hidden")?.before(dateHeader);
     }
     //populate every dates with tasks
-    //prio 0
+    let prioArray=["0","1","2","3"];
+    prioArray.forEach(tPrio => {
+        popProjectPrio(tPrio,pId);
+    });
+}
+function popUpcomigPrio(tPrio){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
     for (let i = 0; i < obj.task.length; i++) {
-        if (obj.task[i].projectId == pId) {
-            idValue = obj.task[i].id;
-            nameValue = obj.task[i].name;
-            prioValue = obj.task[i].prio;
-            if(obj.task[i].prio=="0"){
-                for (let k = 0; k < obj.project.length; k++) {
-                    if (obj.task[i].projectId == obj.project[k].id) {
-                        projectNameValue = obj.project[k].name;
-                        projectColorValue = obj.project[k].color;
-                        document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                            .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                    }
-                }
-            }
-        }
-    }
-    //prio 1
-    for (let i = 0; i < obj.task.length; i++) {
-        if (obj.task[i].projectId == pId) {
-            idValue = obj.task[i].id;
-            nameValue = obj.task[i].name;
-            prioValue = obj.task[i].prio;
-            if(obj.task[i].prio=="1"){
-                for (let k = 0; k < obj.project.length; k++) {
-                    if (obj.task[i].projectId == obj.project[k].id) {
-                        projectNameValue = obj.project[k].name;
-                        projectColorValue = obj.project[k].color;
-                        document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                            .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                    }
-                }
-            }
-        }
-    }
-    //prio 2
-    for (let i = 0; i < obj.task.length; i++) {
-        if (obj.task[i].projectId == pId) {
-            idValue = obj.task[i].id;
-            nameValue = obj.task[i].name;
-            prioValue = obj.task[i].prio;
-            if(obj.task[i].prio=="2"){
-                for (let k = 0; k < obj.project.length; k++) {
-                    if (obj.task[i].projectId == obj.project[k].id) {
-                        projectNameValue = obj.project[k].name;
-                        projectColorValue = obj.project[k].color;
-                        document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                            .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                    }
-                }
-            }
-        }
-    }
-    //prio 3
-    for (let i = 0; i < obj.task.length; i++) {
-        if (obj.task[i].projectId == pId) {
-            idValue = obj.task[i].id;
-            nameValue = obj.task[i].name;
-            prioValue = obj.task[i].prio;
-            if(obj.task[i].prio=="3"){
-                for (let k = 0; k < obj.project.length; k++) {
-                    if (obj.task[i].projectId == obj.project[k].id) {
-                        projectNameValue = obj.project[k].name;
-                        projectColorValue = obj.project[k].color;
-                        document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                            .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                    }
+        idValue = obj.task[i].id;
+        nameValue = obj.task[i].name;
+        prioValue = obj.task[i].prio;
+        if(obj.task[i].prio == tPrio){
+            for (let k = 0; k < obj.project.length; k++) {
+                if (obj.task[i].projectId == obj.project[k].id) {
+                    projectNameValue = obj.project[k].name;
+                    projectColorValue = obj.project[k].color;
+                    document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
+                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
                 }
             }
         }
@@ -183,7 +154,7 @@ function populateProjectTab(pId) {
 function populateUpcomingTab() {
     let mainList = document.querySelectorAll("#main--list .main--list_dates");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
+    
     //delete old list
     mainList.forEach(element => {
         element.parentNode.removeChild(element);
@@ -211,70 +182,10 @@ function populateUpcomingTab() {
             document.querySelector(".task--add_hidden")?.before(dateHeader);
     }
     //populate every dates with tasks
-    //prio 0
-    for (let i = 0; i < obj.task.length; i++) {
-        idValue = obj.task[i].id;
-        nameValue = obj.task[i].name;
-        prioValue = obj.task[i].prio;
-        if(obj.task[i].prio == "0"){
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                }
-            }
-        }
-    }
-    //prio 1
-    for (let i = 0; i < obj.task.length; i++) {
-        idValue = obj.task[i].id;
-        nameValue = obj.task[i].name;
-        prioValue = obj.task[i].prio;
-        if(obj.task[i].prio == "1"){
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                }
-            }
-        }
-    }
-    //prio 2
-    for (let i = 0; i < obj.task.length; i++) {
-        idValue = obj.task[i].id;
-        nameValue = obj.task[i].name;
-        prioValue = obj.task[i].prio;
-        if(obj.task[i].prio == "2"){
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                }
-            }
-        }
-    }
-    //prio 3
-    for (let i = 0; i < obj.task.length; i++) {
-        idValue = obj.task[i].id;
-        nameValue = obj.task[i].name;
-        prioValue = obj.task[i].prio;
-        if(obj.task[i].prio == "3"){
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    document.querySelector(`#main--list [data-date="${obj.task[i].date}"]`)
-                        .append(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue));
-                }
-            }
-        }
-    }
+    let prioArray=["0","1","2","3"];
+    prioArray.forEach(tPrio => {
+        popUpcomigPrio(tPrio);
+    });
     
 }
 function turnStringToDate(s) {
@@ -284,91 +195,41 @@ function turnStringToDate(s) {
         return format(new Date(), 'yyyy-MM-dd');
     }
 }
-function populateTodayOrTomorrowTab() {
+function popTodayTomorrowPrio(tPrio){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
     //get current tab
     let objP = JSON.parse(localStorage.getItem("preferences"));
     const currentTab = objP["sidebar"]["tab"];
-
-    let taskList = document.querySelectorAll("#main--list .task");
-    let obj = JSON.parse(localStorage.getItem("todoList"));
     let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
+    for (let i = 0; i < obj.task.length; i++) {
+        nameValue = obj.task[i].name;
+        idValue = obj.task[i].id;
+        prioValue = obj.task[i].prio;
+        if (obj.task[i].date == turnStringToDate(currentTab) && obj.task[i].prio == tPrio) {
+            for (let k = 0; k < obj.project.length; k++) {
+                if (obj.task[i].projectId == obj.project[k].id) {
+                    projectNameValue = obj.project[k].name;
+                    projectColorValue = obj.project[k].color;
+                    (document.querySelector(".task--add")
+                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
+                    (document.querySelector(".task--add_hidden")
+                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
+                }
+            }
+        }
+    }
+}
+function populateTodayOrTomorrowTab() {
+    let taskList = document.querySelectorAll("#main--list .task");
     //delete old list
     taskList.forEach(element => {
         element.parentNode.removeChild(element);
     });
     //populate task list of the current date
-    //prio 0
-    for (let i = 0; i < obj.task.length; i++) {
-        nameValue = obj.task[i].name;
-        idValue = obj.task[i].id;
-        prioValue = obj.task[i].prio;
-        if (obj.task[i].date == turnStringToDate(currentTab) && obj.task[i].prio == "0") {
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    (document.querySelector(".task--add")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
-                    (document.querySelector(".task--add_hidden")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
-                }
-            }
-        }
-    }
-    //prio 1
-    for (let i = 0; i < obj.task.length; i++) {
-        nameValue = obj.task[i].name;
-        idValue = obj.task[i].id;
-        prioValue = obj.task[i].prio;
-        if (obj.task[i].date == turnStringToDate(currentTab) && obj.task[i].prio == "1") {
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    (document.querySelector(".task--add")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
-                    (document.querySelector(".task--add_hidden")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
-                }
-            }
-        }
-    }
-    //prio 2
-    for (let i = 0; i < obj.task.length; i++) {
-        nameValue = obj.task[i].name;
-        idValue = obj.task[i].id;
-        prioValue = obj.task[i].prio;
-        if (obj.task[i].date == turnStringToDate(currentTab) && obj.task[i].prio == "2") {
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    (document.querySelector(".task--add")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
-                    (document.querySelector(".task--add_hidden")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
-                }
-            }
-        }
-    }
-    //prio 3
-    for (let i = 0; i < obj.task.length; i++) {
-        nameValue = obj.task[i].name;
-        idValue = obj.task[i].id;
-        prioValue = obj.task[i].prio;
-        if (obj.task[i].date == turnStringToDate(currentTab) && obj.task[i].prio == "3") {
-            for (let k = 0; k < obj.project.length; k++) {
-                if (obj.task[i].projectId == obj.project[k].id) {
-                    projectNameValue = obj.project[k].name;
-                    projectColorValue = obj.project[k].color;
-                    (document.querySelector(".task--add")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
-                    (document.querySelector(".task--add_hidden")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
-                }
-            }
-        }
-    }
+    let prioArray=["0","1","2","3"];
+    prioArray.forEach(tPrio => {
+        popTodayTomorrowPrio(tPrio);
+    });
 }
 function showUpcomingTasks(element) {
     //keep the tab selected
