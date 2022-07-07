@@ -151,6 +151,12 @@ function popUpcomigPrio(tPrio){
         }
     }
 }
+function createRescheduleEvent(dateHeaderReschedule){
+    let showDatePicker= function(){
+        showOverdueDateSelect(dateHeaderReschedule);
+    }
+    dateHeaderReschedule.addEventListener("click",showDatePicker);
+}
 function populateUpcomingTab() {
     let mainList = document.querySelectorAll("#main--list .main--list_dates");
     let obj = JSON.parse(localStorage.getItem("todoList"));
@@ -159,16 +165,58 @@ function populateUpcomingTab() {
     mainList.forEach(element => {
         element.parentNode.removeChild(element);
     });
+    //populate and sort array of overdue dates
+    let listOfOverdue = [];
+    let checkDate,checkIncludes;
+    for (let i = 0; i < obj.task.length; i++) {
+        checkIncludes=listOfOverdue.includes(obj.task[i].date);
+        checkDate= compareAsc(parse(obj.task[i].date,"yyyy-MM-dd",new Date()),
+        parse( format( new Date(),"yyyy-MM-dd" ),"yyyy-MM-dd", new Date() ));
+        if (checkDate==-1 && checkIncludes==false) {
+            listOfOverdue.push(obj.task[i].date);
+        }
+    }
+    listOfOverdue.sort(function (a, b) {
+        return compareAsc(parse(a, 'yyyy-MM-dd', new Date()), parse(b, 'yyyy-MM-dd', new Date()));
+    });
     //populate and sort array of dates
     let listOfDates = [];
+    let checkDates,checkInclude;
     for (let i = 0; i < obj.task.length; i++) {
-        if (!listOfDates.includes(obj.task[i].date)) {
+        checkInclude=listOfDates.includes(obj.task[i].date);
+        checkDates= compareAsc(parse(obj.task[i].date,"yyyy-MM-dd",new Date()),
+        parse( format( new Date(),"yyyy-MM-dd" ),"yyyy-MM-dd", new Date() ));
+        if (checkDates!=-1 && checkInclude==false) {
             listOfDates.push(obj.task[i].date);
         }
     }
     listOfDates.sort(function (a, b) {
         return compareAsc(parse(a, 'yyyy-MM-dd', new Date()), parse(b, 'yyyy-MM-dd', new Date()));
     });
+    //create dom element for every sorted overdue dates
+    for (let dates of listOfOverdue) {
+        const mainListDates = document.createElement("div");
+        mainListDates.className = "main--list_dates";
+        mainListDates.dataset.date = dates;
+
+        const dateHeader = document.createElement("div");
+        dateHeader.className = "date--header";
+        mainListDates.appendChild(dateHeader);
+
+        const dateHeaderText = document.createElement("div");
+        dateHeaderText.className = "date--header_text";
+        dateHeaderText.textContent = `${format(parse(dates, 'yyyy-MM-dd', new Date()), 'do LLL yyyy')} Overdue`;
+        dateHeader.appendChild(dateHeaderText);
+
+        const dateHeaderReschedule = document.createElement("div");
+        dateHeaderReschedule.className="date--header_resch";
+        dateHeaderReschedule.textContent ="Reschedule";
+        dateHeader.appendChild(dateHeaderReschedule);
+        //create event
+        createRescheduleEvent(dateHeaderReschedule);
+        document.querySelector(".task--add")?.before(mainListDates) ||
+            document.querySelector(".task--add_hidden")?.before(mainListDates);
+    }
     //create dom element for every sorted date
     for (let dates of listOfDates) {
         const dateHeader = document.createElement("div");
@@ -219,17 +267,31 @@ function popTodayTomorrowPrio(tPrio){
         }
     }
 }
+function checkOverDue(){
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    for (let i = 0; i < obj.task.length; i++) {
+        if (compareAsc(parse(obj.task[i].date,"yyyy-MM-dd",new Date()),parse( format( new Date(),"yyyy-MM-dd" ),"yyyy-MM-dd", new Date() ))==-1) {
+            return true;
+        }
+    }
+}
 function populateTodayOrTomorrowTab() {
-    let taskList = document.querySelectorAll("#main--list .task");
-    //delete old list
-    taskList.forEach(element => {
-        element.parentNode.removeChild(element);
-    });
-    //populate task list of the current date
-    let prioArray=["0","1","2","3"];
-    prioArray.forEach(tPrio => {
-        popTodayTomorrowPrio(tPrio);
-    });
+    //check if there's overdue tasks
+    if(checkOverDue()){
+        populateUpcomingTab();
+    }else {
+        let taskList = document.querySelectorAll("#main--list .task");
+        //delete old list
+        taskList.forEach(element => {
+            element.parentNode.removeChild(element);
+        });
+        //populate task list of the current date
+        let prioArray=["0","1","2","3"];
+        prioArray.forEach(tPrio => {
+            popTodayTomorrowPrio(tPrio);
+        });
+    }
+    
 }
 function showUpcomingTasks(element) {
     //keep the tab selected
@@ -291,6 +353,14 @@ function showTaskProjectSelect(elem) {
     document.querySelector(".task--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".task--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
+function showOverdueDateSelect(elem){
+    let elementPos = elem.getBoundingClientRect();
+    let bodyPos = document.body.getBoundingClientRect();
+    document.querySelector(".overdue--selectdate_hidden").classList.add("overdue--selectdateouter");
+    document.querySelector(".overdue--selectdate").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
+    document.querySelector(".overdue--selectdate").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
+    document.querySelector(".overdue--selectdate").dataset.date=elem.parentNode.parentNode.dataset.date;
+}
 function showTaskDateSelect(elem) {
     let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
@@ -304,7 +374,12 @@ function hideTaskProjectSelect() {
 function hideTaskDateSelect(e) {
     let datemenuOuter = document.querySelector(".task--datemenuouter_hidden");
     if (datemenuOuter == e.target)
-        document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
+       datemenuOuter.classList.remove("task--datemenuouter");
+}
+function hideOverdueDateSelect(e){
+    let datemenuOuter = document.querySelector(".overdue--selectdate_hidden");
+    if (datemenuOuter == e.target)
+        datemenuOuter.classList.remove("overdue--selectdateouter");
 }
 function deleteTasksOfProject(projectId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
@@ -332,6 +407,31 @@ function taskProjectSelectedOption(selectedProject) {
     }
     let clonedProject = selectedProject.cloneNode(true);
     taskProject.appendChild(clonedProject);
+}
+function overdueDateSelectedOption(that,e){
+    let currentDateofTask=document.querySelector(".overdue--selectdate").dataset.date;
+    let obj = JSON.parse(localStorage.getItem("todoList"));
+    if(that.className!="months--days"){
+        for(let task of obj.task){
+            if(task.date==currentDateofTask){
+                task.date=that.dataset.date;
+            }
+        }
+        document.querySelector(".overdue--selectdate_hidden").classList.remove("overdue--selectdateouter");
+        localStorage.setItem("todoList", JSON.stringify(obj));
+        populateCurrentTab();
+    }else{
+        if (e.target.className == "day") {
+            for(let task of obj.task){
+                if(task.date==currentDateofTask){
+                    task.date=e.target.dataset.date;
+                }
+            }
+            document.querySelector(".overdue--selectdate_hidden").classList.remove("overdue--selectdateouter");
+            localStorage.setItem("todoList", JSON.stringify(obj));
+            populateCurrentTab();
+        }
+    }   
 }
 function taskDateSelectedOption(selectedDate) {
     const taskDate = document.querySelector(".task--new #task--date")
@@ -780,5 +880,5 @@ function createdTaskEvents(t) {
     }
     t.addEventListener("click", showTaskSumEvent);
 }
-export { closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { overdueDateSelectedOption,hideOverdueDateSelect,closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

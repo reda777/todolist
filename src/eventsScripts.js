@@ -27,9 +27,7 @@ function createMainEvents() {
     let saveTevent=function(){
         timeoutID = t.saveTaskButton(this);
     }
-    let selectedCalDate = function (e) {
-        t.taskCalDateSelected(e);
-    }
+    
     let resizeTextArea = function () {
         t.taskResizeTextArea(this);
     }
@@ -58,8 +56,7 @@ function createMainEvents() {
     document.querySelector(".task_edit_hidden #task--new_submit_cancel").addEventListener("click", cancelEditTevent);
     document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
     document.querySelector(".task_edit_hidden #task--new_submit_add").addEventListener("click", saveTevent);
-    //calendar
-    document.querySelector(".months--days").addEventListener("click", selectedCalDate);
+    
     //textarea
     document.querySelector("#task_name").addEventListener("input", resizeTextArea);
     //close floating message
@@ -102,11 +99,17 @@ function createEvents() {
     let hideTDateSelectEvent = function (e) {
         t.hideTaskDateSelect(e);
     }
+    let hideODateSelectEvent = function (e) {
+        t.hideOverdueDateSelect(e);
+    }
     let hideTPrioSelectEvent= function(e){
         t.hideTaskPrioSelect(e);
     }
     let selectedDateEvent = function () {
         t.taskDateSelectedOption(this);
+    }
+    let selectedODateEvent = function (e) {
+        t.overdueDateSelectedOption(this,e);
     }
     let selectedPrioEvent=function(e){
         t.selectedPrio(e);
@@ -132,7 +135,9 @@ function createEvents() {
     let showTUpcomig = function () {
         t.showUpcomingTasks(this);
     }
-
+    let selectedCalDate = function (e) {
+        t.taskCalDateSelected(e);
+    }
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
 
@@ -148,8 +153,9 @@ function createEvents() {
     document.querySelector("#editproject--form_submit_cancel").addEventListener("click", cancelEditPevent);
     // edit project
     document.querySelector("#editproject--form_submit_save").addEventListener("click", savePevent);
-
-
+    //calendar
+    document.querySelector(".months--days").addEventListener("click", selectedCalDate);
+    document.querySelector(".overdue--selectdate .months--days").addEventListener("click", selectedODateEvent);
     //project ui
     document.querySelector("div.sidebar--header.projects").addEventListener("click", toggleShowPList);
     //edit delete project
@@ -162,11 +168,17 @@ function createEvents() {
 
     document.querySelector(".task--datemenuouter_hidden").addEventListener("click", hideTDateSelectEvent);
 
+    document.querySelector(".overdue--selectdate_hidden").addEventListener("click", hideODateSelectEvent);
+
     document.querySelector(".task--outerprio_hidden").addEventListener("click", hideTPrioSelectEvent);
 
     document.querySelector(".task--datemenu .datemenu--today").addEventListener("click", selectedDateEvent);
 
     document.querySelector(".task--datemenu .datemenu--tomorrow").addEventListener("click", selectedDateEvent);
+
+    document.querySelector(".overdue--selectdate .datemenu--today").addEventListener("click", selectedODateEvent);
+
+    document.querySelector(".overdue--selectdate .datemenu--tomorrow").addEventListener("click", selectedODateEvent);
 
     document.querySelector(".task--prio").addEventListener("click", selectedPrioEvent);
 

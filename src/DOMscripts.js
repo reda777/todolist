@@ -612,6 +612,77 @@ function taskPrioSelect(){
     editMenu.appendChild(createPriority(3));
     return editPrioMenu;
 }
+function overdueDateSelect() {
+    const editDateMenu = document.createElement("div");
+    editDateMenu.className = "overdue--selectdate_hidden";
+
+    const editMenu = document.createElement("div");
+    editMenu.className = "overdue--selectdate";
+    editDateMenu.appendChild(editMenu);
+
+    editMenu.appendChild(createToday());
+    editMenu.appendChild(createTomorrow());
+
+    //calendar
+    //calendar select month
+    const monthsSelect = document.createElement("div");
+    monthsSelect.className = "months--select";
+    editMenu.appendChild(monthsSelect);
+
+    const monthsSelectLeft = document.createElement("div");
+    monthsSelectLeft.className = "months--select_left";
+    monthsSelect.appendChild(monthsSelectLeft);
+
+    const monthsSelectCurrent = document.createElement("div");
+    monthsSelectCurrent.className = "months--select_current";
+    monthsSelectCurrent.dataset.date = format(new Date(), 'yyyy-MM-dd');
+    monthsSelectCurrent.textContent = format(new Date(), "LLL yyyy");
+    monthsSelect.appendChild(monthsSelectCurrent);
+
+    const monthsSelectRight = document.createElement("div");
+    monthsSelectRight.className = "months--select_right";
+    monthsSelect.appendChild(monthsSelectRight);
+    //calendar days header
+    const monthDaysHeader = document.createElement("div");
+    monthDaysHeader.className = "months--days_header";
+    editMenu.appendChild(monthDaysHeader);
+    let nameOfDaysArray = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    for (let day of nameOfDaysArray) {
+        const dayOfweek = document.createElement("div");
+        dayOfweek.textContent = day;
+        monthDaysHeader.appendChild(dayOfweek);
+    }
+    //calendar days
+    //every array has all dates of a single week
+    const dateOfDays = document.createElement("div");
+    dateOfDays.className = "months--days";
+    editMenu.appendChild(dateOfDays);
+    let daysArray = [[], [], [], [], [], []];
+    let daysOfMonth = eachDayOfInterval({
+        start: new Date(),
+        end: lastDayOfMonth(new Date())
+    });
+    for (let day of daysOfMonth) {
+        daysArray[getWeekOfMonth(day) - 1][getDay(day)] = day;
+    }
+    for (let i = 0; i < daysArray.length; i++) {
+        const eachWeek = document.createElement("div");
+        eachWeek.className = `months--days_week`;
+        for (let k = 0; daysArray[i].length != 0 && k < daysArray[i].length; k++) {
+            const eachDay = document.createElement("div");
+            if (daysArray[i][k] === undefined) {
+                eachDay.textContent = "";
+            } else {
+                eachDay.className = "day";
+                eachDay.dataset.date = format(daysArray[i][k], 'dd/MM/yyyy');
+                eachDay.textContent = format(daysArray[i][k], "d");
+            }
+            eachWeek.appendChild(eachDay);
+        }
+        dateOfDays.appendChild(eachWeek);
+    }
+    return editDateMenu;
+}
 function taskDateSelect() {
     const editDateMenu = document.createElement("div");
     editDateMenu.className = "task--datemenuouter_hidden";
@@ -782,7 +853,7 @@ function buildSite() {
     content.id = "content";
     createStorage();
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect());
+    content.append(header(), sidebar(), main(), footer(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(),overdueDateSelect());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateCurrentTab();

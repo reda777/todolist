@@ -289,7 +289,7 @@ body {
     height: 40px;
 }
 
-.main--header_title {
+.main--header_title{
     font-size: 14px;
     font-weight: 300;
     padding-left: 10px;
@@ -299,18 +299,31 @@ body {
     align-items: center;
     flex-basis: 100%;
 }
-
-.date--header_text {
-    font-size: 14px;
+.date--header,
+.main--list_dates > .date--header_text {
+    display: flex;
+    background-color: var(--main-hover-color);
+    padding: 0 10px;
+    height: 40px;
     font-weight: 300;
-    padding-left: 10px;
-    color: var(--main-f-color);
+    font-size: 14px;
+}
+.date--header_text {
     display: flex;
     justify-content: start;
     align-items: center;
-    flex-basis: 100%;
-    height: 40px;
-    background-color: var(--main-hover-color);
+    color: var(--main-f-color);
+    flex: 1 1 auto;
+}
+.date--header_resch{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: rgb(214, 36, 36);
+}
+.date--header_resch:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .main--header_btn {
@@ -769,12 +782,14 @@ div.project--menu_delete_icon {
 }
 
 .task--datemenuouter_hidden,
-.task--outerprio_hidden {
+.task--outerprio_hidden,
+.overdue--selectdate_hidden {
     display: none;
 }
 
 .task--datemenuouter,
-.task--outerprio {
+.task--outerprio,
+.overdue--selectdateouter {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -791,6 +806,7 @@ div.project--menu_delete_icon {
     color: var(--main-f-color);
     user-select: none;
 }
+.overdue--selectdate,
 .task--datemenu {
     position: absolute;
     display: flex;
