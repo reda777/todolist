@@ -603,7 +603,13 @@ function markTaskDone(that) {
             project.count--;
         }
     }
-    obj.completedTasks.push(completedTask);
+    if(obj.completedTasks.length>=30){
+        obj.completedTasks.shift();
+        obj.completedTasks.push(completedTask);
+    }else{
+        obj.completedTasks.push(completedTask);
+    }
+    console.log(obj.completedTasks);
     obj.task = newTask;
     localStorage.setItem("todoList", JSON.stringify(obj));
     populateCurrentTab();
@@ -874,7 +880,6 @@ function createdTaskEvents(t) {
     t.querySelector(".task--del_hidden").addEventListener("click", delTevent);
     //show task summary
     let showTaskSumEvent = function (e) {
-        console.log(e.target.className);
         if(e.target.className=="task"||e.target.className=="task--name"||e.target.className=="task--inputouter")
             showTaskSum(t);
     }
