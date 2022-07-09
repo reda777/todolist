@@ -28,7 +28,6 @@ function sidebar() {
     const sidebarGroup = document.createElement("div");
     sidebarGroup.id = "sidebar--group";
     sidebar.appendChild(sidebarGroup);
-    sidebarGroup.appendChild(sidebarHeader("My List"));
     sidebarGroup.appendChild(sidebarHeader("Today"));
     sidebarGroup.appendChild(sidebarHeader("Tomorrow"));
     sidebarGroup.appendChild(sidebarHeader("Upcoming"));
@@ -127,9 +126,13 @@ function mainGroup(option) {
             headerText = obj.project[i].name;
         }
     }
+    let tabArray=["Today","Tomorrow","Upcoming"];
     //if option value is not an id just show the string
     if (headerText == null) {
-        headerText = option;
+        if(tabArray.includes(option))
+            headerText = option;
+        else
+            headerText = "Today";
     }
     const mainGroup = document.createElement("div");
     mainGroup.id = "main--group";
@@ -166,12 +169,6 @@ function mainGroup(option) {
     mainList.append(addTask());
     mainList.append(editTask());
     return mainGroup;
-}
-function footer() {
-    const div = document.createElement("div");
-    div.id = "footer";
-    div.textContent = "Copyright © 2022 Reda";
-    return div;
 }
 function showTaskSummary() {
     const showTask = document.createElement("div");
@@ -871,15 +868,56 @@ function createStorage() {
         localStorage.setItem("preferences", JSON.stringify(preferences));
     }
 }
+function selectCurrentTab(){
+    let objP = JSON.parse(localStorage.getItem("preferences")); 
+    let currentTab = objP["sidebar"]["tab"];
+    let tab;
+    switch (currentTab) {
+        case "Today":
+            tab=document.querySelector(".sidebar--header_today");
+            if (document.querySelector(".sidebar--header_clicked")) {
+                document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+            }
+            tab.classList.add("sidebar--header_clicked");
+            break;
+        case "Tomorrow":
+            tab=document.querySelector(".sidebar--header_tomorrow");
+            if (document.querySelector(".sidebar--header_clicked")) {
+                document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+            }
+            tab.classList.add("sidebar--header_clicked");
+            break;
+        case "Upcoming":
+            tab=document.querySelector(".sidebar--header_upcoming");
+            if (document.querySelector(".sidebar--header_clicked")) {
+                document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+            }
+            tab.classList.add("sidebar--header_clicked");
+            break;    
+        default:
+            tab=document.querySelector(`#${currentTab}`);
+            if (document.querySelector(".sidebar--header_clicked")) {
+                document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
+            }
+            if(tab==null){
+                tab=document.querySelector(".sidebar--header_today");
+                objP["sidebar"]["tab"]="Today";
+                localStorage.setItem("preferences", JSON.stringify(objP));
+            }
+            tab.classList.add("sidebar--header_clicked");
+            
+            break;
+    }
+}
 function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
     createStorage();
-    let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(),overdueDateSelect(),completedTaskList());
+    content.append(header(), sidebar(), main(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(),overdueDateSelect(),completedTaskList());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateCurrentTab();
     p.populateProjectSelect();
+    selectCurrentTab();
 }
 export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn, taskDeleteBtn };

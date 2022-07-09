@@ -874,7 +874,6 @@ function completedListTask(tContent, tProject, tColor) {
 function closeCompletedTask(e){
     if(e.target.classList[0]=="completedOuter_hidden"){
         const comList=document.querySelectorAll(".mainContainer");
-        console.log(e.target);
         document.querySelector(".completedOuter_hidden").classList.remove("completedOuter");
         comList.forEach(element => {
             element.parentNode.removeChild(element);
