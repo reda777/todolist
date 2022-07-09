@@ -138,6 +138,16 @@ function createEvents() {
     let selectedCalDate = function (e) {
         t.taskCalDateSelected(e);
     }
+    let showCompletedListEvent =function (){
+        t.showCompletedList(this);
+    }
+    let closeCompletedTaskEvent = function(e){
+        t.closeCompletedTask(e);
+    }
+ 
+    //header completed list
+    document.querySelector(".headerCompleted").addEventListener("click", showCompletedListEvent);
+    document.querySelector(".completedOuter_hidden").addEventListener("click", closeCompletedTaskEvent);
     //add a project events
     document.querySelector(".project--add").addEventListener("click", showAddPevent);
 

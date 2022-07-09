@@ -1,5 +1,5 @@
 import {createPriority, createDay, createToday, createTomorrow, mainGroup,taskEditBtn,taskDeleteBtn } from "./DOMscripts.js";
-import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
+import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay,compareDesc } from 'date-fns';
 import { createMainEvents} from './eventsScripts';
 import * as p from "./project.js";
 const task = (name, projectId, date, desc, prio) => {
@@ -588,9 +588,16 @@ function taskResizeTextArea(element) {
 function markTaskDone(that) {
     let projectTaskId;
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    let completedTask = obj.task.filter((element, index) => {
-        return element.id == that.parentNode.parentNode.dataset.id;
-    });
+    for(let t of obj.task){
+        if(that.parentNode.parentNode.dataset.id==t.id){
+            if(obj.completedTasks.length>=30){
+                obj.completedTasks.shift();
+                obj.completedTasks.push(t);
+            }else{
+                obj.completedTasks.push(t);
+            }
+        }
+    }
     let newTask = obj.task.filter((element, index) => {
         return element.id != that.parentNode.parentNode.dataset.id;
     });
@@ -603,13 +610,6 @@ function markTaskDone(that) {
             project.count--;
         }
     }
-    if(obj.completedTasks.length>=30){
-        obj.completedTasks.shift();
-        obj.completedTasks.push(completedTask);
-    }else{
-        obj.completedTasks.push(completedTask);
-    }
-    console.log(obj.completedTasks);
     obj.task = newTask;
     localStorage.setItem("todoList", JSON.stringify(obj));
     populateCurrentTab();
@@ -850,6 +850,84 @@ function showTaskSum(t){
 function closeShowTaskSum(){
     document.querySelector(".show--task_hidden").classList.remove("show--task");
 }
+function completedListTask(tContent, tProject, tColor) {
+    const task = document.createElement("div");
+    task.className = "completedTask";
+
+    const taskName = document.createElement("div");
+    taskName.className = "completedTask--name";
+    task.appendChild(taskName);
+
+    const taskNameText = document.createElement("div");
+    taskNameText.className = "completedTask--name_text";
+    taskNameText.textContent = tContent;
+    taskName.appendChild(taskNameText);
+
+    const taskName_project = document.createElement("div");
+    taskName_project.className = "completedTask--name_project";
+    taskName_project.dataset.id = tProject;
+    taskName_project.style.backgroundColor = tColor;
+    task.appendChild(taskName_project);
+
+    return task;
+}
+function closeCompletedTask(e){
+    if(e.target.classList[0]=="completedOuter_hidden"){
+        const comList=document.querySelectorAll(".mainContainer");
+        console.log(e.target);
+        document.querySelector(".completedOuter_hidden").classList.remove("completedOuter");
+        comList.forEach(element => {
+            element.parentNode.removeChild(element);
+        });
+    }
+    
+}
+function showCompletedList(elem){
+    let elementPos = elem.getBoundingClientRect();
+    let bodyPos = document.body.getBoundingClientRect();
+    document.querySelector(".completedOuter_hidden").classList.add("completedOuter");
+    document.querySelector(".completed--list").style.right = `5px`;
+    document.querySelector(".completed--list").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
+    let obj=JSON.parse(localStorage.getItem("todoList"));
+    //array of completed task days
+    let listCompletedDates = [];
+    let checkIncludes;
+    for (let i = 0; i < obj.completedTasks.length; i++) {
+        checkIncludes=listCompletedDates.includes(obj.completedTasks[i].date);
+        if (checkIncludes==false) {
+            listCompletedDates.push(obj.completedTasks[i].date);
+        }
+    }
+    listCompletedDates.sort(function (a, b) {
+        return compareDesc(parse(a, 'yyyy-MM-dd', new Date()), parse(b, 'yyyy-MM-dd', new Date()));
+    });
+    //create dom element for every completed task day
+    for (let dates of listCompletedDates) {
+        const mainListDates = document.createElement("div");
+        mainListDates.className = "mainContainer";
+
+        const dateHeader = document.createElement("div");
+        dateHeader.className = "dayHeader";
+        mainListDates.appendChild(dateHeader);
+
+        const dateHeaderText = document.createElement("div");
+        dateHeaderText.className = "dayHeader_text";
+        dateHeaderText.textContent = `${format(parse(dates, 'yyyy-MM-dd', new Date()), 'do LLL yyyy')}`;
+        dateHeader.appendChild(dateHeaderText);
+
+        for(let comTask of obj.completedTasks){
+            if(dates==comTask.date){
+                for (let proj of obj.project) {
+                    if (proj.id == comTask.projectId) {
+                        mainListDates.append(completedListTask(comTask.name,proj.id,proj.color));
+                    }
+                }
+            }
+        }
+        document.querySelector(".completed--list").append(mainListDates);
+    }
+    
+}
 function createdTaskEvents(t) {
     let taskDone = function () {
         setTimeout(() => {
@@ -885,5 +963,5 @@ function createdTaskEvents(t) {
     }
     t.addEventListener("click", showTaskSumEvent);
 }
-export { overdueDateSelectedOption,hideOverdueDateSelect,closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { closeCompletedTask,showCompletedList,overdueDateSelectedOption,hideOverdueDateSelect,closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

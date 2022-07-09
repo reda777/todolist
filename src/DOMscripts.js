@@ -4,7 +4,20 @@ import { format, addDays, eachDayOfInterval, lastDayOfMonth, parse, getWeekOfMon
 function header() {
     const div = document.createElement("div");
     div.id = "header";
-    div.textContent = "Todo List";
+    
+    const divTitle = document.createElement("div");
+    divTitle.className = "headerTitle";
+    divTitle.textContent = "Todolist";
+    div.appendChild(divTitle);
+
+    const divCompleted = document.createElement("div");
+    divCompleted.className="headerCompleted";
+    div.appendChild(divCompleted);
+
+    const spanCompleted = document.createElement("span");
+    spanCompleted.className="completedIcon";
+    divCompleted.appendChild(spanCompleted);
+
     return div;
 }
 function sidebar() {
@@ -683,6 +696,16 @@ function overdueDateSelect() {
     }
     return editDateMenu;
 }
+function completedTaskList() {
+    const completedTaskOuter = document.createElement("div");
+    completedTaskOuter.className = "completedOuter_hidden";
+
+    const completedList = document.createElement("div");
+    completedList.className = "completed--list";
+    completedTaskOuter.appendChild(completedList);
+
+    return completedTaskOuter;
+}
 function taskDateSelect() {
     const editDateMenu = document.createElement("div");
     editDateMenu.className = "task--datemenuouter_hidden";
@@ -853,7 +876,7 @@ function buildSite() {
     content.id = "content";
     createStorage();
     let objP = JSON.parse(localStorage.getItem("preferences"));
-    content.append(header(), sidebar(), main(), footer(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(),overdueDateSelect());
+    content.append(header(), sidebar(), main(), footer(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(),overdueDateSelect(),completedTaskList());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateCurrentTab();
