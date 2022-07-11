@@ -12,22 +12,22 @@ function createMainEvents() {
     let showTDateSelectEvent = function () {
         t.showTaskDateSelect(this);
     }
-    let showTPrioSelectEvent=function(){
+    let showTPrioSelectEvent = function () {
         t.showPrioSelect(this);
     }
     let cancelAddTevent = function () {
         t.cancelAddTask();
     }
-    let cancelEditTevent=function(){
+    let cancelEditTevent = function () {
         t.cancelEditTask();
     }
     let addTevent = function () {
         timeoutID = t.addTaskButton();
     }
-    let saveTevent=function(){
+    let saveTevent = function () {
         timeoutID = t.saveTaskButton(this);
     }
-    
+
     let resizeTextArea = function () {
         t.taskResizeTextArea(this);
     }
@@ -37,11 +37,11 @@ function createMainEvents() {
     let keepMessage = function () {
         t.closeMessageTab(false, timeoutID);
     }
-    let closeShowTEvent=function (){
+    let closeShowTEvent = function () {
         t.closeShowTaskSum();
     }
     document.querySelector(".task--add").addEventListener("click", showAddTevent);
-   
+
     document.querySelectorAll("#task_project").forEach(element => {
         element.addEventListener("click", showTPSelectEvent);
     });
@@ -56,7 +56,7 @@ function createMainEvents() {
     document.querySelector(".task_edit_hidden #task--new_submit_cancel").addEventListener("click", cancelEditTevent);
     document.querySelector("#task--new_submit_add").addEventListener("click", addTevent);
     document.querySelector(".task_edit_hidden #task--new_submit_add").addEventListener("click", saveTevent);
-    
+
     //textarea
     document.querySelector("#task_name").addEventListener("input", resizeTextArea);
     //close floating message
@@ -102,16 +102,16 @@ function createEvents() {
     let hideODateSelectEvent = function (e) {
         t.hideOverdueDateSelect(e);
     }
-    let hideTPrioSelectEvent= function(e){
+    let hideTPrioSelectEvent = function (e) {
         t.hideTaskPrioSelect(e);
     }
     let selectedDateEvent = function () {
         t.taskDateSelectedOption(this);
     }
     let selectedODateEvent = function (e) {
-        t.overdueDateSelectedOption(this,e);
+        t.overdueDateSelectedOption(this, e);
     }
-    let selectedPrioEvent=function(e){
+    let selectedPrioEvent = function (e) {
         t.selectedPrio(e);
     }
     let showTInDate = function () {
@@ -133,18 +133,18 @@ function createEvents() {
         p.cancelEditProject();
     }
     let showTUpcomig = function () {
-        t.showUpcomingTasks(this);
+        t.showUpcomingTasks();
     }
     let selectedCalDate = function (e) {
         t.taskCalDateSelected(e);
     }
-    let showCompletedListEvent =function (){
+    let showCompletedListEvent = function () {
         t.showCompletedList(this);
     }
-    let closeCompletedTaskEvent = function(e){
+    let closeCompletedTaskEvent = function (e) {
         t.closeCompletedTask(e);
     }
- 
+
     //header completed list
     document.querySelector(".headerCompleted").addEventListener("click", showCompletedListEvent);
     document.querySelector(".completedOuter_hidden").addEventListener("click", closeCompletedTaskEvent);

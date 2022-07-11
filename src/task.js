@@ -1,6 +1,6 @@
-import {createPriority, createDay, createToday, createTomorrow, mainGroup,taskEditBtn,taskDeleteBtn } from "./DOMscripts.js";
-import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay,compareDesc } from 'date-fns';
-import { createMainEvents} from './eventsScripts';
+import { createPriority, createDay, createToday, createTomorrow, mainGroup, taskEditBtn, taskDeleteBtn } from "./DOMscripts.js";
+import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay, compareDesc } from 'date-fns';
+import { createMainEvents } from './eventsScripts';
 import * as p from "./project.js";
 const task = (name, projectId, date, desc, prio) => {
     let id = Date.now().toString(36) + Math.random().toString(36).slice(2);
@@ -43,8 +43,8 @@ function addTaskButton() {
     const nameValue = document.querySelector("#task_name").value;
     const projectValue = document.querySelector("#task_project div").className;
     const dateValue = document.querySelector("#task--date div").dataset.date;
-    const descValue= document.querySelector("#task_desc").value;
-    const prioValue=document.querySelector("#task_prio div").dataset.prio;
+    const descValue = document.querySelector("#task_desc").value;
+    const prioValue = document.querySelector("#task_prio div").dataset.prio;
     addTask(nameValue, projectValue, dateValue, descValue, prioValue);
     return closeMessageTab(true);
 }
@@ -76,7 +76,7 @@ function populateCurrentTab() {
         populateProjectTab(currentTab);
     }
 }
-function popProjectPrio(tPrio,pId){
+function popProjectPrio(tPrio, pId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
     for (let i = 0; i < obj.task.length; i++) {
@@ -84,7 +84,7 @@ function popProjectPrio(tPrio,pId){
             idValue = obj.task[i].id;
             nameValue = obj.task[i].name;
             prioValue = obj.task[i].prio;
-            if(obj.task[i].prio==tPrio){
+            if (obj.task[i].prio == tPrio) {
                 for (let k = 0; k < obj.project.length; k++) {
                     if (obj.task[i].projectId == obj.project[k].id) {
                         projectNameValue = obj.project[k].name;
@@ -127,19 +127,19 @@ function populateProjectTab(pId) {
             document.querySelector(".task--add_hidden")?.before(dateHeader);
     }
     //populate every dates with tasks
-    let prioArray=["0","1","2","3"];
+    let prioArray = ["0", "1", "2", "3"];
     prioArray.forEach(tPrio => {
-        popProjectPrio(tPrio,pId);
+        popProjectPrio(tPrio, pId);
     });
 }
-function popUpcomigPrio(tPrio){
+function popUpcomigPrio(tPrio) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let projectNameValue, projectColorValue, nameValue, idValue, prioValue;
     for (let i = 0; i < obj.task.length; i++) {
         idValue = obj.task[i].id;
         nameValue = obj.task[i].name;
         prioValue = obj.task[i].prio;
-        if(obj.task[i].prio == tPrio){
+        if (obj.task[i].prio == tPrio) {
             for (let k = 0; k < obj.project.length; k++) {
                 if (obj.task[i].projectId == obj.project[k].id) {
                     projectNameValue = obj.project[k].name;
@@ -151,28 +151,28 @@ function popUpcomigPrio(tPrio){
         }
     }
 }
-function createRescheduleEvent(dateHeaderReschedule){
-    let showDatePicker= function(){
+function createRescheduleEvent(dateHeaderReschedule) {
+    let showDatePicker = function () {
         showOverdueDateSelect(dateHeaderReschedule);
     }
-    dateHeaderReschedule.addEventListener("click",showDatePicker);
+    dateHeaderReschedule.addEventListener("click", showDatePicker);
 }
 function populateUpcomingTab() {
     let mainList = document.querySelectorAll("#main--list .main--list_dates");
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    
+
     //delete old list
     mainList.forEach(element => {
         element.parentNode.removeChild(element);
     });
     //populate and sort array of overdue dates
     let listOfOverdue = [];
-    let checkDate,checkIncludes;
+    let checkDate, checkIncludes;
     for (let i = 0; i < obj.task.length; i++) {
-        checkIncludes=listOfOverdue.includes(obj.task[i].date);
-        checkDate= compareAsc(parse(obj.task[i].date,"yyyy-MM-dd",new Date()),
-        parse( format( new Date(),"yyyy-MM-dd" ),"yyyy-MM-dd", new Date() ));
-        if (checkDate==-1 && checkIncludes==false) {
+        checkIncludes = listOfOverdue.includes(obj.task[i].date);
+        checkDate = compareAsc(parse(obj.task[i].date, "yyyy-MM-dd", new Date()),
+            parse(format(new Date(), "yyyy-MM-dd"), "yyyy-MM-dd", new Date()));
+        if (checkDate == -1 && checkIncludes == false) {
             listOfOverdue.push(obj.task[i].date);
         }
     }
@@ -181,12 +181,12 @@ function populateUpcomingTab() {
     });
     //populate and sort array of dates
     let listOfDates = [];
-    let checkDates,checkInclude;
+    let checkDates, checkInclude;
     for (let i = 0; i < obj.task.length; i++) {
-        checkInclude=listOfDates.includes(obj.task[i].date);
-        checkDates= compareAsc(parse(obj.task[i].date,"yyyy-MM-dd",new Date()),
-        parse( format( new Date(),"yyyy-MM-dd" ),"yyyy-MM-dd", new Date() ));
-        if (checkDates!=-1 && checkInclude==false) {
+        checkInclude = listOfDates.includes(obj.task[i].date);
+        checkDates = compareAsc(parse(obj.task[i].date, "yyyy-MM-dd", new Date()),
+            parse(format(new Date(), "yyyy-MM-dd"), "yyyy-MM-dd", new Date()));
+        if (checkDates != -1 && checkInclude == false) {
             listOfDates.push(obj.task[i].date);
         }
     }
@@ -209,8 +209,8 @@ function populateUpcomingTab() {
         dateHeader.appendChild(dateHeaderText);
 
         const dateHeaderReschedule = document.createElement("div");
-        dateHeaderReschedule.className="date--header_resch";
-        dateHeaderReschedule.textContent ="Reschedule";
+        dateHeaderReschedule.className = "date--header_resch";
+        dateHeaderReschedule.textContent = "Reschedule";
         dateHeader.appendChild(dateHeaderReschedule);
         //create event
         createRescheduleEvent(dateHeaderReschedule);
@@ -230,11 +230,11 @@ function populateUpcomingTab() {
             document.querySelector(".task--add_hidden")?.before(dateHeader);
     }
     //populate every dates with tasks
-    let prioArray=["0","1","2","3"];
+    let prioArray = ["0", "1", "2", "3"];
     prioArray.forEach(tPrio => {
         popUpcomigPrio(tPrio);
     });
-    
+
 }
 function turnStringToDate(s) {
     if (s == "Tomorrow") {
@@ -243,7 +243,7 @@ function turnStringToDate(s) {
         return format(new Date(), 'yyyy-MM-dd');
     }
 }
-function popTodayTomorrowPrio(tPrio){
+function popTodayTomorrowPrio(tPrio) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     //get current tab
     let objP = JSON.parse(localStorage.getItem("preferences"));
@@ -259,41 +259,48 @@ function popTodayTomorrowPrio(tPrio){
                     projectNameValue = obj.project[k].name;
                     projectColorValue = obj.project[k].color;
                     (document.querySelector(".task--add")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue))) ||
-                    (document.querySelector(".task--add_hidden")
-                    ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue,prioValue)));
+                        ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue))) ||
+                        (document.querySelector(".task--add_hidden")
+                            ?.before(mainListTask(idValue, nameValue, projectNameValue, projectColorValue, prioValue)));
                 }
             }
         }
     }
 }
-function checkOverDue(){
+function checkOverDue() {
     let obj = JSON.parse(localStorage.getItem("todoList"));
     for (let i = 0; i < obj.task.length; i++) {
-        if (compareAsc(parse(obj.task[i].date,"yyyy-MM-dd",new Date()),parse( format( new Date(),"yyyy-MM-dd" ),"yyyy-MM-dd", new Date() ))==-1) {
+        if (compareAsc(parse(obj.task[i].date, "yyyy-MM-dd", new Date()), parse(format(new Date(), "yyyy-MM-dd"), "yyyy-MM-dd", new Date())) == -1) {
             return true;
         }
     }
 }
 function populateTodayOrTomorrowTab() {
     //check if there's overdue tasks
-    if(checkOverDue()){
+    if (checkOverDue()) {
         populateUpcomingTab();
-    }else {
+    } else {
+        //delete overdue list
+        let mainList = document.querySelectorAll("#main--list .main--list_dates");
+        //delete old list
+        mainList.forEach(element => {
+            element.parentNode.removeChild(element);
+        });
         let taskList = document.querySelectorAll("#main--list .task");
         //delete old list
         taskList.forEach(element => {
             element.parentNode.removeChild(element);
         });
         //populate task list of the current date
-        let prioArray=["0","1","2","3"];
+        let prioArray = ["0", "1", "2", "3"];
         prioArray.forEach(tPrio => {
             popTodayTomorrowPrio(tPrio);
         });
     }
-    
+
 }
-function showUpcomingTasks(element) {
+function showUpcomingTasks() {
+    const element = document.querySelector(".sidebar--header_upcoming");
     //keep the tab selected
     if (document.querySelector(".sidebar--header_clicked")) {
         document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
@@ -353,13 +360,13 @@ function showTaskProjectSelect(elem) {
     document.querySelector(".task--menu").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".task--menu").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
-function showOverdueDateSelect(elem){
+function showOverdueDateSelect(elem) {
     let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".overdue--selectdate_hidden").classList.add("overdue--selectdateouter");
     document.querySelector(".overdue--selectdate").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".overdue--selectdate").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
-    document.querySelector(".overdue--selectdate").dataset.date=elem.parentNode.parentNode.dataset.date;
+    document.querySelector(".overdue--selectdate").dataset.date = elem.parentNode.parentNode.dataset.date;
 }
 function showTaskDateSelect(elem) {
     let elementPos = elem.getBoundingClientRect();
@@ -374,9 +381,9 @@ function hideTaskProjectSelect() {
 function hideTaskDateSelect(e) {
     let datemenuOuter = document.querySelector(".task--datemenuouter_hidden");
     if (datemenuOuter == e.target)
-       datemenuOuter.classList.remove("task--datemenuouter");
+        datemenuOuter.classList.remove("task--datemenuouter");
 }
-function hideOverdueDateSelect(e){
+function hideOverdueDateSelect(e) {
     let datemenuOuter = document.querySelector(".overdue--selectdate_hidden");
     if (datemenuOuter == e.target)
         datemenuOuter.classList.remove("overdue--selectdateouter");
@@ -400,43 +407,46 @@ function taskProjectSelectedOption(selectedProject) {
         objP["lastProject"] = selectedProject.dataset.id;
         localStorage.setItem("preferences", JSON.stringify(objP));
     }
-    const taskProject = document.querySelector(".task--new #task_project")||document.querySelector(".task_edit #task_project")
-    ||document.querySelector(".task--new_hidden #task_project");
+    const taskProject = document.querySelector(".task--new #task_project") || document.querySelector(".task_edit #task_project")
+        || document.querySelector(".task--new_hidden #task_project");
     if (taskProject.firstChild) {
         taskProject.removeChild(taskProject.firstChild);
     }
     let clonedProject = selectedProject.cloneNode(true);
     taskProject.appendChild(clonedProject);
 }
-function overdueDateSelectedOption(that,e){
-    let currentDateofTask=document.querySelector(".overdue--selectdate").dataset.date;
+function overdueDateSelectedOption(that, e) {
+    let currentDateofTask = document.querySelector(".overdue--selectdate").dataset.date;
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    if(that.className!="months--days"){
-        for(let task of obj.task){
-            if(task.date==currentDateofTask){
-                task.date=that.dataset.date;
+    if (that.className != "months--days") {
+        for (let task of obj.task) {
+            if (task.date == currentDateofTask) {
+                task.date = that.dataset.date;
             }
         }
         document.querySelector(".overdue--selectdate_hidden").classList.remove("overdue--selectdateouter");
         localStorage.setItem("todoList", JSON.stringify(obj));
+        const main = document.querySelector("#main");
+        main.removeChild(main.firstChild);
+        main.appendChild(mainGroup(element.textContent));
         populateCurrentTab();
-    }else{
+    } else {
         if (e.target.className == "day") {
-            for(let task of obj.task){
-                if(task.date==currentDateofTask){
-                    task.date=e.target.dataset.date;
+            for (let task of obj.task) {
+                if (task.date == currentDateofTask) {
+                    task.date = e.target.dataset.date;
                 }
             }
             document.querySelector(".overdue--selectdate_hidden").classList.remove("overdue--selectdateouter");
             localStorage.setItem("todoList", JSON.stringify(obj));
             populateCurrentTab();
         }
-    }   
+    }
 }
 function taskDateSelectedOption(selectedDate) {
     const taskDate = document.querySelector(".task--new #task--date")
-    ||document.querySelector(".task_edit #task--date")
-    ||document.querySelector(".task--new_hidden #task--date");
+        || document.querySelector(".task_edit #task--date")
+        || document.querySelector(".task--new_hidden #task--date");
     if (taskDate.firstChild) {
         taskDate.removeChild(taskDate.firstChild);
     }
@@ -453,14 +463,14 @@ function taskDateSelectedOption(selectedDate) {
     }
     document.querySelector(".task--datemenuouter_hidden").classList.remove("task--datemenuouter");
 }
-function colorOfPrio(prioNum){
+function colorOfPrio(prioNum) {
     switch (prioNum) {
         case 0:
             return "red";
         case 1:
             return "orange";
         case 2:
-            return "yellow";    
+            return "yellow";
         default:
             return null;
     }
@@ -472,7 +482,7 @@ function mainListTask(tId, tContent, tProject, tColor, tPrio) {
 
     const taskInputOuter = document.createElement("div");
     taskInputOuter.className = "task--inputouter";
-    taskInputOuter.setAttribute("style",`border-left: 4px solid ${colorOfPrio(parseInt(tPrio))};`);
+    taskInputOuter.setAttribute("style", `border-left: 4px solid ${colorOfPrio(parseInt(tPrio))};`);
     task.appendChild(taskInputOuter);
 
     const taskCheckboxInput = document.createElement("input");
@@ -558,7 +568,7 @@ function createCalendar() {
                 eachDay.textContent = "";
             } else {
                 eachDay.className = "day";
-                eachDay.dataset.date = format(daysArray[i][k], 'dd/MM/yyyy');
+                eachDay.dataset.date = format(daysArray[i][k], 'yyyy-MM-dd');
                 eachDay.textContent = format(daysArray[i][k], "d");
             }
             eachWeek.appendChild(eachDay);
@@ -572,7 +582,7 @@ function createCalendar() {
 }
 function taskCalDateSelected(e) {
     if (e.target.className == "day") {
-        const taskDate = document.querySelector(".task--new #task--date")||document.querySelector(".task_edit #task--date");
+        const taskDate = document.querySelector(".task--new #task--date") || document.querySelector(".task_edit #task--date");
         if (taskDate.firstChild) {
             taskDate.removeChild(taskDate.firstChild);
         }
@@ -588,12 +598,18 @@ function taskResizeTextArea(element) {
 function markTaskDone(that) {
     let projectTaskId;
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj.task){
-        if(that.parentNode.parentNode.dataset.id==t.id){
-            if(obj.completedTasks.length>=30){
+    for (let t of obj.task) {
+        if (that.parentNode.parentNode.dataset.id == t.id) {
+            for (let p of obj.project) {
+                if (p.id == t.projectId) {
+                    t.pName = p.name;
+                    t.pColor = p.color;
+                }
+            }
+            if (obj.completedTasks.length >= 30) {
                 obj.completedTasks.shift();
                 obj.completedTasks.push(t);
-            }else{
+            } else {
                 obj.completedTasks.push(t);
             }
         }
@@ -615,14 +631,14 @@ function markTaskDone(that) {
     populateCurrentTab();
     p.populateProjectList();
 }
-function delTask(elem){
+function delTask(elem) {
     let projectTaskId;
     let obj = JSON.parse(localStorage.getItem("todoList"));
     let newTask = obj.task.filter((element, index) => {
-        return element.id !=elem.dataset.id;
+        return element.id != elem.dataset.id;
     });
     for (let task of obj.task) {
-        if (task.id ==elem.dataset.id)
+        if (task.id == elem.dataset.id)
             projectTaskId = task.projectId;
     }
     for (let project of obj.project) {
@@ -635,26 +651,26 @@ function delTask(elem){
     populateCurrentTab();
     p.populateProjectList();
 }
-function showPrioSelect(elem){
+function showPrioSelect(elem) {
     let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".task--outerprio_hidden").classList.add("task--outerprio");
     document.querySelector(".task--prio").style.left = `${elementPos.left + 2 - bodyPos.left}px`;
     document.querySelector(".task--prio").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
 }
-function hideTaskPrioSelect(e){
+function hideTaskPrioSelect(e) {
     let outerPrio = document.querySelector(".task--outerprio_hidden");
     if (outerPrio == e.target)
         document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
 }
-function selectedPrio(e){
-    const taskPrio = document.querySelector(".task--new #task_prio")||document.querySelector(".task_edit #task_prio");
+function selectedPrio(e) {
+    const taskPrio = document.querySelector(".task--new #task_prio") || document.querySelector(".task_edit #task_prio");
     if (taskPrio.firstChild) {
         taskPrio.removeChild(taskPrio.firstChild);
     }
-    if(e.target.className=="select--prio" ){
-        taskPrio.appendChild(createPriority(parseInt(e.target.dataset.prio) ));
-    }else if(e.target.parentNode.className=="select--prio"){
+    if (e.target.className == "select--prio") {
+        taskPrio.appendChild(createPriority(parseInt(e.target.dataset.prio)));
+    } else if (e.target.parentNode.className == "select--prio") {
         taskPrio.appendChild(createPriority(parseInt(e.target.parentNode.dataset.prio)));
     }
     document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
@@ -677,26 +693,26 @@ function hideTaskDelIcon(element) {
         element.querySelector(".task--del_hidden").classList.remove("task--del");
     }
 }
-function getProjectIdOfTaskId(tId){
+function getProjectIdOfTaskId(tId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj["task"]){
-        if(tId==t.id)
+    for (let t of obj["task"]) {
+        if (tId == t.id)
             return t.projectId;
     }
     return null;
 }
-function getTaskName(tId){
+function getTaskName(tId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj["task"]){
-        if(tId==t.id)
+    for (let t of obj["task"]) {
+        if (tId == t.id)
             return t.name;
     }
     return "";
 }
-function getTaskDesc(tId){
+function getTaskDesc(tId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj["task"]){
-        if(tId==t.id)
+    for (let t of obj["task"]) {
+        if (tId == t.id)
             return t.desc;
     }
     return "";
@@ -709,7 +725,7 @@ function projectOfTask(selectedProject) {
     let clonedProject = selectedProject.cloneNode(true);
     taskProject.appendChild(clonedProject);
 }
-function prioOfTask(prio){
+function prioOfTask(prio) {
     const taskPrio = document.querySelector(".task_edit_hidden #task_prio");
     if (taskPrio.firstChild) {
         taskPrio.removeChild(taskPrio.firstChild);
@@ -717,44 +733,44 @@ function prioOfTask(prio){
     taskPrio.appendChild(createPriority(parseInt(prio)));
     document.querySelector(".task--outerprio_hidden").classList.remove("task--outerprio");
 }
-function getTaskPrio(tId){
+function getTaskPrio(tId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj["task"]){
-        if(tId==t.id)
+    for (let t of obj["task"]) {
+        if (tId == t.id)
             return t.prio;
     }
     return "";
 }
-function dateOfTask(tDate){
+function dateOfTask(tDate) {
     const taskDate = document.querySelector(".task_edit_hidden #task--date");
     if (taskDate.firstChild) {
         taskDate.removeChild(taskDate.firstChild);
     }
-    let todayDate=parse(format(new Date(),'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
-    let tomorrowDate=parse(format(addDays(new Date(), 1), 'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
-    if(compareAsc(todayDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+    let todayDate = parse(format(new Date(), 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date());
+    let tomorrowDate = parse(format(addDays(new Date(), 1), 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date());
+    if (compareAsc(todayDate, parse(tDate, 'yyyy-MM-dd', new Date())) == 0) {
         taskDate.appendChild(createToday());
-    }else if(compareAsc(tomorrowDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+    } else if (compareAsc(tomorrowDate, parse(tDate, 'yyyy-MM-dd', new Date())) == 0) {
         taskDate.appendChild(createTomorrow());
-    }else{
-        taskDate.appendChild(createDay(format(parse(tDate,'yyyy-MM-dd',new Date()),'dd/MM/yyyy')));
+    } else {
+        taskDate.appendChild(createDay(format(parse(tDate, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')));
     }
 }
-function getTaskDate(tId){
+function getTaskDate(tId) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj["task"]){
-        if(tId==t.id)
+    for (let t of obj["task"]) {
+        if (tId == t.id)
             return t.date;
     }
     return "";
 }
-function showEditTask(t){
-    let taskId=t.dataset.id;
-    const editTaskInterface=document.querySelector(".task_edit_hidden");
+function showEditTask(t) {
+    let taskId = t.dataset.id;
+    const editTaskInterface = document.querySelector(".task_edit_hidden");
     //task name
-    editTaskInterface.querySelector("#task_name").value=getTaskName(taskId);
+    editTaskInterface.querySelector("#task_name").value = getTaskName(taskId);
     //task desc
-    editTaskInterface.querySelector("#task_desc").value=getTaskDesc(taskId);
+    editTaskInterface.querySelector("#task_desc").value = getTaskDesc(taskId);
     //selected project
     const pOption = document.querySelector(`.task--menu [data-id="${getProjectIdOfTaskId(taskId)}"]`);
     projectOfTask(pOption);
@@ -763,58 +779,58 @@ function showEditTask(t){
     //selected priority
     prioOfTask(getTaskPrio(taskId));
     document.querySelector(".task_edit_hidden").classList.add("task_edit");
-    document.querySelector(".task_edit #task--new_submit_add").dataset.id=taskId;
+    document.querySelector(".task_edit #task--new_submit_add").dataset.id = taskId;
 }
-function cancelEditTask(){
+function cancelEditTask() {
     document.querySelector(".task_edit_hidden").classList.remove("task_edit");
 }
 function saveTaskButton(elem) {
     const nameValue = document.querySelector(".task_edit #task_name").value;
     const projectValue = document.querySelector(".task_edit #task_project div").className;
     const dateValue = document.querySelector(".task_edit #task--date div").dataset.date;
-    const descValue= document.querySelector(".task_edit #task_desc").value;
-    const prioValue=document.querySelector(".task_edit #task_prio div").dataset.prio;
-    const taskId=elem.dataset.id;
-    editTask(taskId,nameValue, projectValue, dateValue, descValue, prioValue);
+    const descValue = document.querySelector(".task_edit #task_desc").value;
+    const prioValue = document.querySelector(".task_edit #task_prio div").dataset.prio;
+    const taskId = elem.dataset.id;
+    editTask(taskId, nameValue, projectValue, dateValue, descValue, prioValue);
     return closeMessageTab(true);
 }
-function editTask(taskId,nameValue, projectValue, dateValue, descValue, prioValue) {
+function editTask(taskId, nameValue, projectValue, dateValue, descValue, prioValue) {
     let obj = JSON.parse(localStorage.getItem("todoList"));
-    for(let t of obj["task"]){
-        if(t.id==taskId){
-            if(t.projectId!=obj.project[projectValue].id){
+    for (let t of obj["task"]) {
+        if (t.id == taskId) {
+            if (t.projectId != obj.project[projectValue].id) {
                 //decrease count of tasks
-                for(let pro of obj["project"]){
-                    if(t.projectId==pro.id){
+                for (let pro of obj["project"]) {
+                    if (t.projectId == pro.id) {
                         pro.count--;
                         document.querySelector("#" + pro.id + " .project--count").textContent = pro.count;
                     }
                 }
                 //update count of tasks in localstorage
-                t.projectId=obj.project[projectValue].id;
+                t.projectId = obj.project[projectValue].id;
                 obj.project[projectValue].count++;
                 //update count of tasks in the sidebar
                 document.querySelector("#" + obj.project[projectValue].id + " .project--count").textContent = obj.project[projectValue].count;
             }
-            t.name=nameValue;
-            t.date=dateValue;
-            t.desc=descValue;
-            t.prio=prioValue;
+            t.name = nameValue;
+            t.date = dateValue;
+            t.desc = descValue;
+            t.prio = prioValue;
         }
     }
-    
+
     localStorage.setItem("todoList", JSON.stringify(obj));
     //populate correspondent task list 
     populateCurrentTab();
     //close edit tab
     document.querySelector(".task_edit_hidden").classList.remove("task_edit");
 }
-function showTaskSum(t){
-    let taskId=t.dataset.id;
+function showTaskSum(t) {
+    let taskId = t.dataset.id;
     document.querySelector(".show--task_hidden").classList.add("show--task");
-    
+
     //project of task
-    const projectName=document.querySelector("#task--side_projectName");
+    const projectName = document.querySelector("#task--side_projectName");
     const pOption = document.querySelector(`.task--menu [data-id="${getProjectIdOfTaskId(taskId)}"]`);
     if (projectName.firstChild) {
         projectName.removeChild(projectName.firstChild);
@@ -822,32 +838,32 @@ function showTaskSum(t){
     let clonedProject = pOption.cloneNode(true);
     projectName.appendChild(clonedProject);
     //date of task
-    const dateName=document.querySelector("#task--side_dateName");
-    let tDate=getTaskDate(taskId);
+    const dateName = document.querySelector("#task--side_dateName");
+    let tDate = getTaskDate(taskId);
     if (dateName.firstChild) {
         dateName.removeChild(dateName.firstChild);
     }
-    let todayDate=parse(format(new Date(),'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
-    let tomorrowDate=parse(format(addDays(new Date(), 1), 'yyyy-MM-dd'),'yyyy-MM-dd',new Date());
-    if(compareAsc(todayDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+    let todayDate = parse(format(new Date(), 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date());
+    let tomorrowDate = parse(format(addDays(new Date(), 1), 'yyyy-MM-dd'), 'yyyy-MM-dd', new Date());
+    if (compareAsc(todayDate, parse(tDate, 'yyyy-MM-dd', new Date())) == 0) {
         dateName.appendChild(createToday());
-    }else if(compareAsc(tomorrowDate,parse(tDate,'yyyy-MM-dd',new Date()))==0){
+    } else if (compareAsc(tomorrowDate, parse(tDate, 'yyyy-MM-dd', new Date())) == 0) {
         dateName.appendChild(createTomorrow());
-    }else{
-        dateName.appendChild(createDay(format(parse(tDate,'yyyy-MM-dd',new Date()),'dd/MM/yyyy')));
+    } else {
+        dateName.appendChild(createDay(format(parse(tDate, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd')));
     }
     //prio of task
-    const prioName=document.querySelector("#task--side_prioName");
+    const prioName = document.querySelector("#task--side_prioName");
     if (prioName.firstChild) {
         prioName.removeChild(prioName.firstChild);
     }
     prioName.appendChild(createPriority(parseInt(getTaskPrio(taskId))));
     //task name
-    document.querySelector("#task--main_name").textContent=getTaskName(taskId);
+    document.querySelector("#task--main_name").textContent = getTaskName(taskId);
     //task desc
-    document.querySelector("#task--main_desc").textContent=getTaskDesc(taskId);
+    document.querySelector("#task--main_desc").textContent = getTaskDesc(taskId);
 }
-function closeShowTaskSum(){
+function closeShowTaskSum() {
     document.querySelector(".show--task_hidden").classList.remove("show--task");
 }
 function completedListTask(tContent, tProject, tColor) {
@@ -865,35 +881,35 @@ function completedListTask(tContent, tProject, tColor) {
 
     const taskName_project = document.createElement("div");
     taskName_project.className = "completedTask--name_project";
-    taskName_project.dataset.id = tProject;
-    taskName_project.style.backgroundColor = tColor;
+    taskName_project.textContent = tProject;
+    taskName_project.style.color = tColor;
     task.appendChild(taskName_project);
 
     return task;
 }
-function closeCompletedTask(e){
-    if(e.target.classList[0]=="completedOuter_hidden"){
-        const comList=document.querySelectorAll(".mainContainer");
+function closeCompletedTask(e) {
+    if (e.target.classList[0] == "completedOuter_hidden") {
+        const comList = document.querySelectorAll(".mainContainer");
         document.querySelector(".completedOuter_hidden").classList.remove("completedOuter");
         comList.forEach(element => {
             element.parentNode.removeChild(element);
         });
     }
-    
+
 }
-function showCompletedList(elem){
+function showCompletedList(elem) {
     let elementPos = elem.getBoundingClientRect();
     let bodyPos = document.body.getBoundingClientRect();
     document.querySelector(".completedOuter_hidden").classList.add("completedOuter");
     document.querySelector(".completed--list").style.right = `5px`;
     document.querySelector(".completed--list").style.top = `${elementPos.bottom + 2 - bodyPos.top}px`;
-    let obj=JSON.parse(localStorage.getItem("todoList"));
+    let obj = JSON.parse(localStorage.getItem("todoList"));
     //array of completed task days
     let listCompletedDates = [];
     let checkIncludes;
     for (let i = 0; i < obj.completedTasks.length; i++) {
-        checkIncludes=listCompletedDates.includes(obj.completedTasks[i].date);
-        if (checkIncludes==false) {
+        checkIncludes = listCompletedDates.includes(obj.completedTasks[i].date);
+        if (checkIncludes == false) {
             listCompletedDates.push(obj.completedTasks[i].date);
         }
     }
@@ -914,24 +930,20 @@ function showCompletedList(elem){
         dateHeaderText.textContent = `${format(parse(dates, 'yyyy-MM-dd', new Date()), 'do LLL yyyy')}`;
         dateHeader.appendChild(dateHeaderText);
 
-        for(let comTask of obj.completedTasks){
-            if(dates==comTask.date){
-                for (let proj of obj.project) {
-                    if (proj.id == comTask.projectId) {
-                        mainListDates.append(completedListTask(comTask.name,proj.id,proj.color));
-                    }
-                }
+        for (let comTask of obj.completedTasks) {
+            if (dates == comTask.date) {
+                mainListDates.append(completedListTask(comTask.name, comTask.pName, comTask.pColor));
             }
         }
         document.querySelector(".completed--list").append(mainListDates);
     }
-    
+
 }
 function createdTaskEvents(t) {
     let taskDone = function () {
         setTimeout(() => {
             markTaskDone(this);
-        }, 370);     
+        }, 370);
     }
     t.querySelector(".task--inputouter input").addEventListener("change", taskDone);
     let showIconEvent = function () {
@@ -957,10 +969,10 @@ function createdTaskEvents(t) {
     t.querySelector(".task--del_hidden").addEventListener("click", delTevent);
     //show task summary
     let showTaskSumEvent = function (e) {
-        if(e.target.className=="task"||e.target.className=="task--name"||e.target.className=="task--inputouter")
+        if (e.target.className == "task" || e.target.className == "task--name" || e.target.className == "task--inputouter")
             showTaskSum(t);
     }
     t.addEventListener("click", showTaskSumEvent);
 }
-export { closeCompletedTask,showCompletedList,overdueDateSelectedOption,hideOverdueDateSelect,closeShowTaskSum,saveTaskButton,cancelEditTask,selectedPrio,hideTaskPrioSelect,showPrioSelect,showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { closeCompletedTask, showCompletedList, overdueDateSelectedOption, hideOverdueDateSelect, closeShowTaskSum, saveTaskButton, cancelEditTask, selectedPrio, hideTaskPrioSelect, showPrioSelect, showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

@@ -113,12 +113,12 @@ function deleteProject() {
     if (objP["lastProject"] == id) {
         objP["lastProject"] = "id1";
     }
-    if(objP["sidebar"]["tab"]==id){
-        objP["sidebar"]["tab"]="Today";
+    if (objP["sidebar"]["tab"] == id) {
+        objP["sidebar"]["tab"] = "Today";
         const main = document.querySelector("#main");
         main.removeChild(main.firstChild);
         main.appendChild(mainGroup("Today"));
-        let tab=document.querySelector(".sidebar--header_today");
+        let tab = document.querySelector(".sidebar--header_today");
         tab.classList.add("sidebar--header_clicked");
     }
     let newProject = obj.project.filter((element, index) => {

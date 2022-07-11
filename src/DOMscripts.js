@@ -4,18 +4,18 @@ import { format, addDays, eachDayOfInterval, lastDayOfMonth, parse, getWeekOfMon
 function header() {
     const div = document.createElement("div");
     div.id = "header";
-    
+
     const divTitle = document.createElement("div");
     divTitle.className = "headerTitle";
     divTitle.textContent = "Todolist";
     div.appendChild(divTitle);
 
     const divCompleted = document.createElement("div");
-    divCompleted.className="headerCompleted";
+    divCompleted.className = "headerCompleted";
     div.appendChild(divCompleted);
 
     const spanCompleted = document.createElement("span");
-    spanCompleted.className="completedIcon";
+    spanCompleted.className = "completedIcon";
     divCompleted.appendChild(spanCompleted);
 
     return div;
@@ -126,10 +126,10 @@ function mainGroup(option) {
             headerText = obj.project[i].name;
         }
     }
-    let tabArray=["Today","Tomorrow","Upcoming"];
+    let tabArray = ["Today", "Tomorrow", "Upcoming"];
     //if option value is not an id just show the string
     if (headerText == null) {
-        if(tabArray.includes(option))
+        if (tabArray.includes(option))
             headerText = option;
         else
             headerText = "Today";
@@ -217,7 +217,7 @@ function showTaskSummary() {
 
     const taskProjectLabel = document.createElement("div");
     taskProjectLabel.id = "task--side_projectLabel";
-    taskProjectLabel.textContent="Project";
+    taskProjectLabel.textContent = "Project";
     taskProject.appendChild(taskProjectLabel);
 
     const taskProjectName = document.createElement("div");
@@ -230,7 +230,7 @@ function showTaskSummary() {
 
     const taskDateLabel = document.createElement("div");
     taskDateLabel.id = "task--side_dateLabel";
-    taskDateLabel.textContent="Due Date";
+    taskDateLabel.textContent = "Due Date";
     taskDate.appendChild(taskDateLabel);
 
     const taskDateName = document.createElement("div");
@@ -243,7 +243,7 @@ function showTaskSummary() {
 
     const taskPrioLabel = document.createElement("div");
     taskPrioLabel.id = "task--side_prioLabel";
-    taskPrioLabel.textContent="Priority";
+    taskPrioLabel.textContent = "Priority";
     taskPrio.appendChild(taskPrioLabel);
 
     const taskPrioName = document.createElement("div");
@@ -531,27 +531,27 @@ function taskProjectSelect() {
 
     return editMenuOuter;
 }
-function createPriority(prioValue){
+function createPriority(prioValue) {
     const prio = document.createElement("div");
     prio.className = "select--prio";
-    prio.dataset.prio=prioValue;
-    
+    prio.dataset.prio = prioValue;
+
     const prioIcon = document.createElement("span");
     prioIcon.className = "select--prio_icon";
     prio.appendChild(prioIcon);
 
     switch (prioValue) {
         case 0:
-            prio.style.color="red";
-            prioIcon.style.background="red";
+            prio.style.color = "red";
+            prioIcon.style.background = "red";
             break;
         case 1:
-            prio.style.color="orange";
-            prioIcon.style.background="orange";
+            prio.style.color = "orange";
+            prioIcon.style.background = "orange";
             break;
         case 2:
-            prio.style.color="yellow";
-            prioIcon.style.background="yellow";
+            prio.style.color = "yellow";
+            prioIcon.style.background = "yellow";
             break;
         default:
             break;
@@ -596,7 +596,7 @@ function createTomorrow() {
 function createDay(tDate) {
     const day = document.createElement("div");
     day.className = "picked--date";
-    day.dataset.date = `${format(parse(tDate, 'dd/MM/yyyy', new Date()), "yyyy-MM-dd")}`;
+    day.dataset.date = `${format(parse(tDate, 'yyyy-MM-dd', new Date()), "yyyy-MM-dd")}`;
 
     const dayIcon = document.createElement("span");
     dayIcon.className = "picked--date_icon";
@@ -604,11 +604,11 @@ function createDay(tDate) {
 
     const dayText = document.createElement("span");
     dayText.className = "picked--date_text";
-    dayText.textContent = `${format(parse(tDate, 'dd/MM/yyyy', new Date()), "dd LLL")}`;
+    dayText.textContent = `${format(parse(tDate, 'yyyy-MM-dd', new Date()), "dd LLL")}`;
     day.appendChild(dayText);
     return day;
 }
-function taskPrioSelect(){
+function taskPrioSelect() {
     const editPrioMenu = document.createElement("div");
     editPrioMenu.className = "task--outerprio_hidden";
 
@@ -684,7 +684,7 @@ function overdueDateSelect() {
                 eachDay.textContent = "";
             } else {
                 eachDay.className = "day";
-                eachDay.dataset.date = format(daysArray[i][k], 'dd/MM/yyyy');
+                eachDay.dataset.date = format(daysArray[i][k], 'yyyy-MM-dd');
                 eachDay.textContent = format(daysArray[i][k], "d");
             }
             eachWeek.appendChild(eachDay);
@@ -765,7 +765,7 @@ function taskDateSelect() {
                 eachDay.textContent = "";
             } else {
                 eachDay.className = "day";
-                eachDay.dataset.date = format(daysArray[i][k], 'dd/MM/yyyy');
+                eachDay.dataset.date = format(daysArray[i][k], 'yyyy-MM-dd');
                 eachDay.textContent = format(daysArray[i][k], "d");
             }
             eachWeek.appendChild(eachDay);
@@ -868,44 +868,44 @@ function createStorage() {
         localStorage.setItem("preferences", JSON.stringify(preferences));
     }
 }
-function selectCurrentTab(){
-    let objP = JSON.parse(localStorage.getItem("preferences")); 
+function selectCurrentTab() {
+    let objP = JSON.parse(localStorage.getItem("preferences"));
     let currentTab = objP["sidebar"]["tab"];
     let tab;
     switch (currentTab) {
         case "Today":
-            tab=document.querySelector(".sidebar--header_today");
+            tab = document.querySelector(".sidebar--header_today");
             if (document.querySelector(".sidebar--header_clicked")) {
                 document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
             }
             tab.classList.add("sidebar--header_clicked");
             break;
         case "Tomorrow":
-            tab=document.querySelector(".sidebar--header_tomorrow");
+            tab = document.querySelector(".sidebar--header_tomorrow");
             if (document.querySelector(".sidebar--header_clicked")) {
                 document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
             }
             tab.classList.add("sidebar--header_clicked");
             break;
         case "Upcoming":
-            tab=document.querySelector(".sidebar--header_upcoming");
+            tab = document.querySelector(".sidebar--header_upcoming");
             if (document.querySelector(".sidebar--header_clicked")) {
                 document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
             }
             tab.classList.add("sidebar--header_clicked");
-            break;    
+            break;
         default:
-            tab=document.querySelector(`#${currentTab}`);
+            tab = document.querySelector(`#${currentTab}`);
             if (document.querySelector(".sidebar--header_clicked")) {
                 document.querySelector(".sidebar--header_clicked").classList.remove("sidebar--header_clicked");
             }
-            if(tab==null){
-                tab=document.querySelector(".sidebar--header_today");
-                objP["sidebar"]["tab"]="Today";
+            if (tab == null) {
+                tab = document.querySelector(".sidebar--header_today");
+                objP["sidebar"]["tab"] = "Today";
                 localStorage.setItem("preferences", JSON.stringify(objP));
             }
             tab.classList.add("sidebar--header_clicked");
-            
+
             break;
     }
 }
@@ -913,11 +913,11 @@ function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
     createStorage();
-    content.append(header(), sidebar(), main(), addProject(),showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(),overdueDateSelect(),completedTaskList());
+    content.append(header(), sidebar(), main(), addProject(), showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(), overdueDateSelect(), completedTaskList());
     document.body.appendChild(content);
     p.populateProjectList();
     t.populateCurrentTab();
     p.populateProjectSelect();
     selectCurrentTab();
 }
-export { createPriority,createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn, taskDeleteBtn };
+export { createPriority, createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn, taskDeleteBtn };
