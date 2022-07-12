@@ -10,6 +10,20 @@ function header() {
     divTitle.textContent = "Todolist";
     div.appendChild(divTitle);
 
+    const gitLink=document.createElement("a");
+    gitLink.href="https://github.com/reda777/todolist";
+    gitLink.target="_blank";
+    gitLink.rel="noopener noreferrer";
+    div.appendChild(gitLink);
+
+    const divGit = document.createElement("div");
+    divGit.className = "headerGit";
+    gitLink.appendChild(divGit);
+
+    const spanGit = document.createElement("span");
+    spanGit.className = "gitIcon";
+    divGit.appendChild(spanGit);
+
     const divCompleted = document.createElement("div");
     divCompleted.className = "headerCompleted";
     div.appendChild(divCompleted);

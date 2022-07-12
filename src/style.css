@@ -53,7 +53,8 @@ body {
     flex-grow: 1;
 }
 
-.headerCompleted {
+.headerCompleted,
+.headerGit {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +63,8 @@ body {
     border-radius: var(--main-border-radius);
 }
 
-.headerCompleted:hover {
+.headerCompleted:hover,
+.headerGit:hover {
     cursor: pointer;
     background-color: var(--main-hover-color);
 }
@@ -72,6 +74,15 @@ body {
     width: 16px;
     height: 16px;
     mask: url(icons/list-check.svg);
+    mask-size: cover;
+    background: var(--main-f-color);
+}
+
+.gitIcon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    mask: url(icons/github.svg);
     mask-size: cover;
     background: var(--main-f-color);
 }
