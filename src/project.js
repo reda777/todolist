@@ -1,4 +1,4 @@
-import { mainGroup, sidebarProject } from "./DOMscripts.js";
+import { mainGroup, sidebarProject, upSvg, downSvg } from "./DOMscripts.js";
 import * as t from "./task";
 import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
 import { createMainEvents } from './eventsScripts';
@@ -138,11 +138,17 @@ function toggleProjectList() {
     if (selectOne) {
         obj["sidebar"]["listState"] = false;
         selectOne.id = "sidebar--list_hidden";
-        document.querySelector(".sidebar--header_btn_icon_down").classList.replace("sidebar--header_btn_icon_down", "sidebar--header_btn_icon_up");
+        let downIcon = document.querySelector(".sidebar--header_btn_icon_down");
+        downIcon.removeChild(downIcon.firstChild);
+        downIcon.appendChild(upSvg());
+        downIcon.classList.replace("sidebar--header_btn_icon_down", "sidebar--header_btn_icon_up");
     } else if (selectTwo) {
         obj["sidebar"]["listState"] = true;
         selectTwo.id = "sidebar--list";
-        document.querySelector(".sidebar--header_btn_icon_up").classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
+        let upIcon = document.querySelector(".sidebar--header_btn_icon_up");
+        upIcon.removeChild(upIcon.firstChild)
+        upIcon.appendChild(downSvg());
+        upIcon.classList.replace("sidebar--header_btn_icon_up", "sidebar--header_btn_icon_down");
     }
     localStorage.setItem("preferences", JSON.stringify(obj));
 }

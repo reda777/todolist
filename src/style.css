@@ -4,28 +4,60 @@ html {
 }
 
 body {
-    --main-sb-color: #2b2b2b;
-    /*side bar*/
-    --main-bg-color: #1e1e1e;
-    /*main bar*/
-    --main-h-color: #292929;
-    /*header bar*/
-    --main-f-color: #eeeafd;
-    --main-out-color: rgba(18, 18, 18, 0.3);
-    --main-popup-color: #2b2b2b;
-    --secondary-f-color: #b8b8b8;
-    --icon-hover-color: #b8b7be;
-    --add-color: #b8b7be;
-    --main-hover-color: #464646;
-    --secondary-hover-color: #565656;
-    --main-box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
-    --main-border-radius: 5px;
-    --main-border: 1px solid rgba(150, 150, 150, 0.3);
+
     overflow: hidden;
     margin: 0;
-    padding: 0;
     height: inherit;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+textarea {
+    color: var(--secondary-font-color);
+}
+
+input {
+    color: var(--main-font-color);
+}
+
+.darkTheme {
+    --side-bar-bg-color: #2b2b2b;
+    --main-bg-color: #1e1e1e;
+    --header-bg-color: #292929;
+
+    --main-font-color: #eeeafd;
+    --secondary-font-color: #b8b8b8;
+    --add-btn-font-color: #b8b7be;
+
+    --outer-bg-color: rgba(18, 18, 18, 0.3);
+    --popup-window-bg-color: #2b2b2b;
+
+    --icon-hover-bg-color: #b8b7be;
+    --hover-bg-color: #464646;
+
+    --box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
+    --border-radius: 5px;
+    --border: 1px solid rgba(150, 150, 150, 0.3);
+}
+
+.lightTheme {
+    --side-bar-bg-color: #e2e2e2;
+    --main-bg-color: #1e1e1e;
+    --header-bg-color: #292929;
+
+    --main-font-color: #eeeafd;
+    --secondary-font-color: #b8b8b8;
+    --add-btn-font-color: #b8b7be;
+
+    --outer-bg-color: rgba(18, 18, 18, 0.3);
+    --popup-window-bg-color: #2b2b2b;
+
+    --icon-hover-bg-color: #b8b7be;
+    --hover-bg-color: #464646;
+
+    --box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
+    --border-radius: 5px;
+    --border: 1px solid rgba(150, 150, 150, 0.3);
 }
 
 #content {
@@ -34,6 +66,7 @@ body {
     grid-template-rows: 30px 1fr 50px;
     height: inherit;
     position: relative;
+    color: var(--main-font-color);
 }
 
 #header {
@@ -42,8 +75,8 @@ body {
     grid-row: 1/2;
     grid-column: 1/3;
 
-    color: var(--main-f-color);
-    background-color: var(--main-h-color);
+
+    background-color: var(--header-bg-color);
     padding: 0 10px;
 }
 
@@ -60,31 +93,29 @@ body {
     justify-content: center;
     width: 26px;
     height: 26px;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 .headerCompleted:hover,
 .headerGit:hover {
     cursor: pointer;
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
+}
+
+.icon {
+    fill: var(--main-font-color);
 }
 
 .completedIcon {
     display: block;
     width: 16px;
     height: 16px;
-    mask: url(icons/list-check.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .gitIcon {
     display: block;
     width: 16px;
     height: 16px;
-    mask: url(icons/github.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .completedOuter_hidden {
@@ -98,15 +129,15 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: var(--main-out-color);
+    background-color: var(--outer-bg-color);
 }
 
 .completed--list {
     position: absolute;
     height: 500px;
     width: 200px;
-    background-color: var(--main-popup-color);
-    box-shadow: var(--main-box-shadow);
+    background-color: var(--popup-window-bg-color);
+    box-shadow: var(--box-shadow);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -119,7 +150,7 @@ body {
 
 .dayHeader {
     padding: 5px;
-    color: var(--main-f-color);
+
     background-color: #151515;
     font-size: 14px;
 }
@@ -127,7 +158,7 @@ body {
 .completedTask {
     display: flex;
     align-items: center;
-    color: var(--main-f-color);
+
     font-size: 13px;
     padding: 5px;
 }
@@ -157,14 +188,14 @@ body {
     flex-direction: column;
     gap: 5px;
     padding: 5px;
-    background-color: var(--main-sb-color);
+    background-color: var(--side-bar-bg-color);
     overflow-y: auto;
 }
 
 #sidebar--group {
     display: flex;
     flex-direction: column;
-    color: var(--main-f-color);
+
 }
 
 .sidebar--header {
@@ -186,30 +217,26 @@ body {
 .sidebar--header_today:hover,
 .sidebar--header_tomorrow:hover,
 .sidebar--header_upcoming:hover {
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 .sidebar--header_clicked {
-    background-color: var(--main-hover-color);
-    border-radius: var(--main-border-radius);
+    background-color: var(--hover-bg-color);
+    border-radius: var(--border-radius);
 }
 
 .sidebar--header_btn_icon_up {
+    display: block;
     width: 14px;
     height: 14px;
-    mask: url(icons/angle-up.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .sidebar--header_btn_icon_down {
+    display: block;
     width: 14px;
     height: 14px;
-    mask: url(icons/angle-down.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 #sidebar--list {
@@ -230,7 +257,7 @@ body {
 }
 
 .project:hover {
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     border-radius: 5px;
     cursor: pointer;
 }
@@ -266,7 +293,7 @@ body {
     align-items: center;
     width: 30px;
     height: 30px;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 .task--edit_hidden {
@@ -282,19 +309,17 @@ body {
     right: 30px;
     width: 20px;
     height: 20px;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 .task--edit_icon {
+    display: block;
     width: 15px;
     height: 15px;
-    mask: url(icons/pencil.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .task--edit:hover {
-    background: var(--secondary-hover-color);
+    background: var(--hover-bg-color);
 }
 
 .task--del_hidden {
@@ -310,31 +335,27 @@ body {
     right: 5px;
     width: 20px;
     height: 20px;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 .task--del_icon {
+    display: block;
     width: 15px;
     height: 15px;
-    mask: url(icons/trash.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .task--del:hover {
-    background: var(--secondary-hover-color);
+    background: var(--hover-bg-color);
 }
 
 .project--edit_icon {
+    display: block;
     width: 15px;
     height: 15px;
-    mask: url(icons/menu-dots-vertical.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .project--edit:hover {
-    background: var(--secondary-hover-color);
+    background: var(--hover-bg-color);
 }
 
 .project--add {
@@ -342,7 +363,7 @@ body {
     align-items: stretch;
     height: 40px;
     font-size: 14px;
-    color: var(--add-color);
+    color: var(--add-btn-font-color);
 }
 
 .project--add_name {
@@ -359,12 +380,14 @@ body {
     width: 50px;
 }
 
+.project--add_btn_icon .icon {
+    fill: var(--add-btn-font-color);
+}
+
 .project--add_btn_icon {
+    display: block;
     width: 15px;
     height: 15px;
-    mask: url(icons/plusthinround.svg);
-    mask-size: cover;
-    background: var(--add-color);
 }
 
 /*main ============================================*/
@@ -398,7 +421,7 @@ body {
     font-size: 14px;
     font-weight: 300;
     padding-left: 10px;
-    color: var(--main-f-color);
+
     display: flex;
     justify-content: start;
     align-items: center;
@@ -408,7 +431,7 @@ body {
 .date--header,
 .main--list_dates>.date--header_text {
     display: flex;
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     padding: 0 10px;
     height: 40px;
     font-weight: 300;
@@ -419,7 +442,7 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
-    color: var(--main-f-color);
+
     flex: 1 1 auto;
 }
 
@@ -447,7 +470,7 @@ body {
     height: 50px;
     position: relative;
     min-width: 400px;
-    border-bottom: var(--main-border);
+    border-bottom: var(--border);
 }
 
 .task:hover {
@@ -459,7 +482,7 @@ body {
     align-items: center;
     width: 80%;
     margin-right: 50px;
-    color: var(--main-f-color);
+
 
 }
 
@@ -492,8 +515,8 @@ body {
 #task_state {
     appearance: none;
     background: var(--main-bg-color);
-    border-radius: var(--main-border-radius);
-    border: 2px solid var(--add-color);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--add-btn-font-color);
     width: 16px;
     height: 16px;
 }
@@ -535,19 +558,19 @@ body {
 
 .task--add:hover {
     cursor: pointer;
-    background: var(--main-hover-color);
+    background: var(--hover-bg-color);
 }
 
 .project--add:hover {
     cursor: pointer;
-    background: var(--main-hover-color);
+    background: var(--hover-bg-color);
 }
 
 .task--add_name {
     display: flex;
     justify-content: start;
     align-items: center;
-    color: var(--add-color);
+    color: var(--add-btn-font-color);
     font-weight: 300;
 }
 
@@ -558,12 +581,14 @@ body {
     width: 50px;
 }
 
+.task--add_btn_icon .icon {
+    fill: var(--add-btn-font-color);
+}
+
 .task--add_btn_icon {
+    display: block;
     width: 15px;
     height: 15px;
-    mask: url(icons/plusthinround.svg);
-    mask-size: cover;
-    background: var(--add-color);
 }
 
 /*add and edit project interface===============================*/
@@ -573,8 +598,8 @@ body {
     justify-content: center;
     flex-direction: column;
     font-size: 14px;
-    background-color: var(--main-popup-color);
-    border-radius: var(--main-border-radius);
+    background-color: var(--popup-window-bg-color);
+    border-radius: var(--border-radius);
 }
 
 #task--interface {
@@ -583,10 +608,10 @@ body {
     grid-template-rows: 50px auto;
     width: 60vw;
     height: 60%;
-    background-color: var(--main-sb-color);
-    border-radius: var(--main-border-radius);
-    box-shadow: var(--main-box-shadow);
-    color: var(--main-f-color);
+    background-color: var(--side-bar-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+
 }
 
 #task--title {
@@ -595,7 +620,7 @@ body {
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    border-bottom: var(--main-border);
+    border-bottom: var(--border);
 }
 
 #task--title_name {
@@ -608,22 +633,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
     width: 24px;
     height: 24px;
 }
 
 #task--title_closeBtn {
+    display: block;
     width: 15px;
     height: 15px;
-    mask: url(icons/cross.svg);
-    mask-size: cover;
-    background: var(--add-color);
 }
 
 #task--title_close:hover {
     cursor: pointer;
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
 }
 
 #task--main {
@@ -638,8 +661,8 @@ body {
     flex-direction: column;
     padding: 10px 10px;
     font-size: 14px;
-    border-right: var(--main-border);
-    color: var(--secondary-f-color);
+    border-right: var(--border);
+    color: var(--secondary-font-color);
 }
 
 #task--side>div {
@@ -658,7 +681,7 @@ body {
 #task--side_prioName .select--prio,
 #task--side_projectName>div {
     padding: 10px 2px;
-    color: var(--main-f-color);
+
 }
 
 #task--side_dateName>div:hover,
@@ -698,7 +721,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: var(--main-out-color);
+    background-color: var(--outer-bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -706,7 +729,7 @@ body {
 
 #newproject--title,
 #editproject--title {
-    color: var(--main-f-color);
+
     width: 400px;
     height: 50px;
     display: flex;
@@ -720,7 +743,7 @@ body {
 
 #newproject--form,
 #editproject--form {
-    color: var(--main-f-color);
+
     width: 400px;
     height: 300px;
     box-sizing: border-box;
@@ -758,7 +781,7 @@ div#newproject--form_submit_add:hover,
 div#newproject--form_submit_cancel:hover,
 div#editproject--form_submit_save:hover,
 div#editproject--form_submit_cancel:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
@@ -767,7 +790,7 @@ div#editproject--form_submit_cancel:hover {
     background-color: var(--main-bg-color);
     padding: 10px;
     border-radius: 6px;
-    color: var(--main-f-color);
+
 }
 
 .project--menuouter_hidden {
@@ -788,9 +811,9 @@ div#editproject--form_submit_cancel:hover {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     font-size: 14px;
-    color: var(--main-f-color);
+
 }
 
 div.project--menu>div {
@@ -802,7 +825,7 @@ div.project--menu>div {
 }
 
 div.project--menu>div:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
@@ -811,21 +834,21 @@ div.project--menu_delete_text {
     padding: 0 0 0 5px;
 }
 
-div.project--menu_edit_icon {
-    mask: url(icons/pencil.svg);
+div.project--menu_delete_icon svg {
+    height: 14px;
+    width: 14px;
 }
 
-div.project--menu_delete_icon {
-    mask: url(icons/trash.svg);
+div.project--menu_edit_icon svg {
+    height: 14px;
+    width: 14px;
 }
 
 div.project--menu_edit_icon,
 div.project--menu_delete_icon {
+    display: block;
     height: 14px;
     width: 14px;
-    mask-size: cover;
-    background: var(--main-f-color);
-    mask-position: center;
 }
 
 /*add task interface===============================*/
@@ -871,9 +894,9 @@ div.project--menu_delete_icon {
     width: max-content;
     max-width: 200px;
     height: calc(29px - 2px);
-    border: var(--main-border);
-    border-radius: var(--main-border-radius);
-    color: var(--main-f-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+
 }
 
 #task_project div {
@@ -885,16 +908,16 @@ div.project--menu_delete_icon {
 }
 
 #task_project div:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
 #task--date {
     width: max-content;
     height: calc(29px - 2px);
-    border: var(--main-border);
-    border-radius: var(--main-border-radius);
-    color: var(--main-f-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+
 }
 
 .task--menuouter_hidden {
@@ -933,8 +956,8 @@ div.project--menu_delete_icon {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--main-hover-color);
-    color: var(--main-f-color);
+    background-color: var(--hover-bg-color);
+
     user-select: none;
 }
 
@@ -943,9 +966,9 @@ div.project--menu_delete_icon {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     width: 173px;
-    color: var(--main-f-color);
+
     user-select: none;
 }
 
@@ -953,11 +976,11 @@ div.project--menu_delete_icon {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     width: 172px;
     height: 100px;
     overflow-y: auto;
-    color: var(--main-f-color);
+
     font-size: 14px;
 }
 
@@ -975,7 +998,7 @@ div.project--menu_delete_icon {
 }
 
 .task--menu div:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
@@ -996,14 +1019,14 @@ div.project--menu_delete_icon {
 }
 
 #task--new_submit div {
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     padding: 8px;
-    border-radius: var(--main-border-radius);
-    color: var(--main-f-color);
+    border-radius: var(--border-radius);
+
 }
 
 #task--new_submit div:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
@@ -1025,29 +1048,19 @@ div.project--menu_delete_icon {
 }
 
 .months--select_current:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
-}
-
-.months--select_left {
-    mask: url(icons/angle-small-left.svg);
-}
-
-.months--select_right {
-    mask: url(icons/angle-small-right.svg);
 }
 
 .months--select_right,
 .months--select_left {
     width: 14px;
-    mask-size: cover;
-    background: var(--main-f-color);
-    mask-position: center;
+    height: 14px;
 }
 
 .months--select_right:hover,
 .months--select_left:hover {
-    background: var(--add-color);
+    background: var(--add-btn-font-color);
     cursor: pointer;
 }
 
@@ -1061,7 +1074,7 @@ div.project--menu_delete_icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: var(--main-border);
+    border-right: var(--border);
     padding: 3px 3px 3px 3px;
 }
 
@@ -1089,7 +1102,7 @@ div.project--menu_delete_icon {
 }
 
 .months--days_week .day:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     border-radius: 50%;
     cursor: pointer;
 }
@@ -1101,7 +1114,7 @@ div.project--menu_delete_icon {
     background-color: var(--main-bg-color);
     outline: none;
     border: none;
-    color: var(--main-f-color);
+
 }
 
 .datemenu--today,
@@ -1111,7 +1124,7 @@ div.project--menu_delete_icon {
     font-size: 14px;
     gap: 5px;
     padding: 5px 5px 5px 5px;
-    color: var(--main-f-color);
+
 }
 
 #task--date .datemenu--today {
@@ -1125,32 +1138,36 @@ div.project--menu_delete_icon {
 .datemenu--today:hover,
 .datemenu--tomorrow:hover,
 .select--prio:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
 .select--prio_icon {
+    display: block;
     width: 14px;
     height: 14px;
-    mask: url(icons/stats.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .datemenu--today_icon {
+    display: block;
     width: 14px;
     height: 14px;
-    mask: url(icons/sun.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
+}
+
+.datemenu--today_icon svg {
+    width: 14px;
+    height: 14px;
 }
 
 .datemenu--tomorrow_icon {
+    display: block;
     width: 14px;
     height: 14px;
-    mask: url(icons/sunrise-alt.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
+}
+
+.datemenu--tomorrow_icon svg {
+    width: 14px;
+    height: 14px;
 }
 
 .picked--date {
@@ -1159,7 +1176,7 @@ div.project--menu_delete_icon {
     font-size: 14px;
     gap: 5px;
     padding: 5px 5px 5px 5px;
-    color: var(--main-f-color);
+
 }
 
 .picked--date_icon {
@@ -1167,36 +1184,20 @@ div.project--menu_delete_icon {
     height: 14px;
     mask: url(icons/calendar-clock.svg);
     mask-size: cover;
-    background: var(--main-f-color);
+    background: var(--main-font-color);
 }
 
 .picked--date:hover {
-    background-color: var(--secondary-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
 }
 
-.sidebar--header_today_icon {
-    width: 16px;
-    height: 16px;
-    mask: url(icons/sun.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
-}
-
-.sidebar--header_tomorrow_icon {
-    width: 16px;
-    height: 16px;
-    mask: url(icons/sunrise-alt.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
-}
-
+.sidebar--header_today_icon,
+.sidebar--header_tomorrow_icon,
 .sidebar--header_upcoming_icon {
+    display: block;
     width: 16px;
     height: 16px;
-    mask: url(icons/calendar-clock.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
 }
 
 .sidebar--header_today,
@@ -1227,12 +1228,12 @@ div.list--color {
 }
 
 div.list--color:hover {
-    border: 1px solid var(--main-f-color);
+    border: 1px solid var(--main-font-color);
     cursor: pointer;
 }
 
 div.list--color_selected {
-    border: 1px solid var(--main-f-color);
+    border: 1px solid var(--main-font-color);
 }
 
 span.list--color_check_selected {
@@ -1240,7 +1241,7 @@ span.list--color_check_selected {
     position: absolute;
     mask: url(icons/checkbox.svg);
     mask-size: cover;
-    background: var(--main-f-color);
+    background: var(--main-font-color);
     left: 0;
     bottom: 0;
     height: 10px;
@@ -1251,19 +1252,19 @@ div.project--color_list,
 div.editproject--color_list {
     display: flex;
     flex-wrap: wrap;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 input#project_name {
-    color: var(--main-f-color);
+
     background-color: var(--main-bg-color);
-    border: var(--main-border);
-    border-radius: var(--main-border-radius);
+    border: var(--border);
+    border-radius: var(--border-radius);
     padding: 5px;
 }
 
 input#project_name:focus {
-    border: 1px solid var(--icon-hover-color);
+    border: 1px solid var(--icon-hover-bg-color);
     outline: none;
 }
 
@@ -1273,7 +1274,7 @@ input#project_name:focus {
 
 .message--container {
     font-size: 14px;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
     position: fixed;
     width: 300px;
     height: 30px;
@@ -1284,8 +1285,8 @@ input#project_name:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--secondary-hover-color);
-    color: var(--main-f-color);
+    background-color: var(--hover-bg-color);
+
     gap: 5px;
 }
 
@@ -1305,16 +1306,18 @@ input#project_name:focus {
 }
 
 .message--close:hover {
-    background-color: var(--main-hover-color);
+    background-color: var(--hover-bg-color);
     cursor: pointer;
-    border-radius: var(--main-border-radius);
+    border-radius: var(--border-radius);
 }
 
 .message--close_icon {
     display: block;
     width: 12px;
     height: 12px;
-    mask: url(icons/cross.svg);
-    mask-size: cover;
-    background: var(--main-f-color);
+}
+
+.message--close_icon svg {
+    width: 12px;
+    height: 12px;
 }

@@ -32,16 +32,13 @@ module.exports = {
         rules: [
 
             {
-
                 test: /\.css$/i,
-
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
-
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 type: 'asset/resource'
-              },
+            },
 
         ],
 
