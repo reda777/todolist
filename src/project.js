@@ -1,4 +1,4 @@
-import { mainGroup, sidebarProject, upSvg, downSvg } from "./DOMscripts.js";
+import { checkBoxSvg, mainGroup, sidebarProject, upSvg, downSvg } from "./DOMscripts.js";
 import * as t from "./task";
 import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay } from 'date-fns';
 import { createMainEvents } from './eventsScripts';
@@ -153,14 +153,17 @@ function toggleProjectList() {
     localStorage.setItem("preferences", JSON.stringify(obj));
 }
 function selectColor(e) {
-    const selectedColor = document.querySelector(".list--color_selected");
     if (e.target.className == "list--color") {
+        const selectedColor = document.querySelector(".list--color_selected");
         if (selectedColor) {
             selectedColor.classList.remove("list--color_selected");
             selectedColor.firstChild.classList.remove("list--color_check_selected");
+            selectedColor.firstChild.removeChild(selectedColor.firstChild.firstChild);
         }
-        e.target.classList.add("list--color_selected")
+
+        e.target.classList.add("list--color_selected");
         e.target.firstChild.classList.add("list--color_check_selected");
+        e.target.firstChild.appendChild(checkBoxSvg());
     }
 }
 function addProjectButton() {

@@ -144,7 +144,11 @@ function createEvents() {
     let closeCompletedTaskEvent = function (e) {
         t.closeCompletedTask(e);
     }
-
+    let changeThemeEvent = function () {
+        t.changeTheme();
+    }
+    //change theme
+    document.querySelector(".themeDiv").addEventListener("click", changeThemeEvent);
     //header completed list
     document.querySelector(".headerCompleted").addEventListener("click", showCompletedListEvent);
     document.querySelector(".completedOuter_hidden").addEventListener("click", closeCompletedTaskEvent);

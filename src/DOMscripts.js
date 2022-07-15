@@ -10,6 +10,16 @@ function header() {
     divTitle.textContent = "Todolist";
     div.appendChild(divTitle);
 
+    const themeDiv = document.createElement("div");
+    themeDiv.className = "themeDiv";
+    div.appendChild(themeDiv);
+
+    const themeSpan = document.createElement("span");
+    themeSpan.className = "themeIcon";
+    themeDiv.appendChild(themeSpan);
+
+    themeSpan.appendChild(moonSvg());
+
     const gitLink = document.createElement("a");
     gitLink.href = "https://github.com/reda777/todolist";
     gitLink.target = "_blank";
@@ -24,6 +34,33 @@ function header() {
     spanGit.className = "gitIcon";
     divGit.appendChild(spanGit);
 
+    spanGit.appendChild(gitIconSvg());
+
+    const divCompleted = document.createElement("div");
+    divCompleted.className = "headerCompleted";
+    div.appendChild(divCompleted);
+
+    const spanCompleted = document.createElement("span");
+    spanCompleted.className = "completedIcon";
+    divCompleted.appendChild(spanCompleted);
+
+    spanCompleted.appendChild(listCompletedSvg());
+    return div;
+}
+function listCompletedSvg() {
+    const svgImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+    svgImage.setAttribute('class', 'icon');
+    svgImage.setAttribute('viewBox', '0 0 24 24');
+    svgImage.setAttribute('width', '16px');
+    svgImage.setAttribute('height', '16px');
+
+    path.setAttribute('d', 'm4 6a2.982 2.982 0 0 1 -2.122-.879l-1.544-1.374a1 1 0 0 1 1.332-1.494l1.585 1.414a1 1 0 0 0 1.456.04l3.604-3.431a1 1 0 0 1 1.378 1.448l-3.589 3.414a2.964 2.964 0 0 1 -2.1.862zm20-2a1 1 0 0 0 -1-1h-10a1 1 0 0 0 0 2h10a1 1 0 0 0 1-1zm-17.9 9.138 3.589-3.414a1 1 0 1 0 -1.378-1.448l-3.6 3.431a1.023 1.023 0 0 1 -1.414 0l-1.59-1.585a1 1 0 0 0 -1.414 1.414l1.585 1.585a3 3 0 0 0 4.226.017zm17.9-1.138a1 1 0 0 0 -1-1h-10a1 1 0 0 0 0 2h10a1 1 0 0 0 1-1zm-17.9 9.138 3.585-3.414a1 1 0 1 0 -1.378-1.448l-3.6 3.431a1 1 0 0 1 -1.456-.04l-1.585-1.414a1 1 0 0 0 -1.332 1.494l1.544 1.374a3 3 0 0 0 4.226.017zm17.9-1.138a1 1 0 0 0 -1-1h-10a1 1 0 0 0 0 2h10a1 1 0 0 0 1-1z');
+    svgImage.appendChild(path);
+    return svgImage;
+}
+function gitIconSvg() {
     const svgGit = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const gGit = document.createElementNS("http://www.w3.org/2000/svg", "g");
     const pathGit1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -61,16 +98,9 @@ function header() {
     gGit.appendChild(pathGit8);
 
     svgGit.appendChild(gGit);
-    spanGit.appendChild(svgGit);
-
-    const divCompleted = document.createElement("div");
-    divCompleted.className = "headerCompleted";
-    div.appendChild(divCompleted);
-
-    const spanCompleted = document.createElement("span");
-    spanCompleted.className = "completedIcon";
-    divCompleted.appendChild(spanCompleted);
-
+    return svgGit;
+}
+function moonSvg() {
     const svgImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
@@ -79,10 +109,9 @@ function header() {
     svgImage.setAttribute('width', '16px');
     svgImage.setAttribute('height', '16px');
 
-    path.setAttribute('d', 'm4 6a2.982 2.982 0 0 1 -2.122-.879l-1.544-1.374a1 1 0 0 1 1.332-1.494l1.585 1.414a1 1 0 0 0 1.456.04l3.604-3.431a1 1 0 0 1 1.378 1.448l-3.589 3.414a2.964 2.964 0 0 1 -2.1.862zm20-2a1 1 0 0 0 -1-1h-10a1 1 0 0 0 0 2h10a1 1 0 0 0 1-1zm-17.9 9.138 3.589-3.414a1 1 0 1 0 -1.378-1.448l-3.6 3.431a1.023 1.023 0 0 1 -1.414 0l-1.59-1.585a1 1 0 0 0 -1.414 1.414l1.585 1.585a3 3 0 0 0 4.226.017zm17.9-1.138a1 1 0 0 0 -1-1h-10a1 1 0 0 0 0 2h10a1 1 0 0 0 1-1zm-17.9 9.138 3.585-3.414a1 1 0 1 0 -1.378-1.448l-3.6 3.431a1 1 0 0 1 -1.456-.04l-1.585-1.414a1 1 0 0 0 -1.332 1.494l1.544 1.374a3 3 0 0 0 4.226.017zm17.9-1.138a1 1 0 0 0 -1-1h-10a1 1 0 0 0 0 2h10a1 1 0 0 0 1-1z');
+    path.setAttribute('d', 'M14,24A12.013,12.013,0,0,1,2,12C1.847,3.043,12.031-2.983,19.792,1.508L22.122,2.8,19.809,4.122a8.55,8.55,0,0,0,.718,15.167l2.433,1.1-2.2,1.508A11.921,11.921,0,0,1,14,24ZM14,3a9,9,0,1,0,2.848,17.529c-5.366-4.022-5.793-12.77-.817-17.3A8.873,8.873,0,0,0,14,3Z');
     svgImage.appendChild(path);
-    spanCompleted.appendChild(svgImage);
-    return div;
+    return svgImage;
 }
 function downSvg() {
     const svgImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -924,11 +953,26 @@ function createDay(tDate) {
     dayIcon.className = "picked--date_icon";
     day.appendChild(dayIcon);
 
+    dayIcon.appendChild(calendarSvg())
+
     const dayText = document.createElement("span");
     dayText.className = "picked--date_text";
     dayText.textContent = `${format(parse(tDate, 'yyyy-MM-dd', new Date()), "dd LLL")}`;
     day.appendChild(dayText);
     return day;
+}
+function checkBoxSvg() {
+    const svgImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+    svgImage.setAttribute('class', 'icon');
+    svgImage.setAttribute('viewBox', '0 0 24 24');
+    svgImage.setAttribute('width', '14px');
+    svgImage.setAttribute('height', '14px');
+
+    path.setAttribute('d', 'M21,0H3A3,3,0,0,0,0,3V24H24V3A3,3,0,0,0,21,0ZM10.748,17.333a2,2,0,0,1-2.829,0L3.293,12.707l1.414-1.414,4.626,4.626,9.96-9.959,1.414,1.414Z');
+    svgImage.appendChild(path);
+    return svgImage;
 }
 function taskPrioSelect() {
     const editPrioMenu = document.createElement("div");
@@ -1221,7 +1265,7 @@ function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
         let todoList = { project: [{ id: "id1", name: "default", color: "#d3d3d3", count: 0 }], task: [], completedTasks: [] };
-        let preferences = { sidebar: { listState: true, tab: "Today" }, lastProject: "id1" };
+        let preferences = { sidebar: { listState: true, tab: "Today" }, lastProject: "id1", theme: "lightTheme" };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));
     }
@@ -1267,11 +1311,15 @@ function selectCurrentTab() {
             break;
     }
 }
+function getTheme() {
+    let objP = JSON.parse(localStorage.getItem("preferences"));
+    return objP["theme"];
+}
 function buildSite() {
     const content = document.createElement("div");
     content.id = "content";
-    content.className = "darkTheme";
     createStorage();
+    content.className = getTheme();
     content.append(header(), sidebar(), main(), addProject(), showTaskSummary(), editProject(), projectEditMenu(), taskProjectSelect(), taskDateSelect(), floatingMessage(), taskPrioSelect(), overdueDateSelect(), completedTaskList());
     document.body.appendChild(content);
     p.populateProjectList();
@@ -1279,4 +1327,4 @@ function buildSite() {
     p.populateProjectSelect();
     selectCurrentTab();
 }
-export { upSvg, downSvg, createPriority, createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn, taskDeleteBtn };
+export { checkBoxSvg, upSvg, downSvg, createPriority, createDay, createToday, createTomorrow, mainGroup, buildSite, sidebarProject, projectEditBtn, taskEditBtn, taskDeleteBtn };

@@ -1,4 +1,4 @@
-import { createPriority, createDay, createToday, createTomorrow, mainGroup, taskEditBtn, taskDeleteBtn } from "./DOMscripts.js";
+import { createPriority, createDay, createToday, createTomorrow, mainGroup, taskEditBtn, taskDeleteBtn, checkBoxSvg } from "./DOMscripts.js";
 import { format, addDays, addMonths, parse, compareAsc, eachDayOfInterval, lastDayOfMonth, getWeekOfMonth, getDay, compareDesc } from 'date-fns';
 import { createMainEvents } from './eventsScripts';
 import * as p from "./project.js";
@@ -485,13 +485,13 @@ function mainListTask(tId, tContent, tProject, tColor, tPrio) {
     taskInputOuter.setAttribute("style", `border-left: 4px solid ${colorOfPrio(parseInt(tPrio))};`);
     task.appendChild(taskInputOuter);
 
-    const taskCheckboxInput = document.createElement("input");
-    Object.assign(taskCheckboxInput, {
-        type: "checkbox",
-        name: "task_state",
-        id: "task_state"
-    });
+    const taskCheckboxInput = document.createElement("div");
+    taskCheckboxInput.id = "task_state";
     taskInputOuter.appendChild(taskCheckboxInput);
+
+    const taskCheckSpan = document.createElement("span");
+    taskCheckSpan.className = "task_state_icon";
+    taskCheckboxInput.appendChild(taskCheckSpan);
 
     const taskName = document.createElement("div");
     taskName.className = "task--name";
@@ -594,6 +594,13 @@ function taskResizeTextArea(element) {
     let maxHeight = 200;
     element.style.height = "";
     element.style.height = Math.min(element.scrollHeight, maxHeight) + "px";
+}
+function showCheck(that) {
+    const checkBox = that.querySelector(".task_state_icon");
+    if (!checkBox.firstChild) {
+        checkBox.appendChild(checkBoxSvg());
+        checkBox.classList.add("task_state_icon_animation");
+    }
 }
 function markTaskDone(that) {
     let projectTaskId;
@@ -939,13 +946,21 @@ function showCompletedList(elem) {
     }
 
 }
+function changeTheme() {
+    let objP = JSON.parse(localStorage.getItem("preferences"));
+    document.querySelector("#content").classList.toggle("darkTheme");
+    document.querySelector("#content").classList.toggle("lightTheme");
+    objP["theme"] = document.querySelector("#content").className;
+    localStorage.setItem("preferences", JSON.stringify(objP));
+}
 function createdTaskEvents(t) {
     let taskDone = function () {
+        showCheck(this);
         setTimeout(() => {
             markTaskDone(this);
         }, 370);
     }
-    t.querySelector(".task--inputouter input").addEventListener("change", taskDone);
+    t.querySelector(".task--inputouter #task_state").addEventListener("click", taskDone);
     let showIconEvent = function () {
         showTaskEditIcon(t);
         showTaskDelIcon(t);
@@ -974,5 +989,5 @@ function createdTaskEvents(t) {
     }
     t.addEventListener("click", showTaskSumEvent);
 }
-export { closeCompletedTask, showCompletedList, overdueDateSelectedOption, hideOverdueDateSelect, closeShowTaskSum, saveTaskButton, cancelEditTask, selectedPrio, hideTaskPrioSelect, showPrioSelect, showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
+export { changeTheme, closeCompletedTask, showCompletedList, overdueDateSelectedOption, hideOverdueDateSelect, closeShowTaskSum, saveTaskButton, cancelEditTask, selectedPrio, hideTaskPrioSelect, showPrioSelect, showProjectDates, populateCurrentTab, closeMessageTab, addTaskButton, taskProjectSelectedOption, showUpcomingTasks, currentMonth, taskResizeTextArea, taskCalDateSelected, preMonth, nextMonth, showTasksInDate, taskDateSelectedOption, hideTaskDateSelect, showTaskDateSelect, hideTaskProjectSelect, showTaskProjectSelect, deleteTasksOfProject, showAddTask, addTask, cancelAddTask };
 

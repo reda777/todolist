@@ -4,12 +4,10 @@ html {
 }
 
 body {
-
     overflow: hidden;
     margin: 0;
     height: inherit;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
 }
 
 textarea {
@@ -33,8 +31,10 @@ input {
     --popup-window-bg-color: #2b2b2b;
 
     --icon-hover-bg-color: #b8b7be;
-    --hover-bg-color: #464646;
+    --hover-bg-color: #7a7a7a;
+    --menu-bg-color: #6b6b6b;
 
+    --resch-color: rgb(214, 36, 36);
     --box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     --border-radius: 5px;
     --border: 1px solid rgba(150, 150, 150, 0.3);
@@ -42,22 +42,23 @@ input {
 
 .lightTheme {
     --side-bar-bg-color: #e2e2e2;
-    --main-bg-color: #1e1e1e;
-    --header-bg-color: #292929;
+    --main-bg-color: #f0f0f0;
+    --header-bg-color: #e7e4e4;
 
-    --main-font-color: #eeeafd;
-    --secondary-font-color: #b8b8b8;
-    --add-btn-font-color: #b8b7be;
+    --main-font-color: #121113;
+    --secondary-font-color: #504f4f;
+    --add-btn-font-color: #434246;
 
-    --outer-bg-color: rgba(18, 18, 18, 0.3);
-    --popup-window-bg-color: #2b2b2b;
+    --outer-bg-color: rgba(236, 235, 235, 0.3);
+    --popup-window-bg-color: #dddbdb;
 
-    --icon-hover-bg-color: #b8b7be;
-    --hover-bg-color: #464646;
+    --icon-hover-bg-color: #4d4c50;
+    --hover-bg-color: #c4c4c4;
+    --menu-bg-color: #919191;
 
-    --box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
+    --box-shadow: 0 0px 10px rgba(255, 255, 255, 0.2);
     --border-radius: 5px;
-    --border: 1px solid rgba(150, 150, 150, 0.3);
+    --border: 1px solid rgba(110, 110, 110, 0.3);
 }
 
 #content {
@@ -87,17 +88,20 @@ input {
 }
 
 .headerCompleted,
-.headerGit {
+.headerGit,
+.themeDiv {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 26px;
     height: 26px;
     border-radius: var(--border-radius);
+    user-select: none;
 }
 
 .headerCompleted:hover,
-.headerGit:hover {
+.headerGit:hover,
+.themeDiv:hover {
     cursor: pointer;
     background-color: var(--hover-bg-color);
 }
@@ -106,13 +110,9 @@ input {
     fill: var(--main-font-color);
 }
 
-.completedIcon {
-    display: block;
-    width: 16px;
-    height: 16px;
-}
-
-.gitIcon {
+.completedIcon,
+.gitIcon,
+.themeIcon {
     display: block;
     width: 16px;
     height: 16px;
@@ -151,7 +151,7 @@ input {
 .dayHeader {
     padding: 5px;
 
-    background-color: #151515;
+    background-color: var(--main-bg-color);
     font-size: 14px;
 }
 
@@ -250,7 +250,7 @@ input {
 .project {
     display: flex;
     align-items: center;
-    height: 50px;
+    height: 40px;
     padding-right: 5px;
     font-size: 14px;
     min-width: 0;
@@ -411,7 +411,7 @@ input {
 }
 
 .main--header {
-    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
+    border-bottom: var(--border);
     display: flex;
     align-items: stretch;
     height: 40px;
@@ -431,7 +431,7 @@ input {
 .date--header,
 .main--list_dates>.date--header_text {
     display: flex;
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
     padding: 0 10px;
     height: 40px;
     font-weight: 300;
@@ -450,7 +450,7 @@ input {
     display: flex;
     justify-content: start;
     align-items: center;
-    color: rgb(214, 36, 36);
+    color: var(--resch-color);
 }
 
 .date--header_resch:hover {
@@ -513,35 +513,36 @@ input {
 }
 
 #task_state {
-    appearance: none;
     background: var(--main-bg-color);
     border-radius: var(--border-radius);
     border: 2px solid var(--add-btn-font-color);
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 #task_state:hover {
     cursor: pointer;
-    border: 2px solid #dad8eb;
+    border: 2px solid var(--main-font-color);
 }
 
-#task_state:checked {
-    width: 16px;
-    height: 16px;
-    mask: url(icons/checkbox.svg);
-    mask-size: cover;
-    background: #dad8eb;
+.task_state_icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: var(--border-radius);
+}
+
+.task_state_icon_animation {
     animation: bounce .3s linear forwards .1s;
 }
 
 @keyframes bounce {
     50% {
-        transform: scale(1.2);
+        transform: scale(1.3);
     }
 
     75% {
-        transform: scale(.9);
+        transform: scale(1.1);
     }
 
     100% {
@@ -687,7 +688,7 @@ input {
 #task--side_dateName>div:hover,
 #task--side_prioName .select--prio:hover {
     cursor: default;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: var(--main-bg-color);
 }
 
 #task--main {
@@ -738,7 +739,7 @@ input {
     box-sizing: border-box;
     font-weight: 500;
     font-size: 16px;
-    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
+    border-bottom: var(--border);
 }
 
 #newproject--form,
@@ -811,7 +812,7 @@ div#editproject--form_submit_cancel:hover {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
     font-size: 14px;
 
 }
@@ -859,7 +860,7 @@ div.project--menu_delete_icon {
 .task--new {
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(150, 150, 150, 0.3);
+    border: var(--border);
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
@@ -872,7 +873,7 @@ div.project--menu_delete_icon {
 .task_edit {
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(150, 150, 150, 0.3);
+    border: var(--border);
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
@@ -893,7 +894,7 @@ div.project--menu_delete_icon {
 #task_prio {
     width: max-content;
     max-width: 200px;
-    height: calc(29px - 2px);
+    height: calc(29px - 3px);
     border: var(--border);
     border-radius: var(--border-radius);
 
@@ -914,7 +915,7 @@ div.project--menu_delete_icon {
 
 #task--date {
     width: max-content;
-    height: calc(29px - 2px);
+    height: calc(29px - 3px);
     border: var(--border);
     border-radius: var(--border-radius);
 
@@ -956,7 +957,7 @@ div.project--menu_delete_icon {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
 
     user-select: none;
 }
@@ -966,7 +967,7 @@ div.project--menu_delete_icon {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
     width: 173px;
 
     user-select: none;
@@ -976,7 +977,7 @@ div.project--menu_delete_icon {
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
     width: 172px;
     height: 100px;
     overflow-y: auto;
@@ -1019,7 +1020,7 @@ div.project--menu_delete_icon {
 }
 
 #task--new_submit div {
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
     padding: 8px;
     border-radius: var(--border-radius);
 
@@ -1179,12 +1180,15 @@ div.project--menu_delete_icon {
 
 }
 
-.picked--date_icon {
+.picked--date_icon svg {
     width: 14px;
     height: 14px;
-    mask: url(icons/calendar-clock.svg);
-    mask-size: cover;
-    background: var(--main-font-color);
+}
+
+.picked--date_icon {
+    display: block;
+    width: 14px;
+    height: 14px;
 }
 
 .picked--date:hover {
@@ -1239,9 +1243,14 @@ div.list--color_selected {
 span.list--color_check_selected {
     display: block;
     position: absolute;
-    mask: url(icons/checkbox.svg);
-    mask-size: cover;
-    background: var(--main-font-color);
+    left: 0;
+    bottom: 0;
+    height: 10px;
+    width: 10px;
+}
+
+span.list--color_check_selected svg {
+    position: absolute;
     left: 0;
     bottom: 0;
     height: 10px;
@@ -1285,7 +1294,7 @@ input#project_name:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--hover-bg-color);
+    background-color: var(--menu-bg-color);
 
     gap: 5px;
 }
