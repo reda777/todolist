@@ -12,6 +12,7 @@ function header() {
 
     const themeDiv = document.createElement("div");
     themeDiv.className = "themeDiv";
+    themeDiv.title = "Change Theme"
     div.appendChild(themeDiv);
 
     const themeSpan = document.createElement("span");
@@ -38,6 +39,7 @@ function header() {
 
     const divCompleted = document.createElement("div");
     divCompleted.className = "headerCompleted";
+    divCompleted.title = "Completed tasks";
     div.appendChild(divCompleted);
 
     const spanCompleted = document.createElement("span");
@@ -465,7 +467,7 @@ function showTaskSummary() {
     return showTask;
 }
 function addProject() {
-    const colorsArray = ["#13c7e7", "#6484c6", "#1014cb", "#d24157", "#ff0000"
+    const colorsArray = ["#13c7e7", "#6484c6", "#4648bd", "#d24157", "#ff0000"
         , "#4fc972", "#cc552c", "#d4459a", "#b7b434", "#69a537"
         , "#a556c6", "#35845a", "#986e34", "#8E05C2", "#5e2dbb"];
     const newProject = document.createElement("div");
@@ -541,7 +543,7 @@ function addProject() {
     return newProject;
 }
 function editProject() {
-    const colorsArray = ["#13c7e7", "#6484c6", "#1014cb", "#d24157", "#a50d10", "#4fc972", "#cc552c",
+    const colorsArray = ["#13c7e7", "#6484c6", "#4648bd", "#d24157", "#a50d10", "#4fc972", "#cc552c",
         "#d4459a", "#b7b434", "#69a537", "#a556c6", "#35845a", "#986e34", "#582c7d", "#5e2dbb"];
     const editProject = document.createElement("div");
     editProject.id = "editproject_hidden";
@@ -1264,7 +1266,7 @@ function editTask() {
 function createStorage() {
     let check = localStorage.getItem("todoList");
     if (check === null) {
-        let todoList = { project: [{ id: "id1", name: "default", color: "#d3d3d3", count: 0 }], task: [], completedTasks: [] };
+        let todoList = { project: [{ id: "id1", name: "default", color: "var(--default-font-color)", count: 0 }], task: [], completedTasks: [] };
         let preferences = { sidebar: { listState: true, tab: "Today" }, lastProject: "id1", theme: "lightTheme" };
         localStorage.setItem("todoList", JSON.stringify(todoList));
         localStorage.setItem("preferences", JSON.stringify(preferences));

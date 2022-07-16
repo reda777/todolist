@@ -18,6 +18,19 @@ input {
     color: var(--main-font-color);
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+}
+
 .darkTheme {
     --side-bar-bg-color: #2b2b2b;
     --main-bg-color: #1e1e1e;
@@ -38,6 +51,8 @@ input {
     --box-shadow: 0 0px 10px rgb(0 0 0 / 0.2);
     --border-radius: 5px;
     --border: 1px solid rgba(150, 150, 150, 0.3);
+
+    --default-font-color: #d3d3d3;
 }
 
 .lightTheme {
@@ -53,12 +68,14 @@ input {
     --popup-window-bg-color: #dddbdb;
 
     --icon-hover-bg-color: #4d4c50;
-    --hover-bg-color: #c4c4c4;
-    --menu-bg-color: #919191;
+    --hover-bg-color: #b4b4b4;
+    --menu-bg-color: #c4c4c4;
 
     --box-shadow: 0 0px 10px rgba(255, 255, 255, 0.2);
     --border-radius: 5px;
     --border: 1px solid rgba(110, 110, 110, 0.3);
+
+    --default-font-color: #6b6b6b;
 }
 
 #content {
