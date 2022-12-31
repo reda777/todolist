@@ -553,7 +553,7 @@ function createCalendar() {
     dateOfDays.className = "months--days";
     let daysArray = [[], [], [], [], [], []];
     let daysOfMonth = eachDayOfInterval({
-        start: currentMonth,
+        start: currentMonth.setHours(0,0,0,0),
         end: lastDayOfMonth(currentMonth)
     });
     for (let day of daysOfMonth) {

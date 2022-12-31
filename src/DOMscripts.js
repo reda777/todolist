@@ -1066,8 +1066,9 @@ function overdueDateSelect() {
     dateOfDays.className = "months--days";
     editMenu.appendChild(dateOfDays);
     let daysArray = [[], [], [], [], [], []];
+    let newDate=new Date();
     let daysOfMonth = eachDayOfInterval({
-        start: new Date(),
+        start: newDate.setHours(0,0,0,0),
         end: lastDayOfMonth(new Date())
     });
     for (let day of daysOfMonth) {
@@ -1151,8 +1152,9 @@ function taskDateSelect() {
     dateOfDays.className = "months--days";
     editMenu.appendChild(dateOfDays);
     let daysArray = [[], [], [], [], [], []];
+    let newDate=new Date();
     let daysOfMonth = eachDayOfInterval({
-        start: new Date(),
+        start: newDate.setHours(0,0,0,0),
         end: lastDayOfMonth(new Date())
     });
     for (let day of daysOfMonth) {
